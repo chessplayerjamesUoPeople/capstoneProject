@@ -1,4 +1,6 @@
 <Solution>
+  <Folder Name="/Documentation/" />
+  <Project Path="AmigoAlert.Tests/AmigoAlert.Tests.csproj" />
   <Project Path="AmigoAlert_API/AmigoAlert.API.csproj" />
   <Project Path="AmigoAlert_Shared/AmigoAlert.Shared.csproj" />
   <Project Path="MobileApplication/MobileApplication.Droid/AmigoAlert.MobileApplication.Droid.csproj">
