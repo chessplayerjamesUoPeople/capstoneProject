@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="MobileApplication/MobileApplication.Droid/MobileApplication.Droid.csproj">
+    <Deploy />
+  </Project>
+  <Project Path="MobileApplication/MobileApplication/MobileApplication.csproj" />
+</Solution>
