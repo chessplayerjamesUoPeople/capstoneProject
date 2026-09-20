@@ -24,7 +24,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\MobileApplication\AmigoAlert_MobileApplication.csproj" />
+		<ProjectReference Include="..\MobileApplication\AmigoAlert.MobileApplication.csproj" />
 	</ItemGroup>
 
 </Project>

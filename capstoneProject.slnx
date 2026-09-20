@@ -1,8 +1,8 @@
 <Solution>
-  <Project Path="AmigoAlert_API/AmigoAlert_API.csproj" />
-  <Project Path="AmigoAlert_Shared/AmigoAlert_Shared.csproj" />
-  <Project Path="MobileApplication/MobileApplication.Droid/AmigoAlert_MobileApplication.Droid.csproj">
+  <Project Path="AmigoAlert_API/AmigoAlert.API.csproj" />
+  <Project Path="AmigoAlert_Shared/AmigoAlert.Shared.csproj" />
+  <Project Path="MobileApplication/MobileApplication.Droid/AmigoAlert.MobileApplication.Droid.csproj">
     <Deploy />
   </Project>
-  <Project Path="MobileApplication/MobileApplication/AmigoAlert_MobileApplication.csproj" />
+  <Project Path="MobileApplication/MobileApplication/AmigoAlert.MobileApplication.csproj" />
 </Solution>
