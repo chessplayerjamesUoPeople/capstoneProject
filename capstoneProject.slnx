@@ -1,4 +1,5 @@
 <Solution>
+  <Project Path="AmigoAlert_API/AmigoAlert_API.csproj" />
   <Project Path="MobileApplication/MobileApplication.Droid/MobileApplication.Droid.csproj">
     <Deploy />
   </Project>
