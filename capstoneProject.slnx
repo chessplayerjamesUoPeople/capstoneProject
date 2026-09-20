@@ -2,6 +2,7 @@
   <Folder Name="/Documentation/" />
   <Project Path="AmigoAlert.Data/AmigoAlert.Data.csproj" />
   <Project Path="AmigoAlert.Tests/AmigoAlert.Tests.csproj" />
+  <Project Path="AmigoAlert.WebJob/AmigoAlert.WebJob.csproj" Id="d516e5bf-da5f-4f1b-a6e7-cd6bd38a43a8" />
   <Project Path="AmigoAlert_API/AmigoAlert.API.csproj" />
   <Project Path="AmigoAlert_Shared/AmigoAlert.Shared.csproj" />
   <Project Path="MobileApplication/MobileApplication.Droid/AmigoAlert.MobileApplication.Droid.csproj">
