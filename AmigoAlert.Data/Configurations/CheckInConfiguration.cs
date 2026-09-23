@@ -10,7 +10,7 @@ namespace AmigoAlert.Data.Configurations
 	/// <summary>
 	/// Represents the configuration settings for the CheckIn entity in the database.
 	/// </summary>
-	internal class CheckInConfiguration
+	internal class CheckInConfiguration : IEntityTypeConfiguration<CheckIn>
 	{
 		public void Configure(EntityTypeBuilder<CheckIn> builder)
 		{
