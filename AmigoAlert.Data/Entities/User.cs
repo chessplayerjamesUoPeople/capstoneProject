@@ -47,12 +47,6 @@ namespace AmigoAlert.Data.Entities
 		/// <summary>
 		/// The identifier for the user's status. This is a foreign key that references the Status entity.
 		/// </summary>
-		/// <remarks>
-		/// *******************************************************************************
-		/// TODO:	An enum needs to be created to represent the possible statuses.
-		///			This will help in maintaining consistency and clarity in the codebase.
-		///	*******************************************************************************
-		///</remarks>
 		public byte StatusId { get; set; }
 
 		/// <summary>

@@ -6,13 +6,8 @@ namespace AmigoAlert.Data.Entities
 {
 	/// <summary>
 	/// Represents a status entity in the application: what is the user's status?
+	/// Seeded by <see cref="Shared.Enums.StatusType"/>
 	/// </summary>
-	/// <remarks>
-	/// *******************************************************************************
-	/// TODO:	An enum needs to be created to represent the possible statuses.
-	///			This will help in maintaining consistency and clarity in the codebase.
-	///	*******************************************************************************
-	///</remarks>
 	public class Status
 	{
 		/// <summary>
