@@ -25,5 +25,12 @@ namespace AmigoAlert.Data.Entities
 		/// The name of the check-in response.
 		/// </summary>
 		public string Name { get; set; } = null!;
+
+		//Navigation Property
+
+		/// <summary>
+		/// The collection of check-in events/notifications that have this response.
+		/// </summary>
+		public ICollection<CheckIn> CheckIns { get; set; } = new List<CheckIn>();
 	}
 }

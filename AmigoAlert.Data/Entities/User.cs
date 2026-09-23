@@ -96,5 +96,11 @@ namespace AmigoAlert.Data.Entities
 		/// Each time the user's status changes, a new entry is created in this log to keep track of the change.
 		/// </summary>
 		public ICollection<StatusLog> StatusLogs { get; set; } = new List<StatusLog>();
+
+		/// <summary>
+		/// The collection of check-in events/notifications sent to the user.
+		/// Each check-in represents a notification sent to the user, and the user's response (if any) is recorded.
+		/// </summary>
+		public ICollection<CheckIn> CheckIns { get; set; } = new List<CheckIn>();
 	}
 }
