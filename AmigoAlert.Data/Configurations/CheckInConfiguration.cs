@@ -16,7 +16,7 @@ namespace AmigoAlert.Data.Configurations
 		{
 			builder.ToTable("CheckIn");
 			builder.HasKey(c => c.Id);
-			builder.Property(c => c.UserId).ValueGeneratedOnAdd();
+			builder.Property(c => c.Id).ValueGeneratedOnAdd();
 			builder.Property(c => c.ScheduledFor).IsRequired();
 			builder.Property(c => c.TimeSent).IsRequired();
 			builder.HasOne(c => c.User)
