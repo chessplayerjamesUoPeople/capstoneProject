@@ -25,5 +25,12 @@ namespace AmigoAlert.Data.Entities
 		/// The name of the SMS message type.
 		/// </summary>
 		public string Name { get; set; } = null!;
+
+		//Navigation Property
+
+		/// <summary>
+		/// The collection of SMS messages of this message type.
+		/// </summary>
+		public ICollection<Sms> SmsMessages { get; set; } = new List<Sms>();
 	}
 }

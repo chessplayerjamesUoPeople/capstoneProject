@@ -79,5 +79,10 @@ namespace AmigoAlert.Data.Entities
 		/// The consent status of the emergency contact.
 		/// </summary>
 		public ConsentStatus ConsentStatus { get; set; } = null!;
+
+		/// <summary>
+		/// The collection of SMS messages sent to this emergency contact.
+		/// </summary>
+		public ICollection<Sms> SmsMessages { get; set; } = new List<Sms>();
 	}
 }

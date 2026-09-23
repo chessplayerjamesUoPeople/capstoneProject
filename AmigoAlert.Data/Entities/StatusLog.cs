@@ -53,5 +53,10 @@ namespace AmigoAlert.Data.Entities
 		/// The Status of this log entry.
 		/// </summary>
 		public Status Status { get; set; } = null!;
+
+		/// <summary>
+		/// The collection of SMS messages sent to emergency contacts, associated with this status log entry.
+		/// </summary>
+		public ICollection<Sms> Sms { get; set; } = new List<Sms>();
 	}
 }
