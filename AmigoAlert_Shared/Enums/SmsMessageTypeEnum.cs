@@ -7,7 +7,7 @@ namespace AmigoAlert.Shared.Enums
 	/// <summary>
 	/// Represents the different types of SMS messages that can be sent to an emergency contact.
 	/// </summary>
-	internal enum SmsMessageTypeEnum : byte
+	public enum SmsMessageTypeEnum : byte
 	{
 		/// <summary>
 		/// An SMS message sent requesting consent from the emergency contact to receive future messages.
