@@ -15,7 +15,8 @@ namespace AmigoAlert.Data
 		{
 			var options = new DbContextOptionsBuilder<AmigoAlertDbContext>()
 				.UseSqlServer("Server=amigoalert-db-server.database.windows.net;Database=AmigoAlertDB;" +
-				"Authentication=Active Directory Default;Encrypt=True;TrustServerCertificate=False;")
+				"Authentication=Active Directory Default;Encrypt=True;TrustServerCertificate=False;",
+				o => o.UseNetTopologySuite())
 				.Options;
 
 			return new AmigoAlertDbContext(options);
