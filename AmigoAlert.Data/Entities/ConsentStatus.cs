@@ -20,7 +20,7 @@ namespace AmigoAlert.Data.Entities
 		/// <summary>
 		/// The name of the consent status.
 		/// </summary>
-		public string name { get; set; } = null!;
+		public string Name { get; set; } = null!;
 
 		//Navigation property
 
