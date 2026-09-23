@@ -41,7 +41,7 @@ namespace AmigoAlert.Data.Entities
 		/// The unique token generated for the consent request.
 		/// This is used to create a URL the emergency contact can click to provide their consent.
 		/// </summary>
-		public Guid? ConsentToken { get; set; } = Guid.NewGuid();
+		public Guid? ConsentToken { get; set; }
 
 		/// <summary>
 		/// The date and time when the consent token expires.
