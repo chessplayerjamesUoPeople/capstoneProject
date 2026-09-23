@@ -58,7 +58,7 @@ namespace AmigoAlert.Data.Entities
 		/// <summary>
 		/// The date and time when the user accepted the terms and conditions. This is required and cannot be null.
 		/// </summary>
-		public DateTime AcceptedTermsTime { get; set; }
+		public DateTimeOffset AcceptedTermsTime { get; set; }
 
 		/// <summary>
 		/// The version of the terms and conditions that the user accepted. This is required and cannot be null.
@@ -79,11 +79,16 @@ namespace AmigoAlert.Data.Entities
 		/// </summary>
 		public TimeOnly? Notification2Time { get; set; }
 
-		//Navigation property
+		//Navigation properties
 
 		/// <summary>
 		/// The current status of the user.
 		/// </summary>
 		public Status Status { get; set; } = null!;
+
+		/// <summary>
+		/// The collection of emergency contacts associated with the user.
+		/// </summary>
+		public ICollection<EmergencyContact> EmergencyContacts { get; set; } = new List<EmergencyContact>();
 	}
 }

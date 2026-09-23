@@ -25,5 +25,12 @@ namespace AmigoAlert.Data.Entities
 		/// The name of the consent status.
 		/// </summary>
 		public string name { get; set; } = null!;
+
+		//Navigation property
+
+		/// <summary>
+		/// The emergency contacts associated with this consent status.
+		/// </summary>
+		public ICollection<EmergencyContact> EmergencyContacts { get; set; } = new List<EmergencyContact>();
 	}
 }
