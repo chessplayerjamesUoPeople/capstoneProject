@@ -25,10 +25,16 @@ namespace AmigoAlert.Data.Entities
 		/// </summary>
 		public string Name { get; set; } = null!;
 
-		//Navigation property
+		//Navigation properties
+
 		/// <summary>
 		/// The users associated with this status. This is a collection of User entities that have this status.
 		/// </summary>
 		public ICollection<User> Users { get; set; } = new List<User>();
+
+		/// <summary>
+		/// The status logs associated with this status.
+		/// </summary>
+		public ICollection<StatusLog> StatusLogs { get; set; } = new List<StatusLog>();
 	}
 }

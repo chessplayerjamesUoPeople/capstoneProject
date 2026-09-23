@@ -90,5 +90,11 @@ namespace AmigoAlert.Data.Entities
 		/// The collection of emergency contacts associated with the user.
 		/// </summary>
 		public ICollection<EmergencyContact> EmergencyContacts { get; set; } = new List<EmergencyContact>();
+
+		/// <summary>
+		/// The collection of status logs associated with the user.
+		/// Each time the user's status changes, a new entry is created in this log to keep track of the change.
+		/// </summary>
+		public ICollection<StatusLog> StatusLogs { get; set; } = new List<StatusLog>();
 	}
 }
