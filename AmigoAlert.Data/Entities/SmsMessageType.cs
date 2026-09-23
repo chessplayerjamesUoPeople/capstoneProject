@@ -7,12 +7,6 @@ namespace AmigoAlert.Data.Entities
 	/// <summary>
 	/// Represents a type of SMS message that can be sent to an emergency contact.
 	/// </summary>
-	/// <remarks>
-	/// *********************************************************************************
-	/// TODO:	An enum needs to be created to represent the possible SMS Message Types.
-	///			This will help in maintaining consistency and clarity in the codebase.
-	///	*********************************************************************************
-	///</remarks>
 	public class SmsMessageType
 	{
 		/// <summary>
