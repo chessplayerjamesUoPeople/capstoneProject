@@ -7,12 +7,8 @@ namespace AmigoAlert.Data.Entities
 	/// <summary>
 	/// Represents a consent status entity in the application.
 	/// This is the current state of consent that an emergency contact has given.
+	/// Seeded by <see cref="Shared.Enums.ConsentStatusType"/>
 	/// </summary>
-	/// <remarks>
-	/// ******************************************************************************
-	/// TODO: An enum needs to be created to represent the possible consent statuses.
-	/// ******************************************************************************
-	/// </remarks>
 	public class ConsentStatus
 	{
 		/// <summary>

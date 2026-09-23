@@ -6,13 +6,8 @@ namespace AmigoAlert.Data.Entities
 {
 	/// <summary>
 	/// Represents a response to a check-in event/notification sent to the user.
+	/// Seeded from <see cref="Shared.Enums.CheckInResponseType"/>
 	/// </summary>
-	/// <remarks>
-	/// *******************************************************************************
-	/// TODO:	An enum needs to be created to represent the possible responses.
-	///			This will help in maintaining consistency and clarity in the codebase.
-	///	*******************************************************************************
-	///</remarks>
 	public class CheckInResponse
 	{
 		/// <summary>

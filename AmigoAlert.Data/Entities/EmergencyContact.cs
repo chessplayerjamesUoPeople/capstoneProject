@@ -35,11 +35,6 @@ namespace AmigoAlert.Data.Entities
 		/// <summary>
 		/// The identifier for the consent status. This is a foreign key that references the ConsentStatus entity.
 		/// </summary>
-		/// <remarks>
-		/// ******************************************************************************
-		/// TODO: An enum needs to be created to represent the possible consent statuses.
-		/// ******************************************************************************
-		/// </remarks>
 		public byte ConsentStatusId { get; set; }
 
 		/// <summary>
