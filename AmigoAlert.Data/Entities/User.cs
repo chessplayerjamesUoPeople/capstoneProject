@@ -47,18 +47,12 @@ namespace AmigoAlert.Data.Entities
 		/// <summary>
 		/// The identifier for the user's status. This is a foreign key that references the Status entity.
 		/// </summary>
-		/// <remarks>
-		/// *******************************************************************************
-		/// TODO:	An enum needs to be created to represent the possible statuses.
-		///			This will help in maintaining consistency and clarity in the codebase.
-		///	*******************************************************************************
-		///</remarks>
 		public byte StatusId { get; set; }
 
 		/// <summary>
 		/// The date and time when the user accepted the terms and conditions. This is required and cannot be null.
 		/// </summary>
-		public DateTime AcceptedTermsTime { get; set; }
+		public DateTimeOffset AcceptedTermsTime { get; set; }
 
 		/// <summary>
 		/// The version of the terms and conditions that the user accepted. This is required and cannot be null.
@@ -79,11 +73,28 @@ namespace AmigoAlert.Data.Entities
 		/// </summary>
 		public TimeOnly? Notification2Time { get; set; }
 
-		//Navigation property
+		//Navigation properties
 
 		/// <summary>
 		/// The current status of the user.
 		/// </summary>
 		public Status Status { get; set; } = null!;
+
+		/// <summary>
+		/// The collection of emergency contacts associated with the user.
+		/// </summary>
+		public ICollection<EmergencyContact> EmergencyContacts { get; set; } = new List<EmergencyContact>();
+
+		/// <summary>
+		/// The collection of status logs associated with the user.
+		/// Each time the user's status changes, a new entry is created in this log to keep track of the change.
+		/// </summary>
+		public ICollection<StatusLog> StatusLogs { get; set; } = new List<StatusLog>();
+
+		/// <summary>
+		/// The collection of check-in events/notifications sent to the user.
+		/// Each check-in represents a notification sent to the user, and the user's response (if any) is recorded.
+		/// </summary>
+		public ICollection<CheckIn> CheckIns { get; set; } = new List<CheckIn>();
 	}
 }
