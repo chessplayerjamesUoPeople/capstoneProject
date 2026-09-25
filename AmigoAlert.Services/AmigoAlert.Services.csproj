@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\AmigoAlert.Data\AmigoAlert.Data.csproj" />
+  </ItemGroup>
+
 </Project>
