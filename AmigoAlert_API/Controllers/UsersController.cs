@@ -29,7 +29,7 @@ namespace AmigoAlert.API.Controllers
 				return NotFound();
 			}
 
-			return Ok(UserMappingExtensions.ToDto(user));
+			return Ok(user.ToDto());
 		}
 	}
 }

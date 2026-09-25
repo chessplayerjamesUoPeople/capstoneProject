@@ -12,10 +12,10 @@ namespace AmigoAlert.API.Mapping
 		/// <summary>
 		/// Maps a UserDto object to a new UserDto instance.
 		/// </summary>
-		/// <param name="user">The UserDto object to map.</param>
+		/// <param name="User">The UserDto object to map.</param>
 		/// <returns>A new UserDto instance with the same values as the input.</returns>
-		public static UserDto ToDto(this User user)
-			=> new(user.Id, user.Name, user.Email, user.Phone, user.Address, user.Landmarks, user.Notification1Time,
-				user.Notification2Time, (StatusType)user.StatusId, user.AcceptedTermsTime);
+		public static UserDto ToDto(this User User)
+			=> new(User.Id, User.Name, User.Email, User.Phone, User.Address, User.Landmarks, User.Notification1Time,
+				User.Notification2Time, (StatusType)User.StatusId, User.AcceptedTermsTime);
 	}
 }
