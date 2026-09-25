@@ -20,7 +20,7 @@ namespace AmigoAlert.Data.Configurations
 			builder.Property(s => s.Id).ValueGeneratedNever();
 			builder.Property(s => s.Name)
 				.IsRequired()
-				.HasMaxLength(20);
+				.HasMaxLength(25);
 			builder.HasIndex(s => s.Name).IsUnique();
 			builder.HasData(
 				Enum.GetValues<SmsMessageTypeEnum>()

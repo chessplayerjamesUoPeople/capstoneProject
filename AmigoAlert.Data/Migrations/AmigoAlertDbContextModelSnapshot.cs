@@ -242,11 +242,37 @@ namespace AmigoAlert.Data.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("SmsMessageTypes");
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.ToTable("SmsMessageTypes", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = (byte)1,
+                            Name = "ConsentRequest"
+                        },
+                        new
+                        {
+                            Id = (byte)2,
+                            Name = "MissedCheckInEscalation"
+                        },
+                        new
+                        {
+                            Id = (byte)3,
+                            Name = "EmergencyActivation"
+                        },
+                        new
+                        {
+                            Id = (byte)4,
+                            Name = "EmergencyCancelled"
+                        });
                 });
 
             modelBuilder.Entity("AmigoAlert.Data.Entities.Status", b =>
