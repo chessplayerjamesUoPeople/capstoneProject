@@ -10,9 +10,9 @@ namespace AmigoAlert.Data.Repositories
 	/// </summary>
 	/// <remarks>
 	/// Beginning with GET operations only.
-	/// ***************************************************************************
-	/// TODO: Implement POST and PUT operations for user management in the future.
-	/// ***************************************************************************
+	/// *******************************************************************************
+	/// TODO: Implement POST and PUT operations for check-in management in the future.
+	/// *******************************************************************************
 	/// </remarks>
 	public interface ICheckInRepository
 	{
