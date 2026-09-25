@@ -1,6 +1,7 @@
 <Solution>
   <Folder Name="/Documentation/" />
   <Project Path="AmigoAlert.Data/AmigoAlert.Data.csproj" />
+  <Project Path="AmigoAlert.Services/AmigoAlert.Services.csproj" Id="e7aa7075-4a8e-47cd-b940-1e029c15ce57" />
   <Project Path="AmigoAlert.Tests/AmigoAlert.Tests.csproj" />
   <Project Path="AmigoAlert.Web/AmigoAlert.Web.csproj" Id="b7a6e5f4-3682-4bfc-81c5-62fb62366dab" />
   <Project Path="AmigoAlert.WebJob/AmigoAlert.WebJob.csproj" Id="d516e5bf-da5f-4f1b-a6e7-cd6bd38a43a8" />
