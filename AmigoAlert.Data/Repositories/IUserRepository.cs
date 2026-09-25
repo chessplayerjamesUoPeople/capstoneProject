@@ -54,7 +54,7 @@ namespace AmigoAlert.Data.Repositories
 		/// <param name="token">The consent token of the user whose emergency contact is to be retrieved.</param>
 		/// <param name="ct">A cancellation token that can be used to cancel the operation.</param>
 		/// <returns>The emergency contact associated with the specified consent token, or null if no such contact exists.</returns>
-		Task<EmergencyContact?> GetEmergencyContactByConsentTokenAsync(string token, CancellationToken ct = default);
+		Task<EmergencyContact?> GetEmergencyContactByConsentTokenAsync(Guid token, CancellationToken ct = default);
 
 		/// <summary>
 		/// Retrieves the latest status log entry for a user by their ID.

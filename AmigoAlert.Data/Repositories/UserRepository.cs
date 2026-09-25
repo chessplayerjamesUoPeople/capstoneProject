@@ -43,11 +43,11 @@ namespace AmigoAlert.Data.Repositories
 		}
 
 		/// <inheritdoc cref="IUserRepository.GetEmergencyContactByConsentTokenAsync"/>
-		public Task<EmergencyContact?> GetEmergencyContactByConsentTokenAsync(string token, CancellationToken ct = default)
+		public Task<EmergencyContact?> GetEmergencyContactByConsentTokenAsync(Guid token, CancellationToken ct = default)
 		{
 			return context.EmergencyContacts
 				.AsNoTracking()
-				.FirstOrDefaultAsync(ec => ec.ConsentToken.ToString() == token && ec.IsActive, ct);
+				.FirstOrDefaultAsync(ec => ec.ConsentToken == token && ec.IsActive, ct);
 		}
 
 		/// <inheritdoc cref="IUserRepository.GetLatestStatusAsync"/>
