@@ -8,6 +8,12 @@ namespace AmigoAlert.Data.Repositories
 	/// <summary>
 	/// Represents a repository interface for managing SMS-related data operations.
 	/// </summary>
+	/// <remarks>
+	/// Beginning with GET operations only.
+	/// ***************************************************************************
+	/// TODO: Implement POST and PUT operations for user management in the future.
+	/// ***************************************************************************
+	/// </remarks>
 	public interface ISmsRepository
 	{
 		/// <summary>
