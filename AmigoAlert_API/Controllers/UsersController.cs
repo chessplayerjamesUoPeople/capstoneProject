@@ -106,5 +106,32 @@ namespace AmigoAlert.API.Controllers
 				_ => throw new UnreachableException()
 			};
 		}
+
+		/// <summary>
+		/// "Cancel emergency, I am okay": returns an escalated or emergency user to okay and tells the emergency contact to stand down.
+		/// </summary>
+		/// <param name="id">The unique identifier of the user.</param>
+		/// <param name="ct">The cancellation token.</param>
+		/// <returns>No content once the emergency has been cancelled.</returns>
+		[HttpPost("{id:guid}/emergency/cancel")]
+		[ProducesResponseType(StatusCodes.Status204NoContent)]
+		[ProducesResponseType(StatusCodes.Status404NotFound)]
+		[ProducesResponseType<ProblemDetails>(StatusCodes.Status409Conflict)]
+		[ProducesResponseType<ProblemDetails>(StatusCodes.Status502BadGateway)]
+		public async Task<IActionResult> PostCancelEmergencyAsync(Guid id, CancellationToken ct)
+		{
+			EmergencyCancellationOutcome outcome = await escalationService.CancelEmergencyAsync(id, ct);
+
+			return outcome switch
+			{
+				EmergencyCancellationOutcome.Cancelled => NoContent(),
+				EmergencyCancellationOutcome.UserNotFound => NotFound(),
+				EmergencyCancellationOutcome.NotInEmergency => Problem(statusCode: StatusCodes.Status409Conflict,
+					detail: "The user is not in an emergency, so there is nothing to cancel."),
+				EmergencyCancellationOutcome.NotificationFailed => Problem(statusCode: StatusCodes.Status502BadGateway,
+					detail: "The SMS provider rejected the stand-down message. Nothing was recorded; retry the request."),
+				_ => throw new UnreachableException()
+			};
+		}
 	}
 }
