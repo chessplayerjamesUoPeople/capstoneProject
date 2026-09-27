@@ -9,8 +9,8 @@
     Title="MobileApplication">
 
     <ShellContent
-        Title="Terms and Conditions"
-        ContentTemplate="{DataTemplate pages:TermsAndConditions}"
-        Route="TermsAndConditions" />
+        Title="Home Page"
+        ContentTemplate="{DataTemplate pages:HomePage}"
+        Route="HomePage" />
 
 </Shell>
