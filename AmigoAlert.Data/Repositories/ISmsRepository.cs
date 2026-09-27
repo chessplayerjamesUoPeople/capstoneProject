@@ -8,12 +8,6 @@ namespace AmigoAlert.Data.Repositories
 	/// <summary>
 	/// Represents a repository interface for managing SMS-related data operations.
 	/// </summary>
-	/// <remarks>
-	/// Beginning with GET operations only.
-	/// ******************************************************************************
-	/// TODO: Implement POST and PUT operations for SMS management in the future.
-	/// ******************************************************************************
-	/// </remarks>
 	public interface ISmsRepository
 	{
 		/// <summary>
@@ -48,5 +42,23 @@ namespace AmigoAlert.Data.Repositories
 		/// <param name="ct">A cancellation token that can be used to cancel the operation.</param>
 		/// <returns>A read-only list of SMS entities that are pending delivery and older than the specified date and time.</returns>
 		Task<IReadOnlyList<Sms>> GetPendingDeliveryAsync(DateTimeOffset olderThan, CancellationToken ct = default);
+
+		/// <summary>
+		/// Inserts a record of an SMS message accepted by the provider.
+		/// </summary>
+		/// <param name="message">The SMS record to insert.</param>
+		/// <param name="ct">A cancellation token that can be used to cancel the operation.</param>
+		Task AddAsync(Sms message, CancellationToken ct = default);
+
+		/// <summary>
+		/// Records a delivery status reported by the provider's status callback. Callbacks can arrive out of order, so once a message has
+		/// reached a final status (delivered, undelivered or failed) a late intermediate status does not overwrite it.
+		/// </summary>
+		/// <param name="providerMessageId">The provider message identifier (the Twilio SID) the callback refers to.</param>
+		/// <param name="status">The status reported by the provider, for example "delivered".</param>
+		/// <param name="errorCode">The provider error code, or null when the message did not fail.</param>
+		/// <param name="ct">A cancellation token that can be used to cancel the operation.</param>
+		/// <returns>The number of rows updated, or 0 if the message is unknown or already final.</returns>
+		Task<int> RecordDeliveryStatusAsync(string providerMessageId, string status, int? errorCode, CancellationToken ct = default);
 	}
 }
