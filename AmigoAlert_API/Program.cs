@@ -1,3 +1,5 @@
+using AmigoAlert.Data;
+
 namespace AmigoAlert_API
 {
 	public class Program
@@ -9,6 +11,11 @@ namespace AmigoAlert_API
 			// Add services to the container.
 
 			builder.Services.AddControllers();
+
+
+
+			builder.Services.AddAmigoAlertData(
+				builder.Configuration.GetConnectionString("AmigoAlertDb")!);
 
 			var app = builder.Build();
 
