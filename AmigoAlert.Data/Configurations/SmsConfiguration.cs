@@ -35,7 +35,7 @@ namespace AmigoAlert.Data.Configurations
 				.WithMany()
 				.HasForeignKey(s => s.MessageTypeId)
 				.OnDelete(DeleteBehavior.Restrict);
-			builder.HasIndex(s => s.TwilioSid);
+			builder.HasIndex(s => s.TwilioSid).IsUnique();
 		}
 	}
 }

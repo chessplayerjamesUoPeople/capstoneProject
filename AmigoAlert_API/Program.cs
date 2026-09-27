@@ -1,4 +1,5 @@
 using AmigoAlert.Data;
+using AmigoAlert.Services;
 
 namespace AmigoAlert_API
 {
@@ -10,12 +11,13 @@ namespace AmigoAlert_API
 
 			// Add services to the container.
 
-			builder.Services.AddControllers();
+			// Keeps the Async suffix in action names, so CreatedAtAction(nameof(GetAsync), ...) resolves the GET action.
+			builder.Services.AddControllers(options => options.SuppressAsyncSuffixInActionNames = false);
 
 
 
-			builder.Services.AddAmigoAlertData(
-				builder.Configuration.GetConnectionString("AmigoAlertDb")!);
+			builder.Services.AddAmigoAlertData(builder.Configuration.GetConnectionString("AmigoAlertDb")!);
+			builder.Services.AddAmigoAlertServices(builder.Configuration);
 
 			var app = builder.Build();
 
