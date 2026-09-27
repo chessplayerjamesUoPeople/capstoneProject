@@ -1,4 +1,5 @@
 ﻿using AmigoAlert.Data.Entities;
+using AmigoAlert.Shared.Enums;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,10 +10,9 @@ namespace AmigoAlert.Data.Repositories
 	/// Represents a repository interface for managing check-in-related data operations.
 	/// </summary>
 	/// <remarks>
-	/// Beginning with GET operations only.
-	/// *******************************************************************************
-	/// TODO: Implement POST and PUT operations for check-in management in the future.
-	/// *******************************************************************************
+	/// A reminder creates a second row sharing the first notification's <see cref="CheckIn.ScheduledFor"/>, so one occurrence can have two
+	/// rows. "Latest" queries order by <see cref="CheckIn.ScheduledFor"/> and then by <see cref="CheckIn.Id"/> to pick the newer of the
+	/// two.
 	/// </remarks>
 	public interface ICheckInRepository
 	{
@@ -51,11 +51,33 @@ namespace AmigoAlert.Data.Repositories
 		Task<IReadOnlyList<CheckIn>> GetForUserSinceAsync(Guid userId, DateTimeOffset since, CancellationToken ct = default);
 
 		/// <summary>
-		/// Retrieves the latest check-in records for a list of users.
+		/// Retrieves the latest check-in record for each of a list of users, at most one per user.
 		/// </summary>
 		/// <param name="userIds">A collection of unique identifiers of the users whose latest check-in records are to be retrieved.</param>
 		/// <param name="ct">A cancellation token that can be used to cancel the operation.</param>
 		/// <returns>A read-only list of the latest check-in records for the specified users.</returns>
 		Task<IReadOnlyList<CheckIn>> GetLatestForUsersAsync(IEnumerable<Guid> userIds, CancellationToken ct = default);
+
+		/// <summary>
+		/// Inserts a check-in row recording that a notification was sent. <see cref="CheckIn.Id"/> is populated on return.
+		/// </summary>
+		/// <param name="checkIn">The check-in to insert.</param>
+		/// <param name="ct">A cancellation token that can be used to cancel the operation.</param>
+		Task AddAsync(CheckIn checkIn, CancellationToken ct = default);
+
+		/// <summary>
+		/// Records the user's answer against every unanswered row of the occurrence <paramref name="checkInId"/> belongs to, so answering
+		/// the first notification after the reminder was sent still marks the reminder row, which is the one the escalation rules read.
+		/// </summary>
+		/// <remarks>
+		/// Conditional on <see cref="CheckIn.TimeReceived"/> being null: a second answer, or one racing the WebJob, updates nothing.
+		/// </remarks>
+		/// <param name="checkInId">The unique identifier of the check-in the user answered.</param>
+		/// <param name="response">The user's response.</param>
+		/// <param name="receivedAt">The time the response was received.</param>
+		/// <param name="ct">A cancellation token that can be used to cancel the operation.</param>
+		/// <returns>The number of rows updated, or 0 if the occurrence does not exist or was already answered.</returns>
+		Task<int> RecordResponseAsync(long checkInId, CheckInResponseType response, DateTimeOffset receivedAt,
+			CancellationToken ct = default);
 	}
 }

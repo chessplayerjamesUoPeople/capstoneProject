@@ -1,4 +1,5 @@
 ﻿using AmigoAlert.Data.Entities;
+using AmigoAlert.Shared.Enums;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -13,13 +14,18 @@ namespace AmigoAlert.Data.Repositories
 		/// Ecuador observes UTC-5 year-round, without daylight saving time adjustments.
 		/// </summary>
 		private static readonly TimeSpan EcuadorOffset = TimeSpan.FromHours(-5);
-		
+
+		/// <inheritdoc cref="ICheckInRepository.AddAsync"/>
+		public async Task AddAsync(CheckIn checkIn, CancellationToken ct = default)
+		{
+			context.CheckIns.Add(checkIn);
+			await context.SaveChangesAsync(ct);
+		}
+
 		/// <inheritdoc cref="ICheckInRepository.GetByIdAsync"/>
 		public Task<CheckIn?> GetByIdAsync(long checkInId, CancellationToken ct = default)
 		{
-			return context.CheckIns
-				.AsNoTracking()
-				.FirstOrDefaultAsync(c => c.Id == checkInId, ct);
+			return context.CheckIns.FirstOrDefaultAsync(c => c.Id == checkInId, ct);
 		}
 
 		/// <inheritdoc cref="ICheckInRepository.GetForUserOnDateAsync"/>
@@ -29,10 +35,10 @@ namespace AmigoAlert.Data.Repositories
 			DateTimeOffset dayEnd = dayStart.AddDays(1);
 
 			return context.CheckIns
-				.AsNoTracking()
 				.Where(c => c.UserId == userId)
 				.Where(c => c.ScheduledFor >= dayStart && c.ScheduledFor < dayEnd)
 				.OrderByDescending(c => c.ScheduledFor)
+				.ThenByDescending(c => c.Id)
 				.FirstOrDefaultAsync(ct);
 		}
 
@@ -40,9 +46,9 @@ namespace AmigoAlert.Data.Repositories
 		public async Task<IReadOnlyList<CheckIn>> GetForUserSinceAsync(Guid userId, DateTimeOffset since, CancellationToken ct = default)
 		{
 			return await context.CheckIns
-				.AsNoTracking()
 				.Where(c => c.UserId == userId && c.ScheduledFor >= since)
 				.OrderByDescending(c => c.ScheduledFor)
+				.ThenByDescending(c => c.Id)
 				.ToListAsync(ct);
 		}
 
@@ -50,9 +56,9 @@ namespace AmigoAlert.Data.Repositories
 		public Task<CheckIn?> GetLatestForUserAsync(Guid userId, CancellationToken ct = default)
 		{
 			return context.CheckIns
-				.AsNoTracking()
 				.Where(c => c.UserId == userId)
 				.OrderByDescending(c => c.ScheduledFor)
+				.ThenByDescending(c => c.Id)
 				.FirstOrDefaultAsync(ct);
 		}
 
@@ -65,15 +71,27 @@ namespace AmigoAlert.Data.Repositories
 				return [];
 			}
 
-			var latest = context.CheckIns
+			// The Id tiebreak picks the reminder row over the first notification when both share ScheduledFor; without it the query would
+			// return both and the caller's ToDictionary would throw on the duplicate user.
+			return await context.CheckIns
 				.Where(c => ids.Contains(c.UserId))
 				.GroupBy(c => c.UserId)
-				.Select(g => new { UserId = g.Key, ScheduledFor = g.Max(x => x.ScheduledFor) });
-
-			return await context.CheckIns
-				.AsNoTracking()
-				.Where(c => latest.Any(l => l.UserId == c.UserId && l.ScheduledFor == c.ScheduledFor))
+				.Select(g => g.OrderByDescending(c => c.ScheduledFor).ThenByDescending(c => c.Id).First())
 				.ToListAsync(ct);
+		}
+
+		/// <inheritdoc cref="ICheckInRepository.RecordResponseAsync"/>
+		public Task<int> RecordResponseAsync(long checkInId, CheckInResponseType response, DateTimeOffset receivedAt,
+			CancellationToken ct = default)
+		{
+			IQueryable<CheckIn> answered = context.CheckIns.Where(c => c.Id == checkInId);
+
+			return context.CheckIns
+				.Where(c => c.TimeReceived == null)
+				.Where(c => answered.Any(a => a.UserId == c.UserId && a.ScheduledFor == c.ScheduledFor))
+				.ExecuteUpdateAsync(s => s
+					.SetProperty(c => c.TimeReceived, receivedAt)
+					.SetProperty(c => c.ResponseId, (byte)response), ct);
 		}
 	}
 }
