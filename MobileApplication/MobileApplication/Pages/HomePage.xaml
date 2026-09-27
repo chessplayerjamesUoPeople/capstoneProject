@@ -2,46 +2,89 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MobileApplication.Pages.HomePage"
-             Title="HomePage">
-    <VerticalStackLayout>
-        <ImageButton Source="settings_gear.png"
-            HorizontalOptions="Start"
-            HeightRequest="40"
-            WidthRequest="40"
-            BackgroundColor="Transparent"
-            Padding="10,0"
-            SemanticProperties.Description="Settings"
-            SemanticProperties.Hint="Tap to update your information" />
-        
-        <Label 
-            Text="Next check-in at 6:00pm"
-            VerticalOptions="Center" 
-            HorizontalOptions="Start" 
-            Padding="10,0"/>
-        
-        <Label 
-            Text="Time remaining: 4:59"
-            VerticalOptions="Center" 
-            HorizontalOptions="Start" 
-            Padding="10,0"/>
-        
-        <Button Text="I'm Okay"
+             Title="AmigoAlert">
+    <!-- Scrolls so nothing is lost with text enlarged to 200% (NF-08). -->
+    <ScrollView>
+        <VerticalStackLayout Padding="10" Spacing="16" MaximumWidthRequest="600">
+            <ImageButton x:Name="SettingsButton"
+                Source="settings_gear.png"
+                HorizontalOptions="Start"
+                HeightRequest="40"
+                WidthRequest="40"
+                BackgroundColor="Transparent"
+                IsVisible="False"
+                Clicked="OnSettingsClicked"
+                SemanticProperties.Description="Settings"
+                SemanticProperties.Hint="Tap to update your information" />
+
+            <ActivityIndicator x:Name="LoadingIndicator"
+                IsRunning="False"
+                IsVisible="False"
                 HorizontalOptions="Center"
-                HeightRequest="50"
+                SemanticProperties.Description="Loading your status" />
+
+            <Label x:Name="StatusLabel"
+                FontSize="24"
+                HorizontalTextAlignment="Center"
+                IsVisible="False" />
+
+            <Label x:Name="NextCheckInLabel"
+                FontSize="24"
+                HorizontalOptions="Center"
+                IsVisible="False" />
+
+            <Label x:Name="TimeRemainingLabel"
+                FontSize="24"
+                HorizontalOptions="Center"
+                IsVisible="False" />
+
+            <Button x:Name="CheckInButton"
+                Text="I'm Okay"
+                HorizontalOptions="Center"
                 WidthRequest="300"
-                BackgroundColor="{StaticResource Primary}"
+                BackgroundColor="{StaticResource CheckInGreen}"
                 TextColor="{StaticResource White}"
-                FontSize="Title"
+                FontSize="24"
                 Padding="10,10"
+                IsVisible="False"
+                Clicked="OnCheckInClicked"
                 SemanticProperties.Description="Check-in button"
                 SemanticProperties.Hint="Tap to check in" />
 
-        <ImageButton Source="emergency_button.png"
-             HeightRequest="220"
-             WidthRequest="220"
-             BackgroundColor="Transparent"
-             Clicked="OnEmergencyClicked"
-             SemanticProperties.Description="Emergency button"
-             SemanticProperties.Hint="Tap to alert your emergency contact" />
-    </VerticalStackLayout>
+            <Button x:Name="CancelEmergencyButton"
+                Text="Cancel emergency, I am okay"
+                HorizontalOptions="Center"
+                WidthRequest="300"
+                LineBreakMode="WordWrap"
+                BackgroundColor="{StaticResource CancelOrange}"
+                TextColor="{StaticResource Black}"
+                FontSize="24"
+                Padding="10,10"
+                IsVisible="False"
+                Clicked="OnCancelEmergencyClicked"
+                SemanticProperties.Description="Cancel emergency button"
+                SemanticProperties.Hint="Tap to tell your emergency contact that you are okay" />
+
+            <ImageButton x:Name="EmergencyButton"
+                Source="emergency_button.png"
+                HeightRequest="220"
+                WidthRequest="220"
+                BackgroundColor="Transparent"
+                IsVisible="False"
+                Clicked="OnEmergencyClicked"
+                SemanticProperties.Description="Emergency button"
+                SemanticProperties.Hint="Tap to alert your emergency contact" />
+
+            <Label x:Name="ErrorLabel"
+                Style="{StaticResource ErrorText}"
+                HorizontalTextAlignment="Center"
+                IsVisible="False" />
+
+            <Button x:Name="RetryButton"
+                Text="Try again"
+                HorizontalOptions="Center"
+                IsVisible="False"
+                Clicked="OnRetryClicked" />
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>
