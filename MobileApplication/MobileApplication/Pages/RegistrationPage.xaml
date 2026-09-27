@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MobileApplication.Pages.RegistrationPage"
+             Title="Registration"
+             Shell.NavBarIsVisible="False">
+
+    <!-- ScrollView keeps every field reachable in landscape (NF-05) and at 200% text size (NF-08). -->
+    <ScrollView>
+        <VerticalStackLayout Padding="16" Spacing="8" MaximumWidthRequest="600">
+
+            <Label Text="Registration"
+                   Style="{StaticResource Headline}"
+                   SemanticProperties.HeadingLevel="Level1" />
+
+            <Label Text="Name" />
+            <Entry x:Name="NameEntry"
+                   MaxLength="50"
+                   SemanticProperties.Hint="Name" />
+
+            <Label Text="Email Address" />
+            <Entry x:Name="EmailEntry"
+                   Keyboard="Email"
+                   MaxLength="100"
+                   SemanticProperties.Hint="Email Address" />
+
+            <Label Text="Mobile Phone Number (Optional)" />
+            <Entry x:Name="PhoneEntry"
+                   Keyboard="Telephone"
+                   MaxLength="20"
+                   SemanticProperties.Hint="Mobile Phone Number, optional. For example 0991234567 or +593991234567" />
+            <Label Text="e.g. 0991234567 or +593991234567" Style="{StaticResource HintText}" />
+
+            <Label Text="Home Address" />
+            <Entry x:Name="AddressEntry"
+                   MaxLength="200"
+                   SemanticProperties.Hint="Home Address" />
+
+            <Label Text="Description of Nearby Landmarks (Optional)" />
+            <Editor x:Name="LandmarksEditor"
+                    AutoSize="TextChanges"
+                    MinimumHeightRequest="100"
+                    MaxLength="150"
+                    SemanticProperties.Hint="Description of Nearby Landmarks, optional" />
+
+            <Label Text="Emergency Contact Information"
+                   Style="{StaticResource SubHeadline}"
+                   HorizontalOptions="Start"
+                   HorizontalTextAlignment="Start"
+                   Margin="0,16,0,0"
+                   SemanticProperties.HeadingLevel="Level2" />
+
+            <Label Text="Name" />
+            <Entry x:Name="ContactNameEntry"
+                   MaxLength="50"
+                   SemanticProperties.Hint="Emergency contact name" />
+
+            <Label Text="Mobile Phone Number" />
+            <Entry x:Name="ContactPhoneEntry"
+                   Keyboard="Telephone"
+                   MaxLength="20"
+                   SemanticProperties.Hint="Emergency contact mobile phone number. For example 0991234567 or +593991234567" />
+            <Label Text="e.g. 0991234567 or +593991234567" Style="{StaticResource HintText}" />
+
+            <Label x:Name="ErrorLabel"
+                   Style="{StaticResource ErrorText}"
+                   IsVisible="False" />
+
+            <Button Text="Save"
+                    Clicked="OnSaveClicked"
+                    Margin="0,8,0,0" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>
