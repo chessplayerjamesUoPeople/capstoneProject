@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MobileApplication.Pages.HomePage"
+             Title="HomePage">
+    <VerticalStackLayout>
+        <ImageButton Source="settings_gear.png"
+            HorizontalOptions="Start"
+            HeightRequest="40"
+            WidthRequest="40"
+            BackgroundColor="Transparent"
+            Padding="10,0"
+            SemanticProperties.Description="Settings"
+            SemanticProperties.Hint="Tap to update your information" />
+        
+        <Label 
+            Text="Next check-in at 6:00pm"
+            VerticalOptions="Center" 
+            HorizontalOptions="Start" 
+            Padding="10,0"/>
+        
+        <Label 
+            Text="Time remaining: 4:59"
+            VerticalOptions="Center" 
+            HorizontalOptions="Start" 
+            Padding="10,0"/>
+        
+        <Button Text="I'm Okay"
+                HorizontalOptions="Center"
+                HeightRequest="50"
+                WidthRequest="300"
+                BackgroundColor="{StaticResource Primary}"
+                TextColor="{StaticResource White}"
+                FontSize="Title"
+                Padding="10,10"
+                SemanticProperties.Description="Check-in button"
+                SemanticProperties.Hint="Tap to check in" />
+
+        <ImageButton Source="emergency_button.png"
+             HeightRequest="220"
+             WidthRequest="220"
+             BackgroundColor="Transparent"
+             Clicked="OnEmergencyClicked"
+             SemanticProperties.Description="Emergency button"
+             SemanticProperties.Hint="Tap to alert your emergency contact" />
+    </VerticalStackLayout>
+</ContentPage>
