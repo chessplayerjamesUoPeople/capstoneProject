@@ -38,4 +38,16 @@
 		<ProjectReference Include="..\..\AmigoAlert_Shared\AmigoAlert.Shared.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Compile Update="Pages\TermsAndConditionsPage.xaml.cs">
+	    <DependentUpon>TermsAndConditionsPage.xaml</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiXaml Update="Pages\TermsAndConditionsPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	</ItemGroup>
+
 </Project>

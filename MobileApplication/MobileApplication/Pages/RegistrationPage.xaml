@@ -5,7 +5,6 @@
              Title="Registration"
              Shell.NavBarIsVisible="False">
 
-    <!-- ScrollView keeps every field reachable in landscape (NF-05) and at 200% text size (NF-08). -->
     <ScrollView>
         <VerticalStackLayout Padding="16" Spacing="8" MaximumWidthRequest="600">
 

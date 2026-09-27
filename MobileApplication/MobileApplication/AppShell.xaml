@@ -9,8 +9,8 @@
     Title="MobileApplication">
 
     <ShellContent
-        Title="Registration"
-        ContentTemplate="{DataTemplate pages:RegistrationPage}"
-        Route="RegistrationPage" />
+        Title="Terms and Conditions"
+        ContentTemplate="{DataTemplate pages:TermsAndConditions}"
+        Route="TermsAndConditions" />
 
 </Shell>
