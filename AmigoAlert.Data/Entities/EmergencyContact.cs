@@ -11,9 +11,10 @@ namespace AmigoAlert.Data.Entities
 	public class EmergencyContact
 	{
 		/// <summary>
-		/// The unique identifier for the emergency contact.
+		/// The unique identifier for the emergency contact. Assigned with Guid.NewGuid() in service code, not here, so EF materialization
+		/// does not generate a discarded value.
 		/// </summary>
-		public Guid Id { get; set; } = Guid.NewGuid();
+		public Guid Id { get; set; }
 
 		/// <summary>
 		/// The unique identifier of the user to whom this emergency contact belongs.

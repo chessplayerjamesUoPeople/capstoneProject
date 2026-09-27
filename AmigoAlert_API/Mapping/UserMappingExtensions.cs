@@ -17,5 +17,16 @@ namespace AmigoAlert.API.Mapping
 		public static UserDto ToDto(this User User)
 			=> new(User.Id, User.Name, User.Email, User.Phone, User.Address, User.Landmarks, User.Notification1Time,
 				User.Notification2Time, (StatusType)User.StatusId, User.AcceptedTermsTime);
+
+		/// <summary>
+		/// Maps a registration request to a new User entity. The identifier, status and terms acceptance time are left for
+		/// <c>RegistrationService</c> to assign.
+		/// </summary>
+		/// <param name="request">The registration request to map.</param>
+		/// <returns>A new, unsaved User entity.</returns>
+		public static User ToEntity(this CreateUserDto request)
+			=> new() { Name = request.Name, Email = request.Email, Phone = request.Phone, Address = request.Address,
+				Landmarks = request.Landmarks, Notification1Time = request.Notification1Time, Notification2Time = request.Notification2Time,
+				AcceptedTermsVersion = request.AcceptedTermsVersion };
 	}
 }

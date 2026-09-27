@@ -11,9 +11,10 @@ namespace AmigoAlert.Data.Entities
 	public class User
 	{
 		/// <summary>
-		/// The unique identifier for the user.
+		/// The unique identifier for the user. Assigned with Guid.NewGuid() in service code, not here, so EF materialization does not
+		/// generate a discarded value.
 		/// </summary>
-		public Guid Id { get; set; } = Guid.NewGuid();
+		public Guid Id { get; set; }
 
 		/// <summary>
 		/// The name of the user. This includes first and last name.

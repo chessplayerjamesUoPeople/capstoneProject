@@ -230,7 +230,9 @@ namespace AmigoAlert.Data.Migrations
 
                     b.HasIndex("StatusLogId");
 
-                    b.HasIndex("TwilioSid");
+                    b.HasIndex("TwilioSid")
+                        .IsUnique()
+                        .HasFilter("[TwilioSid] IS NOT NULL");
 
                     b.ToTable("Sms", (string)null);
                 });
