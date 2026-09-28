@@ -12,8 +12,8 @@ namespace AmigoAlert.Services
 	/// <remarks>
 	/// Ecuadorian carriers do not support two-way SMS, so every message is self-contained. Movistar limits a message to
 	/// <see cref="MaxLength"/> characters, so the variable part of each body (a name or an address) is truncated to whatever room the fixed
-	/// text leaves. The fixed text is Spanish written without accents: á, í, ó and ú are not in the GSM-7 alphabet and would force UCS-2,
-	/// whose single-segment limit is 70 characters.
+	/// text leaves. The fixed text is plain ASCII, which is within the GSM-7 alphabet; any character outside it would force UCS-2, whose
+	/// single-segment limit is 70 characters.
 	/// </remarks>
 	public static class SmsMessageComposer
 	{
@@ -33,7 +33,7 @@ namespace AmigoAlert.Services
 		/// <returns>The message body.</returns>
 		public static string ConsentRequest(string userName, string consentUrl)
 		{
-			return Compose(Prefix, userName, $" le pide ser su contacto de emergencia: {consentUrl}");
+			return Compose(Prefix, userName, $" added you as their emergency contact: {consentUrl}");
 		}
 
 		/// <summary>
@@ -46,7 +46,7 @@ namespace AmigoAlert.Services
 		{
 			string localTime = scheduledFor.ToOffset(EscalationRules.LocalOffset).ToString("HH:mm", CultureInfo.InvariantCulture);
 
-			return Compose(Prefix, userName, $" no respondio al control de las {localTime}. Por favor llame o visite a esta persona.");
+			return Compose(Prefix, userName, $" did not check in at {localTime}. They may be having an emergency. Please call or visit them.");
 		}
 
 		/// <summary>
@@ -60,16 +60,26 @@ namespace AmigoAlert.Services
 		/// <returns>The message body.</returns>
 		public static string EmergencyActivation(string userName, double? latitude, double? longitude, string address)
 		{
-			const string Activated = " activo el boton de emergencia.";
+			const string Activated = " is NOT okay and is having an emergency.";
 
 			if (latitude is double lat && longitude is double lon)
 			{
-				string map = string.Create(CultureInfo.InvariantCulture, $" Ubicacion: https://maps.google.com/?q={lat:F5},{lon:F5}");
+				string map = string.Create(CultureInfo.InvariantCulture, $" Location: https://maps.google.com/?q={lat:F5},{lon:F5}");
 				return Compose(Prefix, userName, Activated + map);
 			}
 
-			string lead = Prefix + Truncate(userName, MaxNameBeforeAddress) + Activated + " Direccion: ";
+			string lead = Prefix + Truncate(userName, MaxNameBeforeAddress) + Activated + " Address: ";
 			return Compose(lead, address, string.Empty);
+		}
+
+		/// <summary>
+		/// The stand-down sent when the user cancels an emergency or an escalated missed check-in.
+		/// </summary>
+		/// <param name="userName">The name of the user who cancelled.</param>
+		/// <returns>The message body.</returns>
+		public static string EmergencyCancelled(string userName)
+		{
+			return Compose(Prefix, userName, " has indicated that they are no longer in an emergency status.");
 		}
 
 		/// <summary>

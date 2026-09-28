@@ -22,6 +22,10 @@
     <Color x:Key="Error">#A00000</Color>
     <Color x:Key="ErrorDark">#FF9999</Color>
 
+    <!-- Home screen action buttons. Both meet 7:1 contrast (NF-07): White on #1B5E20, Black on #FFB74D. -->
+    <Color x:Key="CheckInGreen">#1B5E20</Color>
+    <Color x:Key="CancelOrange">#FFB74D</Color>
+
     <Color x:Key="Gray100">#E1E1E1</Color>
     <Color x:Key="Gray200">#C8C8C8</Color>
     <Color x:Key="Gray300">#ACACAC</Color>
