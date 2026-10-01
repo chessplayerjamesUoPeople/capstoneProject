@@ -43,6 +43,7 @@ namespace AmigoAlert.Services
 			}
 
 			services.AddScoped<EscalationService>();
+			services.AddScoped<ICleanupService, CleanupService>();
 			services.AddScoped<ConsentService>();
 			services.AddScoped<RegistrationService>();
 
