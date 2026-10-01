@@ -8,9 +8,19 @@
     <ScrollView>
         <VerticalStackLayout Padding="16" Spacing="8" MaximumWidthRequest="600">
 
-            <Label Text="Registration"
+            <Label x:Name="HeaderLabel"
+                   Text="Registration"
                    Style="{StaticResource Headline}"
                    SemanticProperties.HeadingLevel="Level1" />
+
+            <ActivityIndicator x:Name="LoadingIndicator"
+                               IsRunning="False"
+                               IsVisible="False"
+                               SemanticProperties.Description="Loading your information" />
+
+            <Label x:Name="NoticeLabel"
+                   Style="{StaticResource ErrorText}"
+                   IsVisible="False" />
 
             <Label Text="Name" />
             <Entry x:Name="NameEntry"
@@ -22,6 +32,10 @@
                    Keyboard="Email"
                    MaxLength="100"
                    SemanticProperties.Hint="Email Address" />
+            <Label x:Name="EmailHintLabel"
+                   Text="Email Address cannot be changed."
+                   Style="{StaticResource HintText}"
+                   IsVisible="False" />
 
             <Label Text="Mobile Phone Number (Optional)" />
             <Entry x:Name="PhoneEntry"
@@ -65,7 +79,8 @@
                    Style="{StaticResource ErrorText}"
                    IsVisible="False" />
 
-            <Button Text="Save"
+            <Button x:Name="SaveButton"
+                    Text="Save"
                     Clicked="OnSaveClicked"
                     Margin="0,8,0,0" />
 

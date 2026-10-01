@@ -14,15 +14,15 @@ namespace AmigoAlert.Services.Rules
 		/// <summary>Ecuador (mainland) observes UTC-5 year-round with no daylight saving.</summary>
 		public static readonly TimeSpan LocalOffset = TimeSpan.FromHours(-5);
 
-		/// <summary>Minutes after the scheduled time before the reminder is sent.</summary>
+		/// <summary>Minutes after the first notification was sent before the reminder is sent.</summary>
 		public const int ReminderAfterMinutes = 10;
 
-		/// <summary>Minutes after the reminder before the emergency contact is alerted.</summary>
+		/// <summary>Minutes after the reminder was sent before the emergency contact is alerted.</summary>
 		public const int GraceMinutes = 10;
 
 		/// <summary>The state required to evaluate one user at one point in time.</summary>
 		public readonly record struct Input(TimeOnly? FirstNotificationTime, TimeOnly? SecondNotificationTime,
-			StatusType Status, DateTimeOffset? LatestScheduledFor, DateTimeOffset? LatestTimeReceived);
+			StatusType Status, DateTimeOffset? LatestScheduledFor, DateTimeOffset? LatestTimeSent, DateTimeOffset? LatestTimeReceived);
 
 		/// <summary>The outcome plus the occurrence it relates to.</summary>
 		public readonly record struct Result(EscalationOutcome Outcome, DateTimeOffset ScheduledFor);
@@ -61,15 +61,20 @@ namespace AmigoAlert.Services.Rules
 				return new Result(EscalationOutcome.None, due);
 			}
 
-			// Time-guarded rather than status-guarded: if the reminder was never sent
-			// (for example the worker was down during that window), escalation must
-			// still fire rather than the user being silently dropped.
-			if (now >= due.AddMinutes(ReminderAfterMinutes + GraceMinutes))
+			// Waits run from when the latest notification was actually sent, not from the scheduled time, so a late send still gives
+			// the user the full window. The latest check-in is the first notification while Pending1 and the reminder once Pending2.
+			if (input.LatestTimeSent is not DateTimeOffset sent)
+			{
+				return new Result(EscalationOutcome.None, due);
+			}
+
+			if (input.Status == StatusType.Pending2 && now >= sent.AddMinutes(GraceMinutes))
 			{
 				return new Result(EscalationOutcome.EscalateToEmergencyContact, due);
 			}
 
-			if (input.Status == StatusType.Pending1 && now >= due.AddMinutes(ReminderAfterMinutes))
+			// A reminder that was missed (for example the worker was down) is still sent before escalating.
+			if (input.Status == StatusType.Pending1 && now >= sent.AddMinutes(ReminderAfterMinutes))
 			{
 				return new Result(EscalationOutcome.SendReminderNotification, due);
 			}

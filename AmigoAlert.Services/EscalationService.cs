@@ -36,6 +36,8 @@ namespace AmigoAlert.Services
 
 		private static readonly StatusType[] AwaitingResponse = [StatusType.Pending1, StatusType.Pending2];
 
+		private static readonly StatusType[] AlertRaised = [StatusType.Escalated, StatusType.Emergency];
+
 		/// <summary>
 		/// Evaluates every eligible user against the escalation rules and returns the resulting decisions. Performs no writes and
 		/// dispatches nothing; pass each decision to <see cref="ActOnDecisionAsync"/> to carry it out.
@@ -63,7 +65,7 @@ namespace AmigoAlert.Services
 
 				EscalationRules.Input input = new EscalationRules.Input(FirstNotificationTime: user.Notification1Time,
 					SecondNotificationTime: user.Notification2Time, Status: (StatusType)user.StatusId,
-					LatestScheduledFor: latest?.ScheduledFor, LatestTimeReceived: latest?.TimeReceived);
+					LatestScheduledFor: latest?.ScheduledFor, LatestTimeSent: latest?.TimeSent, LatestTimeReceived: latest?.TimeReceived);
 
 				EscalationRules.Result result = EscalationRules.Evaluate(in input, now);
 
@@ -198,6 +200,61 @@ namespace AmigoAlert.Services
 			await transaction.CommitAsync(ct);
 
 			return EmergencyActivationOutcome.Alerted;
+		}
+
+		/// <summary>
+		/// Handles "Cancel emergency, I am okay": returns the user from <see cref="StatusType.Escalated"/> or
+		/// <see cref="StatusType.Emergency"/> to <see cref="StatusType.Okay"/>, answers any unanswered check-in of the current occurrence,
+		/// and tells the emergency contact to stand down.
+		/// </summary>
+		/// <param name="userId">The user who cancelled.</param>
+		/// <param name="ct">A cancellation token that can be used to cancel the operation.</param>
+		/// <returns>Whether the emergency was cancelled, or why not.</returns>
+		public async Task<EmergencyCancellationOutcome> CancelEmergencyAsync(Guid userId, CancellationToken ct = default)
+		{
+			User? user = await userRepository.GetWithEmergencyContactAsync(userId, ct);
+			if (user is null)
+			{
+				return EmergencyCancellationOutcome.UserNotFound;
+			}
+
+			DateTimeOffset now = timeProvider.GetUtcNow();
+
+			await using IDbContextTransaction transaction = await transactionProvider.BeginTransactionAsync(ct);
+
+			if (await userRepository.TransitionStatusAsync(userId, AlertRaised, StatusType.Okay, ct) == 0)
+			{
+				return EmergencyCancellationOutcome.NotInEmergency;
+			}
+
+			// An escalated occurrence is still unanswered; left that way, the rules would keep treating it as missed.
+			CheckIn? latest = await checkInRepository.GetLatestForUserAsync(userId, ct);
+			if (latest is not null && latest.TimeReceived is null)
+			{
+				await checkInRepository.RecordResponseAsync(latest.Id, CheckInResponseType.Okay, now, ct);
+			}
+
+			StatusLog log = NewStatusLog(userId, StatusType.Okay, now, "Emergency cancelled by the user.");
+			await userRepository.AddStatusLogAsync(log, ct);
+
+			// LOPDP Article 7: only a contact who agreed to be messaged is told to stand down.
+			EmergencyContact? contact = GrantedContact(user);
+			if (contact is not null)
+			{
+				string body = SmsMessageComposer.EmergencyCancelled(user.Name);
+				SmsDispatchResult dispatch = await smsService.SendAsync(contact.Id, contact.Phone, body,
+					SmsMessageTypeEnum.EmergencyCancelled, log.Id, ct);
+
+				// Returning to okay while the contact still believes there is an emergency would leave them acting on stale news.
+				if (!dispatch.Succeeded)
+				{
+					return EmergencyCancellationOutcome.NotificationFailed;
+				}
+			}
+
+			await transaction.CommitAsync(ct);
+
+			return EmergencyCancellationOutcome.Cancelled;
 		}
 
 		private async Task<bool> SendFirstNotificationAsync(EscalationDecision decision, CancellationToken ct)
