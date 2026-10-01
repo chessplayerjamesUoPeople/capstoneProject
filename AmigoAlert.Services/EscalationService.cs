@@ -65,7 +65,7 @@ namespace AmigoAlert.Services
 
 				EscalationRules.Input input = new EscalationRules.Input(FirstNotificationTime: user.Notification1Time,
 					SecondNotificationTime: user.Notification2Time, Status: (StatusType)user.StatusId,
-					LatestScheduledFor: latest?.ScheduledFor, LatestTimeReceived: latest?.TimeReceived);
+					LatestScheduledFor: latest?.ScheduledFor, LatestTimeSent: latest?.TimeSent, LatestTimeReceived: latest?.TimeReceived);
 
 				EscalationRules.Result result = EscalationRules.Evaluate(in input, now);
 
