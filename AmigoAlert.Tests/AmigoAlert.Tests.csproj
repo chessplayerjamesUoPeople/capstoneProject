@@ -15,6 +15,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\AmigoAlert.Services\AmigoAlert.Services.csproj" />
+    <ProjectReference Include="..\AmigoAlert_Shared\AmigoAlert.Shared.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Using Include="Xunit" />
   </ItemGroup>
 
