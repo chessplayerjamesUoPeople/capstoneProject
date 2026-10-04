@@ -86,7 +86,7 @@ namespace AmigoAlert.Services.Rules
 		/// The latest configured check-in instant at or before <paramref name="now"/>,
 		/// looking back across the previous local day to cover occurrences that straddle midnight UTC.
 		/// </summary>
-		private static DateTimeOffset? MostRecentOccurrence(TimeOnly? first, TimeOnly? second, DateTimeOffset now)
+		public static DateTimeOffset? MostRecentOccurrence(TimeOnly? first, TimeOnly? second, DateTimeOffset now)
 		{
 			DateTimeOffset localNow = now.ToOffset(LocalOffset);
 			DateTimeOffset? best = null;
