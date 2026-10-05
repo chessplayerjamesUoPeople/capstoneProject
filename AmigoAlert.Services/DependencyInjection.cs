@@ -23,6 +23,7 @@ namespace AmigoAlert.Services
 		{
 			services.Configure<TwilioOptions>(configuration.GetSection(TwilioOptions.SectionName));
 			services.Configure<ConsentOptions>(configuration.GetSection(ConsentOptions.SectionName));
+			services.Configure<NotificationHubOptions>(configuration.GetSection(NotificationHubOptions.SectionName));
 
 			services.TryAddSingleton(TimeProvider.System);
 
@@ -41,6 +42,8 @@ namespace AmigoAlert.Services
 
 				services.AddScoped<ISmsService, SmsService>();
 			}
+
+			services.AddSingleton<IPushNotificationService, NotificationHubPushService>();
 
 			services.AddScoped<EscalationService>();
 			services.AddScoped<ICleanupService, CleanupService>();
