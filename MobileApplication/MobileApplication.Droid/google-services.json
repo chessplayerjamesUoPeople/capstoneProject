@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "707258431509",
+    "project_id": "amigoalert-7c6a6",
+    "storage_bucket": "amigoalert-7c6a6.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:707258431509:android:cb3f95f97a6bb1e33bf61c",
+        "android_client_info": {
+          "package_name": "com.amigoalert.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAWdt1vzd8PPNA0P087J8dcp1WW-RXc9J0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
