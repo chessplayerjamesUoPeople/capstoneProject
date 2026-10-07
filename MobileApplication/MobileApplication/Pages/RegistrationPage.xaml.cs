@@ -57,8 +57,14 @@ namespace MobileApplication.Pages
 
 			try
 			{
-				var userTask = api.GetUserAsync(ApiSettings.CurrentUserId);
-				var contactTask = api.GetEmergencyContactAsync(ApiSettings.CurrentUserId);
+				if (await ApiSettings.GetUserIdAsync() is not { } userId)
+				{
+					ShowErrors("You are not registered yet. Please restart the app to register.");
+					return;
+				}
+
+				var userTask = api.GetUserAsync(userId);
+				var contactTask = api.GetEmergencyContactAsync(userId);
 				await Task.WhenAll(userTask, contactTask);
 
 				var user = userTask.Result;
@@ -143,8 +149,17 @@ namespace MobileApplication.Pages
 
 			if (!isUpdateMode)
 			{
-				// TODO: call the API with phone and contactPhone (already in E.164).
-				await DisplayAlertAsync("Registration", "Your details are valid.", "OK");
+				// The user is created once the terms are accepted; the phone numbers passed on are already in E.164.
+				await Shell.Current.GoToAsync(nameof(TermsAndConditionsPage), new Dictionary<string, object>
+				{
+					[TermsAndConditionsPage.NameKey] = NameEntry.Text.Trim(),
+					[TermsAndConditionsPage.EmailKey] = EmailEntry.Text.Trim(),
+					[TermsAndConditionsPage.PhoneKey] = phone,
+					[TermsAndConditionsPage.AddressKey] = AddressEntry.Text.Trim(),
+					[TermsAndConditionsPage.LandmarksKey] = LandmarksEditor.Text?.Trim() ?? "",
+					[TermsAndConditionsPage.ContactNameKey] = ContactNameEntry.Text.Trim(),
+					[TermsAndConditionsPage.ContactPhoneKey] = contactPhone
+				});
 				return;
 			}
 
@@ -160,16 +175,22 @@ namespace MobileApplication.Pages
 			SaveButton.IsEnabled = false;
 			try
 			{
-				await api.UpdateUserAsync(ApiSettings.CurrentUserId, new UpdateUserDto(NameEntry.Text.Trim(), phone,
+				if (await ApiSettings.GetUserIdAsync() is not { } userId)
+				{
+					ShowErrors("You are not registered yet. Please restart the app to register.");
+					return;
+				}
+
+				await api.UpdateUserAsync(userId, new UpdateUserDto(NameEntry.Text.Trim(), phone,
 					AddressEntry.Text.Trim(), string.IsNullOrWhiteSpace(LandmarksEditor.Text) ? null : LandmarksEditor.Text.Trim()));
 
 				if (contactChanged)
 				{
 					var contact = new SetEmergencyContactDto(contactName, contactPhone);
 					if (originalContact is null)
-						await api.AddEmergencyContactAsync(ApiSettings.CurrentUserId, contact);
+						await api.AddEmergencyContactAsync(userId, contact);
 					else
-						await api.ReplaceEmergencyContactAsync(ApiSettings.CurrentUserId, contact);
+						await api.ReplaceEmergencyContactAsync(userId, contact);
 				}
 
 				// US-23: a new number means the account waits for the new contact's consent.
