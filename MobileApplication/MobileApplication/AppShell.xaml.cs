@@ -9,6 +9,7 @@ namespace MobileApplication
 			InitializeComponent();
 
 			Routing.RegisterRoute(nameof(RegistrationPage), typeof(RegistrationPage));
+			Routing.RegisterRoute(nameof(TermsAndConditionsPage), typeof(TermsAndConditionsPage));
 		}
 	}
 }

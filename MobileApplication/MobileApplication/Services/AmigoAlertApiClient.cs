@@ -12,6 +12,24 @@ namespace MobileApplication.Services
 	/// </summary>
 	public sealed class AmigoAlertApiClient(HttpClient httpClient)
 	{
+		/// <summary>
+		/// How long a fresh fix is waited for. The notification's Emergency action has about eight seconds for the whole call, so what is
+		/// left after this is enough for the request.
+		/// </summary>
+		private static readonly TimeSpan LocationTimeout = TimeSpan.FromSeconds(3);
+
+		/// <summary>The oldest last-known fix still worth sending when no fresh one arrives in time.</summary>
+		private static readonly TimeSpan MaxLastKnownAge = TimeSpan.FromMinutes(10);
+
+		/// <summary>Registers a new user. A 409 means the email address is already registered.</summary>
+		public async Task<UserDto> CreateUserAsync(CreateUserDto request, CancellationToken ct = default)
+		{
+			using HttpResponseMessage response = await httpClient.PostAsJsonAsync("api/users", request, ct);
+			await EnsureSuccessAsync(response, ct);
+
+			return (await response.Content.ReadFromJsonAsync<UserDto>(ct))!;
+		}
+
 		public async Task<UserDto> GetUserAsync(Guid userId, CancellationToken ct = default)
 		{
 			using HttpResponseMessage response = await httpClient.GetAsync($"api/users/{userId}", ct);
@@ -78,12 +96,33 @@ namespace MobileApplication.Services
 			await EnsureSuccessAsync(response, ct);
 		}
 
-		/// <summary>The emergency button: alerts the user's emergency contact.</summary>
+		/// <summary>
+		/// The emergency button: alerts the user's emergency contact, with the device location when one can be had in time. Shared by the
+		/// in-app button and the notification's Emergency action; the alert is sent without a location rather than held back for one.
+		/// </summary>
 		public async Task ActivateEmergencyAsync(Guid userId, CancellationToken ct = default)
 		{
-			// TODO: Send the device location once the Geolocation permission is requested.
+			Location? location = await TryGetLocationAsync(ct);
+
 			using HttpResponseMessage response = await httpClient.PostAsJsonAsync($"api/users/{userId}/emergency",
-				new ActivateEmergencyDto(null, null), ct);
+				new ActivateEmergencyDto(location?.Latitude, location?.Longitude), ct);
+			await EnsureSuccessAsync(response, ct);
+		}
+
+		/// <summary>
+		/// Sends the device location for a check-in this device has just been notified of, so that if the user does not answer, the alert to
+		/// their emergency contact can say where they last were. Does nothing when there is no location to send.
+		/// </summary>
+		public async Task ReportCheckInLocationAsync(long checkInId, CancellationToken ct = default)
+		{
+			Location? location = await TryGetLocationAsync(ct);
+			if (location is null)
+			{
+				return;
+			}
+
+			using HttpResponseMessage response = await httpClient.PutAsJsonAsync($"api/checkins/{checkInId}/location",
+				new ActivateEmergencyDto(location.Latitude, location.Longitude), ct);
 			await EnsureSuccessAsync(response, ct);
 		}
 
@@ -99,6 +138,47 @@ namespace MobileApplication.Services
 		{
 			using HttpResponseMessage response = await httpClient.PostAsync($"api/users/{userId}/emergency/cancel", null, ct);
 			await EnsureSuccessAsync(response, ct);
+		}
+
+		/// <summary>
+		/// The device location, or null when there is none to be had: permission not granted, location switched off, or no fix in time.
+		/// Never throws and never prompts, because it also runs from a notification, where there is no screen to prompt on.
+		/// </summary>
+		private static async Task<Location?> TryGetLocationAsync(CancellationToken ct)
+		{
+			try
+			{
+				if (await Permissions.CheckStatusAsync<Permissions.LocationWhenInUse>() != PermissionStatus.Granted)
+				{
+					return null;
+				}
+
+				try
+				{
+					using CancellationTokenSource timeout = CancellationTokenSource.CreateLinkedTokenSource(ct);
+					timeout.CancelAfter(LocationTimeout);
+
+					Location? fresh = await Geolocation.Default.GetLocationAsync(
+						new GeolocationRequest(GeolocationAccuracy.Medium, LocationTimeout), timeout.Token);
+					if (fresh is not null)
+					{
+						return fresh;
+					}
+				}
+				catch (Exception)
+				{
+					// No fresh fix in time; the last known one may still do.
+				}
+
+				Location? lastKnown = await Geolocation.Default.GetLastKnownLocationAsync();
+
+				return lastKnown is not null && DateTimeOffset.UtcNow - lastKnown.Timestamp <= MaxLastKnownAge ? lastKnown : null;
+			}
+			catch (Exception)
+			{
+				// A denied background lookup, a disabled provider or an unsupported device: no location is not an error here.
+				return null;
+			}
 		}
 
 		private static async Task EnsureSuccessAsync(HttpResponseMessage response, CancellationToken ct)

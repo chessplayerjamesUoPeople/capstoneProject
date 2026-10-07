@@ -265,6 +265,13 @@ variables, which keeps it outside the repository and out of shell history. Both 
   Notification Hubs still addresses FCM v1 devices by registration token, so the app keeps using tokens. Revisit when Notification Hubs
   supports installation IDs, or if Firebase announces a removal date.
 * **Notifications switched off.** If the user denies the permission, check-ins arrive silently; a missed one is still escalated.
-* **No location from the notification.** The Emergency button in the notification sends no location; the in-app button doesn't either yet.
-  The SMS falls back to the registered address.
+* **Location is best effort.** The emergency button, the notification's Emergency action and a missed check-in all include a map link
+  when the phone can supply a location, and fall back to the registered address (or the plain missed-check-in wording) when it can't.
+  * The app asks for location on first launch and needs **Allow all the time** (`ACCESS_BACKGROUND_LOCATION`) for the notification action
+    and the check-in capture to work while the app is closed. Without it only the in-app button gets a fix.
+  * The Emergency button and action wait at most 3 seconds for a fix, then send without one. A last-known fix older than 10 minutes is not used.
+  * When a check-in or reminder push arrives, the phone uploads its location to `PUT api/checkins/{id}/location`. The API stores it as a
+    status log row under the user's pending status. An okay answer deletes those rows; otherwise they stay until the 90-day location
+    purge. If the check-in is escalated, the newest fix goes into the SMS with its time, and into the escalation's status log.
+  * Like the other check-in routes, the location route is unauthenticated, so see the first risk above.
 * **Best-effort delivery.** FCM and the hub can delay or drop a push, which is why escalation never depends on one.
