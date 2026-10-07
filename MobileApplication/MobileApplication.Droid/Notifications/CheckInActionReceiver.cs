@@ -48,7 +48,13 @@ namespace MobileApplication.Droid.Notifications
 				}
 				else
 				{
-					await api.ActivateEmergencyAsync(ApiSettings.CurrentUserId, timeout.Token);
+					if (await ApiSettings.GetUserIdAsync() is not { } userId)
+					{
+						CheckInNotifications.ShowNotice(context, "Open AmigoAlert to register. If you are in danger, call 911.");
+						return;
+					}
+
+					await api.ActivateEmergencyAsync(userId, timeout.Token);
 					CheckInNotifications.ShowNotice(context, "Your emergency contact has been alerted. Open AmigoAlert if this was a mistake.");
 				}
 			}
