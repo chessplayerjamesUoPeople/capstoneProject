@@ -41,10 +41,20 @@ namespace AmigoAlert.Services
 		/// </summary>
 		/// <param name="userName">The name of the user who missed the check-in.</param>
 		/// <param name="scheduledFor">The occurrence that was missed; shown in Ecuador local time.</param>
-		/// <returns>The message body.</returns>
-		public static string MissedCheckIn(string userName, DateTimeOffset scheduledFor)
+		/// <param name="latitude">The latitude of the last location the device reported for this check-in, or null.</param>
+		/// <param name="longitude">The longitude of the last location the device reported for this check-in, or null.</param>
+		/// <param name="capturedAt">When that location was reported; shown in Ecuador local time so the contact knows how old it is.</param>
+		/// <returns>The message body: a map link when a location was reported, otherwise a request to call or visit.</returns>
+		public static string MissedCheckIn(string userName, DateTimeOffset scheduledFor, double? latitude = null, double? longitude = null,
+			DateTimeOffset? capturedAt = null)
 		{
-			string localTime = scheduledFor.ToOffset(EscalationRules.LocalOffset).ToString("HH:mm", CultureInfo.InvariantCulture);
+			string localTime = FormatLocalTime(scheduledFor);
+
+			if (latitude is double lat && longitude is double lon && capturedAt is DateTimeOffset captured)
+			{
+				string map = string.Create(CultureInfo.InvariantCulture, $"https://maps.google.com/?q={lat:F5},{lon:F5}");
+				return Compose(Prefix, userName, $" did not check in at {localTime}. Last known location ({FormatLocalTime(captured)}): {map}");
+			}
 
 			return Compose(Prefix, userName, $" did not check in at {localTime}. They may be having an emergency. Please call or visit them.");
 		}
@@ -94,6 +104,11 @@ namespace AmigoAlert.Services
 			}
 
 			return lead + Truncate(variable, room) + tail;
+		}
+
+		private static string FormatLocalTime(DateTimeOffset value)
+		{
+			return value.ToOffset(EscalationRules.LocalOffset).ToString("HH:mm", CultureInfo.InvariantCulture);
 		}
 
 		private static string Truncate(string value, int maxLength) => value.Length <= maxLength ? value : value[..maxLength];
