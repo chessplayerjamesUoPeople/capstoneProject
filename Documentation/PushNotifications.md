@@ -192,7 +192,31 @@ Vault is where it belongs.
      `Azure.Extensions.AspNetCore.Configuration.Secrets` provider with `DefaultAzureCredential`, and a secret named
      `NotificationHub--ConnectionString`.
 
-The Twilio `AuthToken` should move to Key Vault the same way: secret `TwilioAuthToken`, app setting `Twilio__AuthToken`.
+#### Twilio credentials (read directly from the vault)
+The Twilio credentials are not App Service Key Vault references. The API and the WebJob both read them straight from the vault at
+startup (`AddAmigoAlertKeyVault` in `AmigoAlert.Services/KeyVaultConfiguration.cs`), so the WebJob needs no workaround.
+
+1. In the vault, go to **Objects → Secrets → Generate/Import** and add three secrets. Names are exact:
+
+   | Secret name | Value |
+   |---|---|
+   | `TwilioAccountSid` | the Twilio Account SID |
+   | `TwilioAuthToken` | the Twilio Auth Token |
+   | `TwilioMessagingServiceSid` | the Messaging Service SID (starts with `MG`) |
+
+   Or from a terminal, which keeps the values out of the portal and the repository:
+   ```
+   az keyvault secret set --vault-name amigoalert-kv --name TwilioAccountSid --value "<SID>"
+   az keyvault secret set --vault-name amigoalert-kv --name TwilioAuthToken --value "<TOKEN>"
+   az keyvault secret set --vault-name amigoalert-kv --name TwilioMessagingServiceSid --value "<MG SID>"
+   ```
+2. The `amigoalertapi` identity needs **Key Vault Secrets User**, as in step 5 above. All three secrets are read with the same role.
+3. `KeyVault:VaultUri` in `appsettings.json` points at the vault. Only the secrets named above are loaded, and they land in
+   `Twilio:AccountSid`, `Twilio:AuthToken` and `Twilio:MessagingServiceSid`. To load another secret, add it to the map in `KeyVaultConfiguration.cs`.
+4. Set the plain (non-secret) app setting `Twilio__StatusCallbackUrl`.
+5. Secrets are read at startup, so restart the API after changing one. The WebJob reads the vault on every run.
+
+Locally, the same vault is used: run `az login` (or sign in to Visual Studio) and grant yourself **Key Vault Secrets User**. `DefaultAzureCredential` uses your account, and SMS is really sent, so test with your own number.
 
 ### 3.2 Local development: environment variables
 Use the **development hub only**; never put the production connection string on a development machine. Set it as user environment
