@@ -144,8 +144,62 @@ namespace AmigoAlert.Services
 			}
 
 			await userRepository.UpdateStatusAsync(checkIn.UserId, StatusType.Okay, ct);
+
+			// The user is fine, so the locations the device reported for this occurrence have no use and are not kept.
+			await userRepository.ClearCheckInLocationsAsync(checkIn.UserId, checkIn.ScheduledFor, ct);
 			await userRepository.AddStatusLogAsync(NewStatusLog(checkIn.UserId, StatusType.Okay, now, "Check-in answered."), ct);
 			await transaction.CommitAsync(ct);
+
+			return CheckInResponseOutcome.Recorded;
+		}
+
+		/// <summary>
+		/// Records a device location reported for a pending check-in, so that if the occurrence is escalated the alert can say where the
+		/// user last was. Stored as a status log row in the user's current pending status: that is how
+		/// <see cref="EscalateAsync"/> finds the newest one, and how <see cref="RecordCheckInResponseAsync"/> discards them.
+		/// </summary>
+		/// <param name="checkInId">The check-in the device was notified of: either the first notification or the reminder.</param>
+		/// <param name="latitude">The device latitude, in WGS 84 decimal degrees.</param>
+		/// <param name="longitude">The device longitude, in WGS 84 decimal degrees.</param>
+		/// <param name="ct">A cancellation token that can be used to cancel the operation.</param>
+		/// <returns>Whether the location was recorded, or why not. <see cref="CheckInResponseOutcome.AlreadyAnswered"/> also covers an
+		/// occurrence that has already been escalated, where a location would no longer reach the contact.</returns>
+		public async Task<CheckInResponseOutcome> RecordCheckInLocationAsync(long checkInId, double latitude, double longitude,
+			CancellationToken ct = default)
+		{
+			CheckIn? checkIn = await checkInRepository.GetByIdAsync(checkInId, ct);
+			if (checkIn is null)
+			{
+				return CheckInResponseOutcome.NotFound;
+			}
+
+			if (checkIn.TimeReceived is not null)
+			{
+				return CheckInResponseOutcome.AlreadyAnswered;
+			}
+
+			CheckIn? latest = await checkInRepository.GetLatestForUserAsync(checkIn.UserId, ct);
+			if (latest is not null && latest.ScheduledFor != checkIn.ScheduledFor)
+			{
+				return CheckInResponseOutcome.Superseded;
+			}
+
+			User? user = await userRepository.GetByIdAsync(checkIn.UserId, ct);
+			if (user is null)
+			{
+				return CheckInResponseOutcome.NotFound;
+			}
+
+			// Written under the pending status the user holds now, which is what keeps these rows apart from emergency and escalation rows.
+			StatusType status = (StatusType)user.StatusId;
+			if (!AwaitingResponse.Contains(status))
+			{
+				return CheckInResponseOutcome.AlreadyAnswered;
+			}
+
+			Point location = new Point(longitude, latitude) { SRID = Wgs84Srid };
+			await userRepository.AddStatusLogAsync(NewStatusLog(user.Id, status, timeProvider.GetUtcNow(), "Device location captured.", location),
+				ct);
 
 			return CheckInResponseOutcome.Recorded;
 		}
@@ -324,10 +378,15 @@ namespace AmigoAlert.Services
 				return false;
 			}
 
-			StatusLog log = NewStatusLog(user.Id, StatusType.Escalated, now, "Missed check-in escalated to the emergency contact.");
+			// The newest location the device reported for this occurrence, if it ever did. Without one the alert is sent as before.
+			StatusLog? fix = await userRepository.GetLatestCheckInLocationAsync(user.Id, decision.ScheduledFor, ct);
+
+			StatusLog log = NewStatusLog(user.Id, StatusType.Escalated, now, "Missed check-in escalated to the emergency contact.",
+				fix?.Location);
 			await userRepository.AddStatusLogAsync(log, ct);
 
-			string body = SmsMessageComposer.MissedCheckIn(user.Name, decision.ScheduledFor);
+			string body = SmsMessageComposer.MissedCheckIn(user.Name, decision.ScheduledFor, fix?.Location?.Y, fix?.Location?.X,
+				fix?.TimeOccurrence);
 			SmsDispatchResult dispatch = await smsService.SendAsync(contact.Id, contact.Phone, body,
 				SmsMessageTypeEnum.MissedCheckInEscalation, log.Id, ct);
 

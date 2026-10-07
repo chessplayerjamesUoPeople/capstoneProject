@@ -56,6 +56,26 @@ namespace AmigoAlert.Data.Repositories
 		Task<StatusLog?> GetLatestStatusAsync(Guid userId, CancellationToken ct = default);
 
 		/// <summary>
+		/// Retrieves the newest device location captured for a pending check-in: a status log row with a location, written while the user
+		/// was <see cref="StatusType.Pending1"/> or <see cref="StatusType.Pending2"/>. Emergency and escalation rows are never returned.
+		/// </summary>
+		/// <param name="userId">The GUID ID of the user.</param>
+		/// <param name="since">The earliest time of occurrence to consider; the scheduled time of the check-in occurrence.</param>
+		/// <param name="ct">A cancellation token that can be used to cancel the operation.</param>
+		/// <returns>The newest matching status log entry, or null if no location was captured.</returns>
+		Task<StatusLog?> GetLatestCheckInLocationAsync(Guid userId, DateTimeOffset since, CancellationToken ct = default);
+
+		/// <summary>
+		/// Discards the device locations that <see cref="GetLatestCheckInLocationAsync"/> would consider, for example once the user has
+		/// answered the check-in and the locations have no further use.
+		/// </summary>
+		/// <param name="userId">The GUID ID of the user.</param>
+		/// <param name="since">The earliest time of occurrence to clear; the scheduled time of the check-in occurrence.</param>
+		/// <param name="ct">A cancellation token that can be used to cancel the operation.</param>
+		/// <returns>The number of rows cleared.</returns>
+		Task<int> ClearCheckInLocationsAsync(Guid userId, DateTimeOffset since, CancellationToken ct = default);
+
+		/// <summary>
 		/// Retrieves a list of all active users along with their associated emergency contacts.
 		/// </summary>
 		/// <param name="ct">A cancellation token that can be used to cancel the operation.</param>

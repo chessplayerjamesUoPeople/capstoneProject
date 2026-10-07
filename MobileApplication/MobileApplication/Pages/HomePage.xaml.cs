@@ -1,54 +1,133 @@
 using System.Globalization;
 using System.Net;
 using AmigoAlert.Shared.DTOs;
+using Microsoft.Extensions.Logging;
 using MobileApplication.Services;
 
 namespace MobileApplication.Pages;
 
 public partial class HomePage : ContentPage
 {
+	/// <summary>Set once the location permission has been offered, so the prompt appears once per launch rather than on every visit.</summary>
+	private static bool locationPermissionOffered;
+
+	/// <summary>Failed refreshes in a row before the error replaces a screen that has already loaded; one is usually a passing blip.</summary>
+	private const int RefreshFailuresBeforeError = 2;
+
 	private readonly AmigoAlertApiClient api;
+	private readonly ILogger<HomePage> logger;
 	private readonly IDispatcherTimer countdownTimer;
 	private readonly IDispatcherTimer refreshTimer;
 
 	private HomeStatus? status;
 	private CheckInDto? pendingCheckIn;
 	private bool isLoading;
+	private int consecutiveRefreshFailures;
 
-	public HomePage(AmigoAlertApiClient api)
+	/// <summary>The window whose background and foreground events this page is subscribed to while it is shown.</summary>
+	private Window? subscribedWindow;
+
+	public HomePage(AmigoAlertApiClient api, ILogger<HomePage> logger)
 	{
 		InitializeComponent();
 
 		this.api = api;
+		this.logger = logger;
 
 		countdownTimer = Dispatcher.CreateTimer();
 		countdownTimer.Interval = TimeSpan.FromSeconds(1);
 		countdownTimer.Tick += (_, _) => UpdateCountdown();
 
-		// Check-in notifications are not pushed yet, so poll to pick up a pending check-in or a status changed elsewhere.
+		// Poll to pick up a pending check-in or a status changed elsewhere while the page is open.
 		refreshTimer = Dispatcher.CreateTimer();
 		refreshTimer.Interval = TimeSpan.FromMinutes(1);
-		refreshTimer.Tick += async (_, _) => await LoadAsync();
+		refreshTimer.Tick += async (_, _) => await LoadAsync(isRefresh: true);
 	}
 
 	protected override async void OnAppearing()
 	{
 		base.OnAppearing();
 
-		countdownTimer.Start();
-		refreshTimer.Start();
+		// OnAppearing and OnDisappearing only follow navigation, not the app going to the background and back, so follow the window
+		// too: polling from the background fails because Android cuts off network access there, and it leaves a false error on screen.
+		subscribedWindow = Window;
+		if (subscribedWindow is not null)
+		{
+			subscribedWindow.Stopped += OnWindowStopped;
+			subscribedWindow.Resumed += OnWindowResumed;
+		}
+
+		StartTimers();
 		await LoadAsync();
+		await EnsureLocationPermissionAsync();
 	}
 
 	protected override void OnDisappearing()
 	{
 		base.OnDisappearing();
 
+		if (subscribedWindow is not null)
+		{
+			subscribedWindow.Stopped -= OnWindowStopped;
+			subscribedWindow.Resumed -= OnWindowResumed;
+			subscribedWindow = null;
+		}
+
+		StopTimers();
+	}
+
+	private void OnWindowStopped(object? sender, EventArgs e) => StopTimers();
+
+	private async void OnWindowResumed(object? sender, EventArgs e)
+	{
+		StartTimers();
+		await LoadAsync(isRefresh: true);
+	}
+
+	private void StartTimers()
+	{
+		countdownTimer.Start();
+		refreshTimer.Start();
+	}
+
+	private void StopTimers()
+	{
 		countdownTimer.Stop();
 		refreshTimer.Stop();
 	}
 
-	private async Task LoadAsync()
+	/// <summary>
+	/// Explains why the app wants the device location, then asks for it. Location is optional: without it the alert to the emergency
+	/// contact carries the registered address instead. "Allow all the time" is what lets the notification's Emergency action, and the
+	/// location sent when a check-in arrives, work while the app is closed.
+	/// </summary>
+	private async Task EnsureLocationPermissionAsync()
+	{
+		// Once per launch, and not while the user is being sent to enter an emergency contact.
+		if (locationPermissionOffered || status is null or { State: HomeState.NoContact or HomeState.ConsentRejected })
+			return;
+
+		locationPermissionOffered = true;
+
+		if (await Permissions.CheckStatusAsync<Permissions.LocationWhenInUse>() == PermissionStatus.Granted
+			&& await Permissions.CheckStatusAsync<Permissions.LocationAlways>() == PermissionStatus.Granted)
+			return;
+
+		// Android needs the two requests separately, and the user needs to know why before the system asks.
+		var proceed = await DisplayAlertAsync("Share your location?",
+			"AmigoAlert shares your location with your emergency contact only when you press the emergency button or miss a check-in. " +
+			"Please allow location access, and choose \"Allow all the time\" so it also works when the app is closed.",
+			"Continue", "Not now");
+		if (!proceed)
+			return;
+
+		if (await Permissions.RequestAsync<Permissions.LocationWhenInUse>() == PermissionStatus.Granted)
+			await Permissions.RequestAsync<Permissions.LocationAlways>();
+	}
+
+	/// <param name="isRefresh">True for a reload of a screen already shown (the timer, a return from the background), where a single
+	/// failure keeps the current screen rather than replacing it with an error; false for the first load and the Retry button.</param>
+	private async Task LoadAsync(bool isRefresh = false)
 	{
 		if (isLoading)
 			return;
@@ -60,16 +139,24 @@ public partial class HomePage : ContentPage
 
 		try
 		{
-			var userTask = api.GetUserAsync(ApiSettings.CurrentUserId);
-			var contactTask = api.GetEmergencyContactAsync(ApiSettings.CurrentUserId);
+			// First run: nobody has registered on this device yet.
+			if (await ApiSettings.GetUserIdAsync() is not { } userId)
+			{
+				await Shell.Current.GoToAsync(nameof(RegistrationPage));
+				return;
+			}
+
+			var userTask = api.GetUserAsync(userId);
+			var contactTask = api.GetEmergencyContactAsync(userId);
 			await Task.WhenAll(userTask, contactTask);
 
 			var previousState = status?.State;
 			status = HomeStatus.Create(userTask.Result, contactTask.Result, DateTimeOffset.Now);
 			pendingCheckIn = status.State == HomeState.CheckInPending
-				? await api.GetPendingCheckInAsync(ApiSettings.CurrentUserId)
+				? await api.GetPendingCheckInAsync(userId)
 				: null;
 
+			consecutiveRefreshFailures = 0;
 			ErrorLabel.IsVisible = RetryButton.IsVisible = false;
 
 			// US-08: without a consenting contact the app cannot be used, so send the user to enter a new one.
@@ -87,6 +174,11 @@ public partial class HomePage : ContentPage
 		}
 		catch (Exception ex) when (ex is ApiException or HttpRequestException or TaskCanceledException)
 		{
+			logger.LogWarning(ex, "Loading the home status failed (refresh: {IsRefresh})", isRefresh);
+
+			if (isRefresh && status is not null && ++consecutiveRefreshFailures < RefreshFailuresBeforeError)
+				return;
+
 			ShowError(ex is ApiException ? ex.Message : "Could not reach AmigoAlert. Check your internet connection.");
 		}
 		finally
@@ -145,7 +237,7 @@ public partial class HomePage : ContentPage
 		var remaining = next - DateTimeOffset.Now;
 		if (remaining <= TimeSpan.Zero)
 		{
-			_ = LoadAsync();
+			_ = LoadAsync(isRefresh: true);
 			return;
 		}
 
@@ -183,14 +275,19 @@ public partial class HomePage : ContentPage
 
 	public async void OnEmergencyClicked(object? sender, EventArgs e)
 	{
-		await SendAsync(EmergencyButton, () => api.ActivateEmergencyAsync(ApiSettings.CurrentUserId), "Emergency", conflictIsStale: false);
+		await SendAsync(EmergencyButton, async () => await api.ActivateEmergencyAsync(await RequireUserIdAsync()), "Emergency",
+			conflictIsStale: false);
 	}
 
 	private async void OnCancelEmergencyClicked(object? sender, EventArgs e)
 	{
-		await SendAsync(CancelEmergencyButton, () => api.CancelEmergencyAsync(ApiSettings.CurrentUserId), "Cancel emergency",
+		await SendAsync(CancelEmergencyButton, async () => await api.CancelEmergencyAsync(await RequireUserIdAsync()), "Cancel emergency",
 			conflictIsStale: true);
 	}
+
+	/// <summary>The registered user's ID. The buttons only show for a loaded user, so a missing ID means storage failed since then.</summary>
+	private static async Task<Guid> RequireUserIdAsync() =>
+		await ApiSettings.GetUserIdAsync() ?? throw new ApiException(HttpStatusCode.Unauthorized, "You are not registered yet. Please restart the app to register.");
 
 	/// <summary>
 	/// Runs one button's API call with the button disabled against double taps, reports a failure, and reloads the status either way.
@@ -213,6 +310,7 @@ public partial class HomePage : ContentPage
 		}
 		catch (Exception ex) when (ex is HttpRequestException or TaskCanceledException)
 		{
+			logger.LogWarning(ex, "{Action} could not reach the API", title);
 			await DisplayAlertAsync(title, "Could not reach AmigoAlert. Check your internet connection and try again.", "OK");
 		}
 		finally

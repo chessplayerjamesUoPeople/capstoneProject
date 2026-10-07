@@ -1,3 +1,4 @@
+using System.Globalization;
 using AmigoAlert.Shared.DTOs;
 using Android.App;
 using Android.Gms.Extensions;
@@ -19,12 +20,48 @@ namespace MobileApplication.Droid.Notifications
 		private const string LogTag = "AmigoAlert.Push";
 		private const string InstallationIdKey = "push_installation_id";
 
+		/// <summary>Covers the location lookup and the upload, inside the time FCM gives a message handler.</summary>
+		private static readonly TimeSpan LocationReportTimeout = TimeSpan.FromSeconds(12);
+
 		public override void OnMessageReceived(RemoteMessage message)
 		{
 			base.OnMessageReceived(message);
 
 			if (!CheckInNotifications.ShowCheckIn(this, message.Data))
+			{
 				Log.Warn(LogTag, "Ignored a push that is not a well-formed check-in.");
+				return;
+			}
+
+			ReportLocation(message.Data);
+		}
+
+		/// <summary>
+		/// Sends the device location for the check-in just shown, so that if the user does not answer it, the alert to their emergency
+		/// contact can say where they last were. Runs for the reminder too, so the newest fix is the one used. Best effort and never throws.
+		/// </summary>
+		/// <remarks>
+		/// Waits here, on the thread FCM delivers the message on (not the UI thread), instead of starting a task: FCM allows about twenty
+		/// seconds, and the process could otherwise be reclaimed mid-upload.
+		/// </remarks>
+		private static void ReportLocation(IDictionary<string, string> data)
+		{
+			try
+			{
+				if (!data.TryGetValue("checkInId", out var id) || !long.TryParse(id, CultureInfo.InvariantCulture, out var checkInId))
+					return;
+
+				var api = IPlatformApplication.Current?.Services.GetRequiredService<AmigoAlertApiClient>()
+					?? throw new InvalidOperationException("The MAUI application has not been created.");
+
+				using var timeout = new CancellationTokenSource(LocationReportTimeout);
+				api.ReportCheckInLocationAsync(checkInId, timeout.Token).GetAwaiter().GetResult();
+			}
+			catch (Exception ex)
+			{
+				// A 404 or 409 only means the check-in is no longer waiting for an answer. The location itself is never logged.
+				Log.Warn(LogTag, $"Reporting the location failed: {ex.GetType().Name}: {ex.Message}");
+			}
 		}
 
 		// Firebase Messaging 25.1 deprecated the token APIs in favour of Firebase installation IDs, but Notification Hubs still addresses
@@ -46,6 +83,10 @@ namespace MobileApplication.Droid.Notifications
 			try
 			{
 				// Throws when the build had no google-services.json, so Firebase was never initialised.
+				// Nobody has registered on this device yet; the next launch after registering will get here.
+				if (await ApiSettings.GetUserIdAsync() is not { } userId)
+					return;
+
 				token ??= (await FirebaseMessaging.Instance.GetToken().AsAsync<Java.Lang.Object>())?.ToString();
 				if (string.IsNullOrEmpty(token))
 					return;
@@ -54,7 +95,7 @@ namespace MobileApplication.Droid.Notifications
 					?? throw new InvalidOperationException("The MAUI application has not been created.");
 
 				using var timeout = new CancellationTokenSource(TimeSpan.FromSeconds(30));
-				await api.RegisterDeviceAsync(ApiSettings.CurrentUserId, GetInstallationId(), new RegisterDeviceDto(token), timeout.Token);
+				await api.RegisterDeviceAsync(userId,GetInstallationId(), new RegisterDeviceDto(token), timeout.Token);
 			}
 			catch (Exception ex)
 			{

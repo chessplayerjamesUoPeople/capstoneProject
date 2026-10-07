@@ -1,6 +1,7 @@
 ﻿using AmigoAlert.Data.Entities;
 using AmigoAlert.Shared.Enums;
 using Microsoft.EntityFrameworkCore;
+using NetTopologySuite.Geometries;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -22,6 +23,21 @@ namespace AmigoAlert.Data.Repositories
 		{
 			context.StatusLogs.Add(entry);
 			await context.SaveChangesAsync(ct);
+		}
+
+		/// <inheritdoc cref="IUserRepository.ClearCheckInLocationsAsync"/>
+		public Task<int> ClearCheckInLocationsAsync(Guid userId, DateTimeOffset since, CancellationToken ct = default)
+		{
+			return CheckInLocations(userId, since).ExecuteUpdateAsync(s => s.SetProperty(sl => sl.Location, (Point?)null), ct);
+		}
+
+		/// <inheritdoc cref="IUserRepository.GetLatestCheckInLocationAsync"/>
+		public Task<StatusLog?> GetLatestCheckInLocationAsync(Guid userId, DateTimeOffset since, CancellationToken ct = default)
+		{
+			return CheckInLocations(userId, since)
+				.OrderByDescending(sl => sl.TimeOccurrence)
+				.ThenByDescending(sl => sl.Id)
+				.FirstOrDefaultAsync(ct);
 		}
 
 		/// <inheritdoc cref="IUserRepository.EmailExistsAsync"/>
@@ -99,6 +115,19 @@ namespace AmigoAlert.Data.Repositories
 			return context.Users
 				.Where(u => u.Id == userId)
 				.ExecuteUpdateAsync(s => s.SetProperty(u => u.StatusId, (byte)status), ct);
+		}
+
+		/// <summary>
+		/// The locations captured for a check-in. Restricted to the pending statuses, so the location of an emergency press or of an
+		/// escalation, which is evidence rather than a pre-alert fix, is never read or cleared through this.
+		/// </summary>
+		private IQueryable<StatusLog> CheckInLocations(Guid userId, DateTimeOffset since)
+		{
+			byte pending1 = (byte)StatusType.Pending1;
+			byte pending2 = (byte)StatusType.Pending2;
+
+			return context.StatusLogs.Where(sl => sl.UserId == userId && sl.Location != null && sl.TimeOccurrence >= since
+				&& (sl.StatusId == pending1 || sl.StatusId == pending2));
 		}
 	}
 }
