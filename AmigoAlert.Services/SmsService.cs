@@ -1,6 +1,7 @@
 using AmigoAlert.Data.Entities;
 using AmigoAlert.Data.Repositories;
 using AmigoAlert.Shared.Enums;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
@@ -15,7 +16,7 @@ namespace AmigoAlert.Services
 {
 	/// <inheritdoc cref="ISmsService"/>
 	internal sealed class SmsService(ITwilioRestClient twilioClient, ISmsRepository smsRepository, IOptions<TwilioOptions> options,
-		TimeProvider timeProvider) : ISmsService
+		TimeProvider timeProvider, ILogger<SmsService> logger) : ISmsService
 	{
 		/// <inheritdoc cref="ISmsService.SendAsync"/>
 		public async Task<SmsDispatchResult> SendAsync(Guid emergencyContactId, string toPhone, string body, SmsMessageTypeEnum messageType,
@@ -45,10 +46,12 @@ namespace AmigoAlert.Services
 			}
 			catch (ApiException exception)
 			{
+				logger.LogError(exception, "Twilio rejected the SMS (error code {ErrorCode}).", exception.Code);
 				return new SmsDispatchResult(false, null, exception.Code);
 			}
-			catch (TwilioException)
+			catch (TwilioException exception)
 			{
+				logger.LogError(exception, "The SMS could not be sent to Twilio.");
 				return new SmsDispatchResult(false, null, null);
 			}
 

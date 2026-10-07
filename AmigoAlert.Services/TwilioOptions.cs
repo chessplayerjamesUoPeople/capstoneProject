@@ -30,11 +30,5 @@ namespace AmigoAlert.Services
 		/// the incoming request URL, which differs behind the App Service front end. When empty, no delivery callbacks are requested.
 		/// </summary>
 		public string StatusCallbackUrl { get; set; } = string.Empty;
-
-		/// <summary>
-		/// When true, <see cref="MockSmsService"/> is used instead of Twilio: messages are logged and recorded but never sent, and the other
-		/// settings here are ignored. For development and testing only.
-		/// </summary>
-		public bool UseMockSms { get; set; }
 	}
 }
