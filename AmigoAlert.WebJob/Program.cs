@@ -14,6 +14,9 @@ namespace AmigoAlert.WebJob
 		{
 			var builder = Host.CreateApplicationBuilder(args);
 
+				// Pulls the Twilio credentials from Key Vault, over the empty placeholders in appsettings.json.
+				builder.Configuration.AddAmigoAlertKeyVault();
+
 			builder.Services.AddAmigoAlertData(builder.Configuration.GetConnectionString("AmigoAlertDb")!);
 			builder.Services.AddAmigoAlertServices(builder.Configuration);
 
