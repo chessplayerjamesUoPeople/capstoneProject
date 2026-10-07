@@ -87,6 +87,13 @@ namespace MobileApplication.Services
 			await EnsureSuccessAsync(response, ct);
 		}
 
+		/// <summary>Registers this device's push channel, so the user's check-in notifications reach it.</summary>
+		public async Task RegisterDeviceAsync(Guid userId, Guid installationId, RegisterDeviceDto request, CancellationToken ct = default)
+		{
+			using HttpResponseMessage response = await httpClient.PutAsJsonAsync($"api/users/{userId}/devices/{installationId}", request, ct);
+			await EnsureSuccessAsync(response, ct);
+		}
+
 		/// <summary>"Cancel emergency, I am okay": returns the user to okay and tells the contact to stand down.</summary>
 		public async Task CancelEmergencyAsync(Guid userId, CancellationToken ct = default)
 		{

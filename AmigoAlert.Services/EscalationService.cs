@@ -27,7 +27,7 @@ namespace AmigoAlert.Services
 	/// </para>
 	/// </remarks>
 	public sealed class EscalationService(IUserRepository userRepository, ICheckInRepository checkInRepository, ISmsService smsService,
-		ITransactionProvider transactionProvider, TimeProvider timeProvider)
+		IPushNotificationService pushService, ITransactionProvider transactionProvider, TimeProvider timeProvider)
 	{
 		/// <summary>WGS 84, the coordinate system device GPS reports in.</summary>
 		private const int Wgs84Srid = 4326;
@@ -263,7 +263,8 @@ namespace AmigoAlert.Services
 
 			await using IDbContextTransaction transaction = await transactionProvider.BeginTransactionAsync(ct);
 
-			await checkInRepository.AddAsync(NewCheckIn(decision, now), ct);
+			CheckIn checkIn = NewCheckIn(decision, now);
+			await checkInRepository.AddAsync(checkIn, ct);
 
 			// Unconditional: a user left at Escalated or Emergency by an earlier occurrence must be moved off it, or the rules' guard would
 			// suppress escalation for this occurrence too.
@@ -272,7 +273,9 @@ namespace AmigoAlert.Services
 				ct);
 			await transaction.CommitAsync(ct);
 
-			// TODO: Dispatch the push notification through Azure Notification Hubs once it is wired.
+			// After the commit, so the check-in exists before the notification can answer it. A failed push is logged by the service and
+			// changes nothing: the reminder and escalation still follow for a user whose phone never received it.
+			await pushService.SendCheckInAsync(decision.UserId, checkIn.Id, isReminder: false, now, ct);
 			return true;
 		}
 
@@ -290,12 +293,14 @@ namespace AmigoAlert.Services
 			}
 
 			// A second row for the same occurrence, sharing ScheduledFor with the first notification.
-			await checkInRepository.AddAsync(NewCheckIn(decision, now), ct);
+			CheckIn checkIn = NewCheckIn(decision, now);
+			await checkInRepository.AddAsync(checkIn, ct);
 			await userRepository.AddStatusLogAsync(NewStatusLog(decision.UserId, StatusType.Pending2, now, "Reminder notification sent."),
 				ct);
 			await transaction.CommitAsync(ct);
 
-			// TODO: Dispatch the push notification through Azure Notification Hubs once it is wired.
+			// As for the first notification. On the device it replaces the first notification.
+			await pushService.SendCheckInAsync(decision.UserId, checkIn.Id, isReminder: true, now, ct);
 			return true;
 		}
 
