@@ -1,0 +1,19 @@
+﻿@page "/consent/{id:guid}"
+
+<h3>Consent</h3>
+
+<p>lorem ipsum dolor sit amet consectetur adipiscing elit dignissimos id quis aliqua expedita fuga et quod veniam optio quo laborum minus quibusdam et quidem elit elit quibusdam dolores proident dolore fugiat vel voluptas officia placeat harum fugiat illum excepturi eu ut cillum est elit qui dignissimos duis aut aute cillum enim est voluptas repellendus est est cumque minim dolore nihil consequatur deleniti consequatur officia mollitia occaecat omnis excepturi accusamus et quod quos est nam anim vel accusamus aut amet omnis id in fugiat cumque cumque et dolor sed ea aut fugiat laborum eu nobis duis rerum non qui qui consectetur minim incididunt in duis fugiat imperdiet pariatur irure quis est tempore soluta est quod repellendus iusto expedita assumenda placeat nulla sint ullamco proident ea dolor est in optio harum laborum nostrud excepturi est soluta qui duis sunt cupidatat culpa consequatur non est tempore accusamus culpa tempor dolor velit irure id voluptatum officia quis exercitation aute distinctio corrupti deserunt accusamus elit occaecat optio temporibus possimus et consequatur ut exercitation et ut omnis imperdiet reprehenderit voluptate omnis ullamco et id sit duis cumque eiusmod optio quos dolorum pariatur irure dolor voluptatum velit occaecat ut minim pariatur nulla sint aute ex eum commodo</p>
+
+<p>
+    <input type="checkbox"> I accept the terms and conditions above.
+</p>
+
+<p>
+    <button class="btn btn-primary">Accept</button>
+    <button class="btn btn-warning">Decline</button>
+</p>
+
+@code {
+    [Parameter]
+    public Guid Id { get; set; }
+}
