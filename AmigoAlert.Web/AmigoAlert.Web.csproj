@@ -7,4 +7,10 @@
     <BlazorDisableThrowNavigationException>true</BlazorDisableThrowNavigationException>
   </PropertyGroup>
 
+    <ItemGroup>
+	    <ProjectReference Include="..\AmigoAlert.Data\AmigoAlert.Data.csproj" />
+	    <ProjectReference Include="..\AmigoAlert.Services\AmigoAlert.Services.csproj" />
+	    <ProjectReference Include="..\AmigoAlert_Shared\AmigoAlert.Shared.csproj" />
+    </ItemGroup>
+
 </Project>
