@@ -14,6 +14,8 @@ namespace AmigoAlert.WebJob
 		{
 			var builder = Host.CreateApplicationBuilder(args);
 
+			builder.Configuration.AddAmigoAlertKeyVault();
+
 			builder.Services.AddAmigoAlertData(builder.Configuration.GetConnectionString("AmigoAlertDb")!);
 			builder.Services.AddAmigoAlertServices(builder.Configuration);
 
