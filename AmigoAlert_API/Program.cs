@@ -9,6 +9,8 @@ namespace AmigoAlert_API
 		{
 			var builder = WebApplication.CreateBuilder(args);
 
+			builder.Configuration.AddAmigoAlertKeyVault();
+
 			// Add services to the container.
 
 			// Keeps the Async suffix in action names, so CreatedAtAction(nameof(GetAsync), ...) resolves the GET action.
