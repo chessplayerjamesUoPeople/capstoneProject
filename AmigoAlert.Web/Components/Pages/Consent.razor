@@ -1,19 +1,82 @@
-﻿@page "/consent/{id:guid}"
+﻿@using AmigoAlert.Services
+@using AmigoAlert.Shared.DTOs
+
+@page "/consent/{id:guid}"
+
+@inject ConsentService ConsentService
 
 <h3>Consent</h3>
 
+@if (Message is not null)
+{
+    <p>@Message</p>
+}
+else if (Request is null || !Request.CanRespond)
+{
+    <p>This consent link is invalid or has expired.</p>
+}
+else
+{
+    <p><strong>@Request.UserName</strong> has asked you to be their emergency contact. If you accept, you will receive notifications about @Request.UserName.</p>
+
 <p>lorem ipsum dolor sit amet consectetur adipiscing elit dignissimos id quis aliqua expedita fuga et quod veniam optio quo laborum minus quibusdam et quidem elit elit quibusdam dolores proident dolore fugiat vel voluptas officia placeat harum fugiat illum excepturi eu ut cillum est elit qui dignissimos duis aut aute cillum enim est voluptas repellendus est est cumque minim dolore nihil consequatur deleniti consequatur officia mollitia occaecat omnis excepturi accusamus et quod quos est nam anim vel accusamus aut amet omnis id in fugiat cumque cumque et dolor sed ea aut fugiat laborum eu nobis duis rerum non qui qui consectetur minim incididunt in duis fugiat imperdiet pariatur irure quis est tempore soluta est quod repellendus iusto expedita assumenda placeat nulla sint ullamco proident ea dolor est in optio harum laborum nostrud excepturi est soluta qui duis sunt cupidatat culpa consequatur non est tempore accusamus culpa tempor dolor velit irure id voluptatum officia quis exercitation aute distinctio corrupti deserunt accusamus elit occaecat optio temporibus possimus et consequatur ut exercitation et ut omnis imperdiet reprehenderit voluptate omnis ullamco et id sit duis cumque eiusmod optio quos dolorum pariatur irure dolor voluptatum velit occaecat ut minim pariatur nulla sint aute ex eum commodo</p>
 
-<p>
-    <input type="checkbox"> I accept the terms and conditions above.
-</p>
+<form method="post" @formname="accept" @onsubmit="HandleAccept">
+    <AntiforgeryToken />
+    <p>
+        <input type="checkbox" name="Input.IsAccepted" value="true" />
+        I accept the terms and conditions above.
+    </p>
+    <p>
+        <button type="submit" class="btn btn-primary">Accept</button>
+    </p>
+</form>
 
-<p>
-    <button class="btn btn-primary">Accept</button>
-    <button class="btn btn-warning">Decline</button>
-</p>
+<form method="post" @formname="decline" @onsubmit="HandleDecline">
+    <AntiforgeryToken />
+    <p>
+        <button type="submit" class="btn btn-secondary">Decline</button>
+    </p>
+</form>
+}
 
 @code {
     [Parameter]
     public Guid Id { get; set; }
+
+    [SupplyParameterFromForm(FormName = "accept")]
+    public AcceptModel Input { get; set; } = new();
+
+    private ConsentRequestDto? Request { get; set; }
+
+    private string? Message { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Input ??= new();
+        Request = await ConsentService.GetRequestAsync(Id);
+    }
+
+    private async Task HandleAccept()
+    {
+        if (!Input.IsAccepted) return;
+        await SendConsentAnswer(true);
+    }
+
+    private async Task HandleDecline()
+    {
+        await SendConsentAnswer(false);
+    }
+
+    private async Task SendConsentAnswer(bool accepted)
+    {
+        bool recorded = await ConsentService.RespondAsync(Id, accepted);
+
+        Message = !recorded
+            ? "This consent link is invalid or has expired."
+            : accepted ? "Thank you. Your consent has been recorded."
+            : "Your response has been recorded. You will not receive notifications.";
+    }
+
+    public class AcceptModel { public bool IsAccepted { get; set; } }
 }
