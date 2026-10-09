@@ -15,6 +15,17 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\AmigoAlert.Data\AmigoAlert.Data.csproj" />
+    <ProjectReference Include="..\AmigoAlert.Services\AmigoAlert.Services.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Accuracy\Seed.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
     <Using Include="Xunit" />
   </ItemGroup>
 
