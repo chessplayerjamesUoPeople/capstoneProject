@@ -2,6 +2,7 @@ using AmigoAlert.Data;
 using AmigoAlert.Data.Entities;
 using AmigoAlert.Data.Repositories;
 using AmigoAlert.Services.Results;
+using AmigoAlert.Shared.DTOs;
 using AmigoAlert.Shared.Enums;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Options;
@@ -56,6 +57,26 @@ namespace AmigoAlert.Services
 			CancellationToken ct = default)
 		{
 			return SetContactAsync(userId, name, phone, replaceExisting: true, ct);
+		}
+
+		/// <summary>
+		/// Looks up the consent request behind a link so the contact can see whose notifications they are being asked to receive.
+		/// </summary>
+		/// <param name="token">The consent token from the link.</param>
+		/// <param name="ct">A cancellation token that can be used to cancel the operation.</param>
+		/// <returns>The request, or null when no active contact holds the token.</returns>
+		public async Task<ConsentRequestDto?> GetRequestAsync(Guid token, CancellationToken ct = default)
+		{
+			EmergencyContact? contact = await contactRepository.GetByConsentTokenAsync(token, ct);
+			if (contact is null)
+			{
+				return null;
+			}
+
+			ConsentStatusType status = (ConsentStatusType)contact.ConsentStatusId;
+			bool canRespond = status == ConsentStatusType.Pending && contact.ConsentTokenExpires > timeProvider.GetUtcNow();
+
+			return new ConsentRequestDto(contact.Name, contact.User.Name, status, canRespond);
 		}
 
 		/// <summary>
