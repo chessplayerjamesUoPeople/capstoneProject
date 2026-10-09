@@ -46,12 +46,15 @@ namespace AmigoAlert.Services
 			}
 			catch (ApiException exception)
 			{
-				logger.LogError(exception, "Twilio rejected the SMS (error code {ErrorCode}).", exception.Code);
+				// Rejected messages leave no Sms row, so the log is the only record of why Twilio refused them.
+				logger.LogError(exception, "Twilio rejected a {MessageType} SMS to contact {EmergencyContactId}: HTTP {Status}, error {Code} ({MoreInfo}).",
+					messageType, emergencyContactId, exception.Status, exception.Code, exception.MoreInfo);
 				return new SmsDispatchResult(false, null, exception.Code);
 			}
 			catch (TwilioException exception)
 			{
-				logger.LogError(exception, "The SMS could not be sent to Twilio.");
+				logger.LogError(exception, "Could not send a {MessageType} SMS to contact {EmergencyContactId} through Twilio.", messageType,
+					emergencyContactId);
 				return new SmsDispatchResult(false, null, null);
 			}
 

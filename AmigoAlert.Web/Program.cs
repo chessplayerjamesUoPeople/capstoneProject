@@ -1,4 +1,6 @@
 using AmigoAlert.Web.Components;
+using AmigoAlert.Data;
+using AmigoAlert.Services;
 
 namespace AmigoAlert.Web
 {
@@ -10,6 +12,9 @@ namespace AmigoAlert.Web
 
 			// Add services to the container.
 			builder.Services.AddRazorComponents();
+
+			builder.Services.AddAmigoAlertData(builder.Configuration.GetConnectionString("AmigoAlertDb")!);
+			builder.Services.AddAmigoAlertServices(builder.Configuration);
 
 			var app = builder.Build();
 

@@ -1,3 +1,4 @@
+using Azure;
 using Azure.Extensions.AspNetCore.Configuration.Secrets;
 using Azure.Identity;
 using Azure.Security.KeyVault.Secrets;
@@ -5,38 +6,64 @@ using Microsoft.Extensions.Configuration;
 
 namespace AmigoAlert.Services
 {
-	/// <summary>Loads the Twilio credentials from Azure Key Vault into configuration, for both the API and the WebJob.</summary>
+	/// <summary>
+	/// Reads the Twilio credentials straight from Key Vault, so they never sit in app settings, environment variables or source control.
+	/// </summary>
 	public static class KeyVaultConfiguration
 	{
+		/// <summary>The configuration key holding the vault's URI (e.g. https://amigoalert-kv.vault.azure.net/).</summary>
+		public const string VaultUriKey = "KeyVault:VaultUri";
+
+		/// <summary>The vault's secret names and the configuration keys they fill.</summary>
+		private static readonly Dictionary<string, string> KeysBySecretName = new()
+		{
+			["TwilioAccountSID"] = "Twilio:AccountSid",
+			["TwilioAuthToken"] = "Twilio:AuthToken",
+			["TwilioMessagingServiceSid"] = "Twilio:MessagingServiceSid"
+		};
+
 		/// <summary>
-		/// Adds Key Vault as a configuration source when <c>KeyVault:VaultUri</c> is set, authenticating with
-		/// <see cref="DefaultAzureCredential"/> (the App Service's managed identity in Azure, your signed-in account locally). Does nothing
-		/// when the key is empty, so local runs with mock SMS need no vault access.
+		/// Adds the Twilio secrets from the vault named by <see cref="VaultUriKey"/>, overriding every earlier source. Signs in with
+		/// <see cref="DefaultAzureCredential"/>: the App Service's managed identity in Azure, and the developer's Visual Studio or
+		/// az login account locally. Skipped when no vault is configured, or when the mock SMS service, which needs no credentials, is on.
 		/// </summary>
+		/// <remarks>
+		/// Each secret is fetched by name rather than listing the vault, so the identity needs only Key Vault Secrets User on these secrets.
+		/// They are read once at startup: after rotating one, restart the app.
+		/// </remarks>
+		/// <param name="configuration">The host's configuration, which must already contain its JSON and environment sources.</param>
+		/// <returns>The same configuration manager, for chaining.</returns>
+		/// <exception cref="InvalidOperationException">A secret is missing or cannot be read.</exception>
 		public static IConfigurationManager AddAmigoAlertKeyVault(this IConfigurationManager configuration)
 		{
-			string? vaultUri = configuration["KeyVault:VaultUri"];
-			if (!string.IsNullOrWhiteSpace(vaultUri))
+			string? vaultUri = configuration[VaultUriKey];
+			bool useMockSms = configuration.GetSection(TwilioOptions.SectionName).GetValue<bool>(nameof(TwilioOptions.UseMockSms));
+
+			if (string.IsNullOrWhiteSpace(vaultUri) || useMockSms)
 			{
-				configuration.AddAzureKeyVault(new Uri(vaultUri), new DefaultAzureCredential(), new TwilioSecretManager());
+				return configuration;
 			}
 
-			return configuration;
-		}
+			SecretClient client = new SecretClient(new Uri(vaultUri), new DefaultAzureCredential());
+			Dictionary<string, string?> values = new Dictionary<string, string?>();
 
-		/// <summary>Loads only the three Twilio secrets, mapping their vault names onto the <c>Twilio</c> options keys.</summary>
-		private sealed class TwilioSecretManager : KeyVaultSecretManager
-		{
-			private static readonly Dictionary<string, string> Keys = new(StringComparer.OrdinalIgnoreCase)
+			foreach ((string secretName, string key) in KeysBySecretName)
 			{
-				["TwilioAccountSid"] = "Twilio:AccountSid",
-				["TwilioAuthToken"] = "Twilio:AuthToken",
-				["TwilioMessagingServiceSid"] = "Twilio:MessagingServiceSid",
-			};
+				try
+				{
+					values[key] = client.GetSecret(secretName).Value.Value;
+				}
+				catch (RequestFailedException exception)
+				{
+					// Fails startup instead of leaving the key blank, which Twilio would only report as an opaque 404 on the first send.
+					throw new InvalidOperationException($"Could not read secret '{secretName}' from {vaultUri} (HTTP {exception.Status}). " +
+						"Check that it exists and that this identity has the Key Vault Secrets User role.", exception);
+				}
+			}
 
-			public override bool Load(SecretProperties secret) => Keys.ContainsKey(secret.Name);
+			configuration.AddInMemoryCollection(values);
 
-			public override string GetKey(KeyVaultSecret secret) => Keys[secret.Name];
+			return configuration;
 		}
 	}
 }
