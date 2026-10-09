@@ -9,7 +9,8 @@ namespace AmigoAlert_API
 		{
 			var builder = WebApplication.CreateBuilder(args);
 
-			builder.Configuration.AddAmigoAlertKeyVault();
+				// Pulls the Twilio credentials from Key Vault, over the empty placeholders in appsettings.json.
+				builder.Configuration.AddAmigoAlertKeyVault();
 
 			// Add services to the container.
 
