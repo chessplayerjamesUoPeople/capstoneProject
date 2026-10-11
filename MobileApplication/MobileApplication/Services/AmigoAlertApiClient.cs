@@ -126,6 +126,14 @@ namespace MobileApplication.Services
 			await EnsureSuccessAsync(response, ct);
 		}
 
+		/// <summary>Reports when a check-in notification arrived on this device, by this device's clock.</summary>
+		public async Task ReportCheckInDeliveryAsync(long checkInId, DateTimeOffset deliveredAt, CancellationToken ct = default)
+		{
+			using HttpResponseMessage response = await httpClient.PutAsJsonAsync($"api/checkins/{checkInId}/delivery",
+				new ReportDeliveryDto(deliveredAt), ct);
+			await EnsureSuccessAsync(response, ct);
+		}
+
 		/// <summary>Registers this device's push channel, so the user's check-in notifications reach it.</summary>
 		public async Task RegisterDeviceAsync(Guid userId, Guid installationId, RegisterDeviceDto request, CancellationToken ct = default)
 		{
