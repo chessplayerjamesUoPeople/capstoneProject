@@ -79,5 +79,18 @@ namespace AmigoAlert.Data.Repositories
 		/// <returns>The number of rows updated, or 0 if the occurrence does not exist or was already answered.</returns>
 		Task<int> RecordResponseAsync(long checkInId, CheckInResponseType response, DateTimeOffset receivedAt,
 			CancellationToken ct = default);
+
+		/// <summary>
+		/// Records when the notification for one check-in arrived on the device. Recorded whether or not the check-in has been answered, since
+		/// delivery and response are independent.
+		/// </summary>
+		/// <remarks>
+		/// Conditional on <see cref="CheckIn.TimeDelivered"/> being null, so the first report wins and a retried one updates nothing.
+		/// </remarks>
+		/// <param name="checkInId">The unique identifier of the check-in whose notification arrived.</param>
+		/// <param name="deliveredAt">When the notification arrived, by the device's clock.</param>
+		/// <param name="ct">A cancellation token that can be used to cancel the operation.</param>
+		/// <returns>The number of rows updated, or 0 if the check-in does not exist or its delivery was already recorded.</returns>
+		Task<int> RecordDeliveryAsync(long checkInId, DateTimeOffset deliveredAt, CancellationToken ct = default);
 	}
 }
