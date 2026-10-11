@@ -13,7 +13,7 @@ namespace AmigoAlert.API.Controllers
 	[Route("api/users")]
 	[ApiController]
 	public sealed class CheckInsController(ICheckInRepository checkInRepository, IUserRepository userRepository,
-		EscalationService escalationService) : ControllerBase
+		EscalationService escalationService, ILogger<CheckInsController> logger) : ControllerBase
 	{
 		[HttpGet("{id:guid}/checkins")]
 		[ProducesResponseType<IReadOnlyList<CheckInDto>>(StatusCodes.Status200OK)]
@@ -93,6 +93,39 @@ namespace AmigoAlert.API.Controllers
 					detail: "This check-in is no longer waiting for an answer."),
 				_ => throw new UnreachableException()
 			};
+		}
+
+		/// <summary>
+		/// Records when a check-in notification arrived on the device, so the system can tell whether its notifications reach people and how
+		/// long they take. Accepted whether or not the check-in has been answered. Not user-owned in the route, like the response.
+		/// </summary>
+		/// <remarks>
+		/// The first report wins; a repeat, for example from a retried request, changes nothing and still returns 204. The device's time is
+		/// logged against the server's, so a skewed device clock is visible in the API log.
+		/// </remarks>
+		/// <param name="id">The unique identifier of the check-in whose notification arrived.</param>
+		/// <param name="request">When the notification arrived, by the device's clock.</param>
+		/// <param name="ct">The cancellation token.</param>
+		/// <returns>No content once recorded.</returns>
+		[HttpPut("/api/checkins/{id:long}/delivery")]
+		[ProducesResponseType(StatusCodes.Status204NoContent)]
+		[ProducesResponseType(StatusCodes.Status404NotFound)]
+		public async Task<IActionResult> PutDeliveryAsync(long id, ReportDeliveryDto request, CancellationToken ct)
+		{
+			DateTimeOffset serverNow = DateTimeOffset.UtcNow;
+
+			if (await checkInRepository.RecordDeliveryAsync(id, request.DeliveredAt, ct) == 0
+				&& await checkInRepository.GetByIdAsync(id, ct) is null)
+			{
+				return NotFound();
+			}
+
+			// Positive is the request's transit time if the clocks agree; negative means the device clock is ahead of the server's.
+			logger.LogInformation("Check-in {CheckInId} delivered at {DeliveredAt:O} by the device clock; reported at {ServerNow:O} by the " +
+				"server clock ({DifferenceMs:F0} ms later).", id, request.DeliveredAt.ToUniversalTime(), serverNow,
+				(serverNow - request.DeliveredAt).TotalMilliseconds);
+
+			return NoContent();
 		}
 	}
 }
