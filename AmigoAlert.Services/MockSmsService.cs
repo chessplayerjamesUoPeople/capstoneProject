@@ -13,8 +13,8 @@ namespace AmigoAlert.Services
 	/// an <c>Sms</c> row, so the escalation and consent flows can be exercised without credentials, cost or real recipients.
 	/// </summary>
 	/// <remarks>
-	/// Not registered anywhere: <see cref="SmsService"/> is the only <see cref="ISmsService"/> in use. To use this one, register it in
-	/// <c>DependencyInjection</c> in place of <see cref="SmsService"/>. Recorded rows carry a
+	/// Registered in place of <see cref="SmsService"/> when <see cref="TwilioOptions.UseMockSms"/> is true, for example with the
+	/// <c>Twilio__UseMockSms=true</c> environment variable; no Twilio client is registered then. Recorded rows carry a
 	/// <see cref="SidPrefix"/> SID so they can be told apart from real Twilio messages, whose SIDs start with "SM".
 	/// </remarks>
 	public sealed class MockSmsService(ISmsRepository smsRepository, TimeProvider timeProvider, ILogger<MockSmsService> logger)
