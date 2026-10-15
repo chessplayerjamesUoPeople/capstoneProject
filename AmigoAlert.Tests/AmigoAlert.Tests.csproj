@@ -19,6 +19,7 @@
     <ProjectReference Include="..\AmigoAlert.Data\AmigoAlert.Data.csproj" />
     <ProjectReference Include="..\AmigoAlert.Services\AmigoAlert.Services.csproj" />
     <ProjectReference Include="..\AmigoAlert_API\AmigoAlert.API.csproj" />
+    <ProjectReference Include="..\AmigoAlert.WebJob\AmigoAlert.WebJob.csproj" />
   </ItemGroup>
 
   <ItemGroup>
