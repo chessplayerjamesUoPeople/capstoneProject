@@ -12,13 +12,20 @@
 |---|---|---|---|---|---|
 | Unit (`Level=Unit`) | 2026-10-15, E1 | 18 | 0 | 0 | — |
 | Integration (I-01 to I-17) | 2026-10-15, E1 | all | 0 | 0 | — |
-| System, automated (`Level=System`) | 2026-10-15, E1 | 16 | 0 | 1 (S-11, D-01) | — |
+| System, automated (`Level=System`) | 2026-10-16, E1 | 16 | 0 | 1 (S-11, D-01) | — |
 | System, manual (M-01 to M-04) | — | — | — | — | 4 |
 | Acceptance (UAT-01 to UAT-16) | — | — | — | — | 16 |
 
 The full non-live suite (`--filter "Category!=LiveSms&Category!=TwilioRejection"`) ran 59 tests: 58 passed, 1 skipped, 0 failed, in 26 s on LocalDB. No real SMS was sent: every `Sms` row has a mock `MK…` SID (asserted in S-09).
 
 ## 2. System test results (automated)
+
+The latest run (2026-10-16, LocalDB, mock SMS) wrote its results to [results/system-tests.html](results/system-tests.html), a readable report, and [results/system-tests.trx](results/system-tests.trx), the Visual Studio / Azure DevOps format. That run had 17 tests: 16 passed, 1 skipped, 0 failed. To regenerate them:
+
+```powershell
+dotnet test AmigoAlert.Tests --filter "Level=System" --results-directory Documentation\Testing\results `
+  --logger "console;verbosity=normal" --logger "trx;LogFileName=system-tests.trx" --logger "html;LogFileName=system-tests.html"
+```
 
 | ID | Result | ID | Result |
 |---|---|---|---|
