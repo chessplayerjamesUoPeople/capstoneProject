@@ -15,6 +15,6 @@ namespace AmigoAlert.API.Mapping
 		/// <param name="CheckIn">The CheckIn object to map.</param>
 		/// <returns>A new CheckInDto object with the same values mapped, from the original object.</returns>
 		public static CheckInDto ToDto(this CheckIn CheckIn) => new CheckInDto(CheckIn.Id, CheckIn.ScheduledFor,
-			CheckIn.TimeSent, CheckIn.TimeReceived, (CheckInResponseType)CheckIn.ResponseId);
+			CheckIn.TimeSent, CheckIn.TimeReceived, (CheckInResponseType)CheckIn.ResponseId, CheckIn.TimeDelivered);
 	}
 }

@@ -6,5 +6,5 @@ using System.Text;
 namespace AmigoAlert.Shared.DTOs
 {
 	public sealed record CheckInDto(long Id, DateTimeOffset ScheduledFor, DateTimeOffset TimeSent,
-		DateTimeOffset? TimeReceived, CheckInResponseType Response);
+		DateTimeOffset? TimeReceived, CheckInResponseType Response, DateTimeOffset? TimeDelivered);
 }

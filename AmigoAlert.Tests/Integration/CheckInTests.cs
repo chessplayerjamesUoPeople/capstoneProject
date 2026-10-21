@@ -107,6 +107,7 @@ namespace AmigoAlert.Tests.Integration
 			Assert.Equal(stored.TimeSent, dto.TimeSent);
 			Assert.Equal(stored.TimeReceived, dto.TimeReceived);
 			Assert.Equal(CheckInResponseType.Okay, dto.Response);
+			Assert.Equal(stored.TimeDelivered, dto.TimeDelivered);
 		}
 
 		private Task<HttpResponseMessage> AnswerAsync(long checkInId)

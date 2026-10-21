@@ -38,6 +38,11 @@
                 HorizontalOptions="Center"
                 IsVisible="False" />
 
+            <Label x:Name="MissedCheckInLabel"
+                Style="{StaticResource ErrorText}"
+                HorizontalTextAlignment="Center"
+                IsVisible="False" />
+
             <Button x:Name="CheckInButton"
                 Text="I'm Okay"
                 HorizontalOptions="Center"

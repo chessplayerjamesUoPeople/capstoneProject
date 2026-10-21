@@ -25,6 +25,9 @@ public partial class HomePage : ContentPage
 	private bool isLoading;
 	private int consecutiveRefreshFailures;
 
+	/// <summary>Set when a missed check-in's escalation is cancelled, so the Okay screen explains why it was missed.</summary>
+	private bool showMissedCheckInNotice;
+
 	/// <summary>The window whose background and foreground events this page is subscribed to while it is shown.</summary>
 	private Window? subscribedWindow;
 
@@ -157,6 +160,17 @@ public partial class HomePage : ContentPage
 
 			var previousState = status?.State;
 			status = HomeStatus.Create(userTask.Result, contactTask.Result, DateTimeOffset.Now);
+			if (status.State != HomeState.Okay)
+				showMissedCheckInNotice = false;
+			else if (previousState == HomeState.Escalated)
+			{
+				MissedCheckInLabel.Text = await api.WasLatestCheckInDeliveredAsync(userId)
+					? "Your last check-in reached your phone but was not answered in time, so your emergency contact was alerted. " +
+						"Respond to each check-in notification promptly to prevent this."
+					: "Your last check-in never reached your phone, so your emergency contact was alerted. Your phone was likely off or " +
+						"had no internet connection. Keep your phone on, charged, and connected to the internet to prevent this.";
+				showMissedCheckInNotice = true;
+			}
 			pendingCheckIn = status.State == HomeState.CheckInPending
 				? await api.GetPendingCheckInAsync(userId)
 				: null;
@@ -216,6 +230,7 @@ public partial class HomePage : ContentPage
 			: "No check-ins scheduled";
 		NextCheckInLabel.IsVisible = state == HomeState.Okay;
 		TimeRemainingLabel.IsVisible = state == HomeState.Okay && status.NextCheckIn is not null;
+		MissedCheckInLabel.IsVisible = state == HomeState.Okay && showMissedCheckInNotice;
 		UpdateCountdown();
 
 		var inEmergency = state is HomeState.Escalated or HomeState.Emergency;
