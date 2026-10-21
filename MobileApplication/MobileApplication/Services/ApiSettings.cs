@@ -16,7 +16,7 @@ namespace MobileApplication.Services
 		/// The API running on this PC. The Android emulator reaches the PC's localhost at 10.0.2.2; its own localhost is the emulator.
 		/// </summary>
 		public static string LocalBaseAddress =>
-			DeviceInfo.Platform == DevicePlatform.Android ? "https://192.168.1.6:7012/" : "https://localhost:7012/"; //https://10.0.2.2:7012/
+			DeviceInfo.Platform == DevicePlatform.Android ? "https://192.168.1.2:7012/" : "https://localhost:7012/"; //https://10.0.2.2:7012/
 
 		public static string BaseAddress => UseLocalApi ? LocalBaseAddress : DeployedBaseAddress;
 #else

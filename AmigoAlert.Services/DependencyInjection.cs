@@ -13,7 +13,8 @@ namespace AmigoAlert.Services
 	{
 		/// <summary>
 		/// Registers the escalation, consent, registration and SMS services, binding <see cref="TwilioOptions"/> and
-		/// <see cref="ConsentOptions"/> from <paramref name="configuration"/>.
+		/// <see cref="ConsentOptions"/> from <paramref name="configuration"/>. <see cref="MockSmsService"/> replaces
+		/// <see cref="SmsService"/> when <c>Twilio:UseMockSms</c> is true.
 		/// </summary>
 		/// <param name="services">The service collection to add to.</param>
 		/// <param name="configuration">The host configuration containing the <c>Twilio</c> and <c>Consent</c> sections.</param>
@@ -26,14 +27,22 @@ namespace AmigoAlert.Services
 
 			services.TryAddSingleton(TimeProvider.System);
 
-			// One client for the process: each TwilioRestClient owns an HttpClient, so creating one per scope would exhaust sockets.
-			services.AddSingleton<ITwilioRestClient>(provider =>
+			// With the mock on, no Twilio client is registered at all, so nothing in the process can reach Twilio.
+			if (configuration.GetSection(TwilioOptions.SectionName).GetValue<bool>(nameof(TwilioOptions.UseMockSms)))
 			{
-				TwilioOptions settings = provider.GetRequiredService<IOptions<TwilioOptions>>().Value;
-				return new TwilioRestClient(settings.AccountSid, settings.AuthToken);
-			});
+				services.AddScoped<ISmsService, MockSmsService>();
+			}
+			else
+			{
+				// One client for the process: each TwilioRestClient owns an HttpClient, so creating one per scope would exhaust sockets.
+				services.AddSingleton<ITwilioRestClient>(provider =>
+				{
+					TwilioOptions settings = provider.GetRequiredService<IOptions<TwilioOptions>>().Value;
+					return new TwilioRestClient(settings.AccountSid, settings.AuthToken);
+				});
 
-			services.AddScoped<ISmsService, SmsService>();
+				services.AddScoped<ISmsService, SmsService>();
+			}
 
 			services.AddSingleton<IPushNotificationService, NotificationHubPushService>();
 

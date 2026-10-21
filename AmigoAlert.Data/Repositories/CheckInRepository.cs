@@ -93,5 +93,13 @@ namespace AmigoAlert.Data.Repositories
 					.SetProperty(c => c.TimeReceived, receivedAt)
 					.SetProperty(c => c.ResponseId, (byte)response), ct);
 		}
+
+		/// <inheritdoc cref="ICheckInRepository.RecordDeliveryAsync"/>
+		public Task<int> RecordDeliveryAsync(long checkInId, DateTimeOffset deliveredAt, CancellationToken ct = default)
+		{
+			return context.CheckIns
+				.Where(c => c.Id == checkInId && c.TimeDelivered == null)
+				.ExecuteUpdateAsync(s => s.SetProperty(c => c.TimeDelivered, deliveredAt), ct);
+		}
 	}
 }

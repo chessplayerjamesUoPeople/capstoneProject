@@ -413,9 +413,19 @@ namespace AmigoAlert.Services
 			{
 				UserId = decision.UserId,
 				ScheduledFor = decision.ScheduledFor,
-				TimeSent = sentAt,
+				TimeSent = BeforeRunMinute(sentAt),
 				ResponseId = (byte)CheckInResponseType.NoResponse
 			};
+		}
+
+		/// <summary>
+		/// The second before the minute <paramref name="instant"/> falls in. The WebJob runs on the minute but takes a varying few seconds
+		/// to start, so a wait measured from the exact send time can fall short by a second on the run that is due and slip to the next
+		/// one. Measured from just before the sending run's minute, every wait is complete when the run it ends on begins.
+		/// </summary>
+		private static DateTimeOffset BeforeRunMinute(DateTimeOffset instant)
+		{
+			return new DateTimeOffset(instant.Ticks - instant.Ticks % TimeSpan.TicksPerMinute, instant.Offset).AddSeconds(-1);
 		}
 
 		private static StatusLog NewStatusLog(Guid userId, StatusType status, DateTimeOffset occurredAt, string notes,

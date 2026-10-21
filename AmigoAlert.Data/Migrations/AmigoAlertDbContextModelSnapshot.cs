@@ -37,6 +37,9 @@ namespace AmigoAlert.Data.Migrations
                     b.Property<DateTimeOffset>("ScheduledFor")
                         .HasColumnType("datetimeoffset");
 
+                    b.Property<DateTimeOffset?>("TimeDelivered")
+                        .HasColumnType("datetimeoffset");
+
                     b.Property<DateTimeOffset?>("TimeReceived")
                         .HasColumnType("datetimeoffset");
 

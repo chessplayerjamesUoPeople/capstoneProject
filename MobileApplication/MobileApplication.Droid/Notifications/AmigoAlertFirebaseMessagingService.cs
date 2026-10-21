@@ -23,8 +23,14 @@ namespace MobileApplication.Droid.Notifications
 		/// <summary>Covers the location lookup and the upload, inside the time FCM gives a message handler.</summary>
 		private static readonly TimeSpan LocationReportTimeout = TimeSpan.FromSeconds(12);
 
+		/// <summary>Short, so a slow network cannot hold up the location report that follows it.</summary>
+		private static readonly TimeSpan DeliveryReportTimeout = TimeSpan.FromSeconds(5);
+
 		public override void OnMessageReceived(RemoteMessage message)
 		{
+			// Before anything else, so it is the moment the message arrived and not when the notification was drawn.
+			var receivedAt = DateTimeOffset.UtcNow;
+
 			base.OnMessageReceived(message);
 
 			if (!CheckInNotifications.ShowCheckIn(this, message.Data))
@@ -33,7 +39,33 @@ namespace MobileApplication.Droid.Notifications
 				return;
 			}
 
+			// Both after the notification is posted, so neither can delay it.
+			ReportDelivery(message.Data, receivedAt);
 			ReportLocation(message.Data);
+		}
+
+		/// <summary>
+		/// Tells the API when the check-in arrived, so the system knows its notifications are reaching the device and how long they take.
+		/// Best effort and never throws: a report lost to a dropped connection only leaves the delivery time unknown.
+		/// </summary>
+		private static void ReportDelivery(IDictionary<string, string> data, DateTimeOffset receivedAt)
+		{
+			try
+			{
+				if (!data.TryGetValue("checkInId", out var id) || !long.TryParse(id, CultureInfo.InvariantCulture, out var checkInId))
+					return;
+
+				var api = IPlatformApplication.Current?.Services.GetRequiredService<AmigoAlertApiClient>()
+					?? throw new InvalidOperationException("The MAUI application has not been created.");
+
+				// Waited for here, like the location report, so the process is not reclaimed mid-request.
+				using var timeout = new CancellationTokenSource(DeliveryReportTimeout);
+				api.ReportCheckInDeliveryAsync(checkInId, receivedAt, timeout.Token).GetAwaiter().GetResult();
+			}
+			catch (Exception ex)
+			{
+				Log.Warn(LogTag, $"Reporting the delivery failed: {ex.GetType().Name}: {ex.Message}");
+			}
 		}
 
 		/// <summary>

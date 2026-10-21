@@ -39,10 +39,14 @@ namespace MobileApplication
 			HttpClientHandler handler = new HttpClientHandler();
 
 #if DEBUG
-			// The ASP.NET Core development certificate is not trusted by the emulator, and is issued for localhost rather than 10.0.2.2.
-			// Accept it for the local API only; every other host, including the deployed API, is still validated normally.
+			// The ASP.NET Core development certificate is not trusted by the emulator, and is issued for localhost rather than 10.0.2.2 or
+			// the PC's LAN address. Accept it for the local API only; every other host, including the deployed API, is still validated
+			// normally. The LAN host is read from ApiSettings, so changing the address there is enough.
+			var localApiHost = new Uri(ApiSettings.LocalBaseAddress).Host;
 			handler.ServerCertificateCustomValidationCallback = (request, certificate, chain, errors) =>
-				errors == SslPolicyErrors.None || request.RequestUri is { Host: "10.0.2.2" or "localhost" or "192.168.1.6" };
+				errors == SslPolicyErrors.None
+				|| request.RequestUri is { Host: "10.0.2.2" or "localhost" }
+				|| request.RequestUri?.Host == localApiHost;
 #endif
 
 			return handler;

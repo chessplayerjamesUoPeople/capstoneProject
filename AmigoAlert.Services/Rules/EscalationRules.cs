@@ -63,6 +63,7 @@ namespace AmigoAlert.Services.Rules
 
 			// Waits run from when the latest notification was actually sent, not from the scheduled time, so a late send still gives
 			// the user the full window. The latest check-in is the first notification while Pending1 and the reminder once Pending2.
+			// EscalationService records the send as the second before the sending run's minute, so a wait ends on a WebJob run, not after it.
 			if (input.LatestTimeSent is not DateTimeOffset sent)
 			{
 				return new Result(EscalationOutcome.None, due);

@@ -35,7 +35,13 @@ namespace AmigoAlert.Data.Entities
 		/// The date and time when the user responded to the check-in notification.
 		/// </summary>
 		public DateTimeOffset? TimeReceived { get; set; }
-		
+
+		/// <summary>
+		/// The date and time when the notification arrived on the user's device, as reported by the device's own clock. Null when the
+		/// device never reported it, for example because it was offline when the notification arrived.
+		/// </summary>
+		public DateTimeOffset? TimeDelivered { get; set; }
+
 		/// <summary>
 		/// The unique identifier of the response associated with this check-in event.
 		/// </summary>
