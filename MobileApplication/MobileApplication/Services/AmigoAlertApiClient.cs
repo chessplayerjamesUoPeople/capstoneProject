@@ -78,15 +78,27 @@ namespace MobileApplication.Services
 		/// <returns>The unanswered check-in of the user's current occurrence, or null when there is none.</returns>
 		public async Task<CheckInDto?> GetPendingCheckInAsync(Guid userId, CancellationToken ct = default)
 		{
+			// Newest first: only the latest occurrence can be answered, and the API answers its reminder and first notification together.
+			CheckInDto? latest = (await GetCheckInsAsync(userId, ct)).FirstOrDefault();
+
+			return latest is not null && latest.TimeReceived is null ? latest : null;
+		}
+
+		/// <summary>Whether any notification of the latest check-in (the first or its reminder) arrived on the device.</summary>
+		public async Task<bool> WasLatestCheckInDeliveredAsync(Guid userId, CancellationToken ct = default)
+		{
+			List<CheckInDto> checkIns = await GetCheckInsAsync(userId, ct);
+			CheckInDto? latest = checkIns.FirstOrDefault();
+
+			return latest is not null && checkIns.Any(c => c.ScheduledFor == latest.ScheduledFor && c.TimeDelivered is not null);
+		}
+
+		private async Task<List<CheckInDto>> GetCheckInsAsync(Guid userId, CancellationToken ct)
+		{
 			using HttpResponseMessage response = await httpClient.GetAsync($"api/users/{userId}/checkins", ct);
 			await EnsureSuccessAsync(response, ct);
 
-			List<CheckInDto> checkIns = await response.Content.ReadFromJsonAsync<List<CheckInDto>>(ct) ?? [];
-
-			// Newest first: only the latest occurrence can be answered, and the API answers its reminder and first notification together.
-			CheckInDto? latest = checkIns.FirstOrDefault();
-
-			return latest is not null && latest.TimeReceived is null ? latest : null;
+			return await response.Content.ReadFromJsonAsync<List<CheckInDto>>(ct) ?? [];
 		}
 
 		public async Task RespondOkayAsync(long checkInId, CancellationToken ct = default)
