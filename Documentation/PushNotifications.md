@@ -254,7 +254,7 @@ variables, which keeps it outside the repository and out of shell history. Both 
    * logcat (tag `AmigoAlert.Push`) should show no `Push registration failed`.
 5. **Real check-in.** Set the test user's `Notification1Time` a minute or two ahead, in Ecuador time (UTC-5). Once it has passed, run the
    WebJob.
-   * Set `DOTNET_ENVIRONMENT=Development` first, so it uses the mock SMS service like the API does.
+   * Set `Twilio__UseMockSms=true` first (for the API too), so both use the mock SMS service and no Twilio client is created.
    * The notification appears at the top of the screen.
    * A run 10 minutes later sends the reminder, which replaces it.
 6. **Try each case:**

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Picked up automatically by Visual Studio's Test Explorer (Test > Configure Run Settings > Auto Detect runsettings Files).
+  dotnet test reads it only when passed with settings .runsettings, so a value set in the shell still applies there.
+  AMIGOALERT_TEST_SQL is the database the Integration, Accuracy and Latency suites seed and reset: LocalDB, never the real one.
+  The live Twilio variables of the Latency suite are deliberately not set here.
+-->
+<RunSettings>
+  <RunConfiguration>
+    <EnvironmentVariables>
+      <AMIGOALERT_TEST_SQL>Server=(localdb)\MSSQLLocalDB;Database=AmigoAlertTest;Trusted_Connection=True;TrustServerCertificate=True</AMIGOALERT_TEST_SQL>
+    </EnvironmentVariables>
+  </RunConfiguration>
+</RunSettings>
