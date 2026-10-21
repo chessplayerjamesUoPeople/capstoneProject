@@ -22,10 +22,15 @@
                    Style="{StaticResource ErrorText}"
                    IsVisible="False" />
 
-            <Label Text="Name" />
-            <Entry x:Name="NameEntry"
-                   MaxLength="50"
-                   SemanticProperties.Hint="Name" />
+            <Label Text="First Name" />
+            <Entry x:Name="UserFirstNameEntry"
+                   MaxLength="25"
+                   SemanticProperties.Hint="Your First Name" />
+
+            <Label Text="Last Name" />
+            <Entry x:Name="UserLastNameEntry"
+                    MaxLength="25"
+                    SemanticProperties.Hint="Your Last Name" />
 
             <Label Text="Email Address" />
             <Entry x:Name="EmailEntry"

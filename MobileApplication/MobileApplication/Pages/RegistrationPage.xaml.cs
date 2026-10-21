@@ -70,7 +70,12 @@ namespace MobileApplication.Pages
 				var user = userTask.Result;
 				originalContact = contactTask.Result;
 
-				NameEntry.Text = user.Name;
+				string userName = user.Name;
+				string userFirstName = userName.Split(' ', StringSplitOptions.RemoveEmptyEntries).FirstOrDefault() ?? "";
+				string userLastName = userName.Split(' ', StringSplitOptions.RemoveEmptyEntries).Skip(1).FirstOrDefault() ?? "";
+
+				UserFirstNameEntry.Text = userFirstName;
+				UserLastNameEntry.Text = userLastName;
 				EmailEntry.Text = user.Email;
 				PhoneEntry.Text = user.Phone;
 				AddressEntry.Text = user.Address;
@@ -86,8 +91,7 @@ namespace MobileApplication.Pages
 					_ => ""
 				};
 				NoticeLabel.IsVisible = NoticeLabel.Text.Length > 0;
-				if (NoticeLabel.IsVisible)
-					SemanticScreenReader.Announce(NoticeLabel.Text);
+				if (NoticeLabel.IsVisible) SemanticScreenReader.Announce(NoticeLabel.Text);
 
 				isLoaded = true;
 				SaveButton.IsEnabled = true;
@@ -106,8 +110,10 @@ namespace MobileApplication.Pages
 		{
 			var errors = new List<string>();
 
-			if (string.IsNullOrWhiteSpace(NameEntry.Text))
-				errors.Add("Name is required.");
+			if (string.IsNullOrWhiteSpace(UserFirstNameEntry.Text))
+				errors.Add("Your First Name is required.");
+			if (string.IsNullOrWhiteSpace(UserLastNameEntry.Text))
+				errors.Add("Your Last Name is required.");
 
 			if (string.IsNullOrWhiteSpace(EmailEntry.Text))
 				errors.Add("Email Address is required.");
@@ -152,7 +158,8 @@ namespace MobileApplication.Pages
 				// The user is created once the terms are accepted; the phone numbers passed on are already in E.164.
 				await Shell.Current.GoToAsync(nameof(TermsAndConditionsPage), new Dictionary<string, object>
 				{
-					[TermsAndConditionsPage.NameKey] = NameEntry.Text.Trim(),
+					[TermsAndConditionsPage.NameKey] = UserFirstNameEntry.Text.Trim().Replace(" ", string.Empty) + " "
+						+ UserLastNameEntry.Text.Trim().Replace(" ", string.Empty),
 					[TermsAndConditionsPage.EmailKey] = EmailEntry.Text.Trim(),
 					[TermsAndConditionsPage.PhoneKey] = phone,
 					[TermsAndConditionsPage.AddressKey] = AddressEntry.Text.Trim(),
@@ -181,8 +188,10 @@ namespace MobileApplication.Pages
 					return;
 				}
 
-				await api.UpdateUserAsync(userId, new UpdateUserDto(NameEntry.Text.Trim(), phone,
-					AddressEntry.Text.Trim(), string.IsNullOrWhiteSpace(LandmarksEditor.Text) ? null : LandmarksEditor.Text.Trim()));
+				await api.UpdateUserAsync(userId, new UpdateUserDto(UserFirstNameEntry.Text.Trim().Replace(" ", string.Empty) + " "
+						+ UserLastNameEntry.Text.Trim().Replace(" ", string.Empty),
+					phone, AddressEntry.Text.Trim(), string.IsNullOrWhiteSpace(LandmarksEditor.Text)
+					? null : LandmarksEditor.Text.Trim()));
 
 				if (contactChanged)
 				{
