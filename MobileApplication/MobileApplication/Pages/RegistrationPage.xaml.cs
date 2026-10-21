@@ -74,13 +74,18 @@ namespace MobileApplication.Pages
 				string userFirstName = userName.Split(' ', StringSplitOptions.RemoveEmptyEntries).FirstOrDefault() ?? "";
 				string userLastName = userName.Split(' ', StringSplitOptions.RemoveEmptyEntries).Skip(1).FirstOrDefault() ?? "";
 
+				string? contactName = originalContact?.Name;
+				string contactFirstName = contactName?.Split(' ', StringSplitOptions.RemoveEmptyEntries).FirstOrDefault() ?? "";
+				string contactLastName = contactName?.Split(' ', StringSplitOptions.RemoveEmptyEntries).Skip(1).FirstOrDefault() ?? "";
+
 				UserFirstNameEntry.Text = userFirstName;
 				UserLastNameEntry.Text = userLastName;
 				EmailEntry.Text = user.Email;
 				PhoneEntry.Text = user.Phone;
 				AddressEntry.Text = user.Address;
 				LandmarksEditor.Text = user.Landmarks;
-				ContactNameEntry.Text = originalContact?.Name;
+				ContactFirstNameEntry.Text = contactFirstName;
+				ContactLastNameEntry.Text = contactLastName;
 				ContactPhoneEntry.Text = originalContact?.Phone;
 
 				// US-08: explain why the user was sent here.
@@ -128,8 +133,10 @@ namespace MobileApplication.Pages
 			if (string.IsNullOrWhiteSpace(AddressEntry.Text))
 				errors.Add("Home Address is required.");
 
-			if (string.IsNullOrWhiteSpace(ContactNameEntry.Text))
-				errors.Add("Emergency contact Name is required.");
+			if (string.IsNullOrWhiteSpace(ContactFirstNameEntry.Text))
+				errors.Add("Emergency contact First Name is required.");
+			if (string.IsNullOrWhiteSpace(ContactLastNameEntry.Text))
+				errors.Add("Emergency contact Last Name is required.");
 
 			// An unchanged contact number is kept as stored, even if it is not Ecuadorian and would fail the format check.
 			var contactPhone = "";
@@ -164,7 +171,8 @@ namespace MobileApplication.Pages
 					[TermsAndConditionsPage.PhoneKey] = phone,
 					[TermsAndConditionsPage.AddressKey] = AddressEntry.Text.Trim(),
 					[TermsAndConditionsPage.LandmarksKey] = LandmarksEditor.Text?.Trim() ?? "",
-					[TermsAndConditionsPage.ContactNameKey] = ContactNameEntry.Text.Trim(),
+					[TermsAndConditionsPage.ContactNameKey] = ContactFirstNameEntry.Text.Trim().Replace(" ", string.Empty) + " "
+						+ ContactLastNameEntry.Text.Trim().Replace(" ", string.Empty),
 					[TermsAndConditionsPage.ContactPhoneKey] = contactPhone
 				});
 				return;
@@ -175,7 +183,8 @@ namespace MobileApplication.Pages
 
 		private async Task SaveUpdateAsync(string? phone, string contactPhone)
 		{
-			var contactName = ContactNameEntry.Text.Trim();
+			var contactName = ContactFirstNameEntry.Text.Trim().Replace(" ", string.Empty) + " "
+				+ ContactLastNameEntry.Text.Trim().Replace(" ", string.Empty);
 			var contactPhoneChanged = originalContact is null || contactPhone != originalContact.Phone;
 			var contactChanged = contactPhoneChanged || contactName != originalContact!.Name;
 

@@ -68,10 +68,15 @@
                    Margin="0,16,0,0"
                    SemanticProperties.HeadingLevel="Level2" />
 
-            <Label Text="Name" />
-            <Entry x:Name="ContactNameEntry"
+            <Label Text="First Name" />
+            <Entry x:Name="ContactFirstNameEntry"
                    MaxLength="50"
-                   SemanticProperties.Hint="Emergency contact name" />
+                   SemanticProperties.Hint="Emergency contact first name" />
+
+            <Label Text="Last Name" />
+            <Entry x:Name="ContactLastNameEntry"
+                    MaxLength="50"
+                    SemanticProperties.Hint="Emergency contact last name" />
 
             <Label Text="Mobile Phone Number" />
             <Entry x:Name="ContactPhoneEntry"
