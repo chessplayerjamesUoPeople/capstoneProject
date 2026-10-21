@@ -241,7 +241,7 @@ public partial class HomePage : ContentPage
 			return;
 		}
 
-		TimeRemainingLabel.Text = $"Time remaining: {(int)remaining.TotalHours}:{remaining.Minutes:00}";
+		TimeRemainingLabel.Text = $"Time remaining: {(int)remaining.TotalHours}h {remaining.Minutes:00}m";
 	}
 
 	private void ShowError(string message)
