@@ -35,6 +35,8 @@ public partial class TermsAndConditionsPage : ContentPage, IQueryAttributable
 
 	private string Detail(string key) => details.TryGetValue(key, out var value) ? value as string ?? "" : "";
 
+	private async void OnBackClicked(object? sender, EventArgs e) => await Shell.Current.GoToAsync("..");
+
 	private async void OnSaveClicked(object? sender, EventArgs e)
 	{
 		if (!AcceptTermsAndConditionsCheckBox.IsChecked)
