@@ -88,6 +88,19 @@ namespace MobileApplication.Pages
 				ContactLastNameEntry.Text = contactLastName;
 				ContactPhoneEntry.Text = originalContact?.Phone;
 
+				// Show the check-in/emergency status, as on the home page.
+				var contactLabel = originalContact?.Name ?? "your emergency contact";
+				StatusLabel.Text = HomeStatus.Create(user, originalContact, DateTimeOffset.Now).State switch
+				{
+					HomeState.Okay => "Status: OK. No check-in or emergency is pending.",
+					HomeState.CheckInPending => "Status: awaiting your check-in.",
+					HomeState.AwaitingConsent => $"Status: awaiting consent of {contactLabel}.",
+					HomeState.Escalated => $"Status: a missed check-in was escalated to {contactLabel}.",
+					HomeState.Emergency => $"Status: emergency button pressed; {contactLabel} has been contacted.",
+					_ => ""
+				};
+				StatusLabel.IsVisible = StatusLabel.Text.Length > 0;
+
 				// US-08: explain why the user was sent here.
 				NoticeLabel.Text = reason switch
 				{

@@ -13,6 +13,10 @@
                    Style="{StaticResource Headline}"
                    SemanticProperties.HeadingLevel="Level1" />
 
+            <Label x:Name="StatusLabel"
+                   Style="{StaticResource HintText}"
+                   IsVisible="False" />
+
             <ActivityIndicator x:Name="LoadingIndicator"
                                IsRunning="False"
                                IsVisible="False"
