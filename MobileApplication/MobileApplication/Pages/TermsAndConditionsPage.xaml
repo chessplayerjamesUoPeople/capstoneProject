@@ -23,6 +23,10 @@
                    Style="{StaticResource ErrorText}"
                    IsVisible="False" />
 
+            <Button x:Name="BackButton"
+                Text="Back"
+                Clicked="OnBackClicked" />
+
             <Button x:Name="SaveButton"
                 Text="Save"
                 Clicked="OnSaveClicked"
