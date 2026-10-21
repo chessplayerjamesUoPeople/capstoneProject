@@ -18,6 +18,7 @@ public partial class HomePage : ContentPage
 	private readonly ILogger<HomePage> logger;
 	private readonly IDispatcherTimer countdownTimer;
 	private readonly IDispatcherTimer refreshTimer;
+	private readonly IDispatcherTimer emergencyTimer;
 
 	private HomeStatus? status;
 	private CheckInDto? pendingCheckIn;
@@ -42,6 +43,10 @@ public partial class HomePage : ContentPage
 		refreshTimer = Dispatcher.CreateTimer();
 		refreshTimer.Interval = TimeSpan.FromMinutes(1);
 		refreshTimer.Tick += async (_, _) => await LoadAsync(isRefresh: true);
+
+		emergencyTimer = Dispatcher.CreateTimer();
+		emergencyTimer.Interval = TimeSpan.FromSeconds(30);
+		emergencyTimer.Tick += async (_, _) => await EmergencyTimer_Tick();
 	}
 
 	protected override async void OnAppearing()
@@ -275,14 +280,33 @@ public partial class HomePage : ContentPage
 
 	public async void OnEmergencyClicked(object? sender, EventArgs e)
 	{
+		refreshTimer.Stop();
+		emergencyTimer.Start();
+		status = new HomeStatus(HomeState.Emergency, status?.ContactName, status?.NextCheckIn);
+		Render();
+	}
+
+	private async Task EmergencyTimer_Tick()
+	{
+		emergencyTimer.Stop();
+		refreshTimer.Start();
 		await SendAsync(EmergencyButton, async () => await api.ActivateEmergencyAsync(await RequireUserIdAsync()), "Emergency",
 			conflictIsStale: false);
 	}
 
 	private async void OnCancelEmergencyClicked(object? sender, EventArgs e)
 	{
-		await SendAsync(CancelEmergencyButton, async () => await api.CancelEmergencyAsync(await RequireUserIdAsync()), "Cancel emergency",
-			conflictIsStale: true);
+		if (emergencyTimer.IsRunning)
+		{
+			emergencyTimer.Stop();
+			refreshTimer.Start();
+			await LoadAsync(true);
+		}
+		else
+		{
+			await SendAsync(CancelEmergencyButton, async () => await api.CancelEmergencyAsync(await RequireUserIdAsync()), "Cancel emergency",
+				conflictIsStale: true);
+		}
 	}
 
 	/// <summary>The registered user's ID. The buttons only show for a loaded user, so a missing ID means storage failed since then.</summary>
