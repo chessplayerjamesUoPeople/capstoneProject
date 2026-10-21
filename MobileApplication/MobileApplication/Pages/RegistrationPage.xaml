@@ -6,7 +6,7 @@
              Shell.NavBarIsVisible="False">
 
     <ScrollView>
-        <VerticalStackLayout Padding="16" Spacing="8" MaximumWidthRequest="600">
+        <VerticalStackLayout Padding="16,16,16,420" Spacing="8" MaximumWidthRequest="600">
 
             <Label x:Name="HeaderLabel"
                    Text="Registration"
