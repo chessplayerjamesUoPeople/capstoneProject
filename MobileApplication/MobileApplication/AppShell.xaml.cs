@@ -10,6 +10,7 @@ namespace MobileApplication
 
 			Routing.RegisterRoute(nameof(RegistrationPage), typeof(RegistrationPage));
 			Routing.RegisterRoute(nameof(TermsAndConditionsPage), typeof(TermsAndConditionsPage));
+			Routing.RegisterRoute(nameof(HelpPage), typeof(HelpPage));
 		}
 	}
 }

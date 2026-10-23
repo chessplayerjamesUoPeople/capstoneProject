@@ -277,6 +277,11 @@ public partial class HomePage : ContentPage
 		await Shell.Current.GoToAsync($"{nameof(RegistrationPage)}?mode=update");
 	}
 
+	private async void OnHelpClicked(object? sender, EventArgs e)
+	{
+		await Shell.Current.GoToAsync(nameof(HelpPage));
+	}
+
 	private async void OnRetryClicked(object? sender, EventArgs e)
 	{
 		await LoadAsync();

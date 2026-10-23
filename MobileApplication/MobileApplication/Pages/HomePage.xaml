@@ -6,16 +6,29 @@
     <!-- Scrolls so nothing is lost with text enlarged to 200% (NF-08). -->
     <ScrollView>
         <VerticalStackLayout Padding="10" Spacing="16" MaximumWidthRequest="600">
-            <ImageButton x:Name="SettingsButton"
-                Source="settings_gear.png"
-                HorizontalOptions="Start"
-                HeightRequest="48"
-                WidthRequest="48"
-                BackgroundColor="Transparent"
-                IsVisible="False"
-                Clicked="OnSettingsClicked"
-                SemanticProperties.Description="Settings"
-                SemanticProperties.Hint="Tap to update your information" />
+            <Grid ColumnDefinitions="*,*">
+                <ImageButton x:Name="SettingsButton"
+                    Source="settings_gear.png"
+                    HorizontalOptions="Start"
+                    HeightRequest="48"
+                    WidthRequest="48"
+                    BackgroundColor="Transparent"
+                    IsVisible="False"
+                    Clicked="OnSettingsClicked"
+                    SemanticProperties.Description="Settings"
+                    SemanticProperties.Hint="Tap to update your information" />
+
+                <ImageButton x:Name="HelpButton"
+                    Grid.Column="1"
+                    Source="help_icon.png"
+                    HorizontalOptions="End"
+                    HeightRequest="48"
+                    WidthRequest="48"
+                    BackgroundColor="Transparent"
+                    Clicked="OnHelpClicked"
+                    SemanticProperties.Description="Help"
+                    SemanticProperties.Hint="Tap to read how to use AmigoAlert" />
+            </Grid>
 
             <ActivityIndicator x:Name="LoadingIndicator"
                 IsRunning="False"

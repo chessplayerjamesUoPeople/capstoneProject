@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MobileApplication.Pages.HelpPage"
+             Title="Help"
+             Shell.NavBarIsVisible="False">
+    <ScrollView>
+        <VerticalStackLayout Padding="16" Spacing="8" MaximumWidthRequest="600">
+
+            <Label Text="Help"
+                   Style="{StaticResource Headline}"
+                   SemanticProperties.HeadingLevel="Level1" />
+
+            <Label Text="What is AmigoAlert?" FontAttributes="Bold" SemanticProperties.HeadingLevel="Level2" />
+            <Label Text="AmigoAlert checks in with you at set times each day. If you need help, or you miss a check-in, your emergency contact is alerted." />
+
+            <Label Text="Checking in" FontAttributes="Bold" SemanticProperties.HeadingLevel="Level2" />
+            <Label Text="When a check-in notification arrives, open the app and tap &quot;I'm Okay&quot;. The home page shows your next check-in time and how long is left. If you do not answer in time, your emergency contact is alerted." />
+
+            <Label Text="Emergency button" FontAttributes="Bold" SemanticProperties.HeadingLevel="Level2" />
+            <Label Text="Tap the red emergency button to alert your emergency contact. You have a short time to change your mind: tap &quot;Cancel emergency, I am okay&quot;. After an alert is sent, the same button tells your contact you are safe. The button is greyed out until your contact accepts." />
+
+            <Label Text="Your emergency contact" FontAttributes="Bold" SemanticProperties.HeadingLevel="Level2" />
+            <Label Text="Your contact gets a text message asking for their consent. You can use AmigoAlert once they accept. If they decline, you will be asked to enter a new contact." />
+
+            <Label Text="Updating your information" FontAttributes="Bold" SemanticProperties.HeadingLevel="Level2" />
+            <Label Text="Tap the settings gear at the top left of the home page to change your details, check-in times or emergency contact. Settings are unavailable during an emergency." />
+
+            <Label Text="Location" FontAttributes="Bold" SemanticProperties.HeadingLevel="Level2" />
+            <Label Text="Your location is shared with your emergency contact only when you press the emergency button or miss a check-in. Choose &quot;Allow all the time&quot; so this also works when the app is closed. Without it, your registered address is sent instead." />
+
+            <Label Text="Keep your phone on, charged and connected to the internet so check-in notifications reach you." />
+
+            <Button Text="Back"
+                    Clicked="OnBackClicked"
+                    Margin="0,8,0,0" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
