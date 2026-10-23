@@ -11,7 +11,55 @@
                Style="{StaticResource Headline}"
                SemanticProperties.HeadingLevel="Level1" />
 
-            <Label Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum." />
+            <Label Text="Last updated: October 23, 2026" FontAttributes="Italic" />
+
+            <Label Text="Please read these Terms and Conditions (the &quot;Terms&quot;) carefully before using AmigoAlert (the &quot;Service&quot;). These Terms form a binding agreement between you (&quot;User&quot;, &quot;you&quot;) and the operators of AmigoAlert (&quot;we&quot;, &quot;us&quot;)." />
+
+            <Label Text="1. Acceptance of Terms" FontAttributes="Bold" Margin="0,8,0,0" SemanticProperties.HeadingLevel="Level2" />
+            <Label Text="By creating an account, ticking &quot;I accept&quot;, or otherwise using the Service, you confirm that you have read, understood and agree to be bound by these Terms. If you do not agree, you must not use the Service." />
+
+            <Label Text="2. Description of the Service" FontAttributes="Bold" Margin="0,8,0,0" SemanticProperties.HeadingLevel="Level2" />
+            <Label Text="AmigoAlert is a personal check-in service. You choose a check-in schedule and nominate emergency contacts. If you do not check in within the allowed time, the Service may notify your emergency contacts by text message (SMS), push notification or other means. The Service is a convenience tool only and is provided on a reasonable-efforts basis." />
+
+            <Label Text="3. Eligibility and Account" FontAttributes="Bold" Margin="0,8,0,0" SemanticProperties.HeadingLevel="Level2" />
+            <Label Text="You must be at least 18 years old, or the age of majority where you live, and have legal capacity to enter into these Terms. You agree to provide accurate, current and complete information, including a working mobile phone number, to keep it up to date, and to keep your login credentials confidential. You are responsible for all activity under your account." />
+
+            <Label Text="4. Emergency Contacts" FontAttributes="Bold" Margin="0,8,0,0" SemanticProperties.HeadingLevel="Level2" />
+            <Label Text="You may only nominate people whose contact details you are entitled to share and who you reasonably believe will agree to act as your emergency contact. We will send each nominated person a request asking for their consent. A contact who declines or does not respond will not receive alert notifications. You are responsible for informing your contacts about how the Service works and for the accuracy of their details." />
+
+            <Label Text="5. Notifications and Messaging" FontAttributes="Bold" Margin="0,8,0,0" SemanticProperties.HeadingLevel="Level2" />
+            <Label Text="You consent to the Service sending you reminders and alerts, and to it sending messages to your emergency contacts on your behalf. Message and data rates from your carrier may apply. Delivery of notifications depends on third parties (mobile carriers, internet providers, messaging and push services, device settings and battery or connectivity conditions) and is not guaranteed to be timely, accurate or uninterrupted." />
+
+            <Label Text="6. Not an Emergency Service" FontAttributes="Bold" Margin="0,8,0,0" SemanticProperties.HeadingLevel="Level2" />
+            <Label Text="AmigoAlert is not an emergency response service, does not contact police, fire or medical services, and is not a substitute for them. If you or anyone else is in danger or needs urgent help, contact your local emergency number immediately. Neither we nor your emergency contacts are obliged to take any particular action after an alert is sent." />
+
+            <Label Text="7. Privacy and Your Data" FontAttributes="Bold" Margin="0,8,0,0" SemanticProperties.HeadingLevel="Level2" />
+            <Label Text="We collect and process the information you provide (such as your name, phone number, check-in schedule, check-in history and emergency contact details) in order to operate the Service. We share it only with the people and providers needed to deliver it, such as your emergency contacts and our messaging and hosting providers, or where required by law. We keep reasonable technical and organisational safeguards, but no system is completely secure. You may ask us to correct or delete your data by contacting us." />
+
+            <Label Text="8. Acceptable Use" FontAttributes="Bold" Margin="0,8,0,0" SemanticProperties.HeadingLevel="Level2" />
+            <Label Text="You agree not to misuse the Service, including by sending false or malicious alerts, harassing or spamming any person, adding someone as a contact without a legitimate reason, attempting to gain unauthorised access to the Service or other accounts, interfering with its operation, or using it for any unlawful purpose. We may suspend or remove accounts that breach this section." />
+
+            <Label Text="9. Disclaimer of Warranties" FontAttributes="Bold" Margin="0,8,0,0" SemanticProperties.HeadingLevel="Level2" />
+            <Label Text="To the fullest extent permitted by law, the Service is provided &quot;as is&quot; and &quot;as available&quot; without warranties of any kind, express or implied, including warranties of merchantability, fitness for a particular purpose, availability, accuracy and non-infringement. We do not warrant that the Service will be error-free or that any alert will be sent, received or acted upon." />
+
+            <Label Text="10. Limitation of Liability" FontAttributes="Bold" Margin="0,8,0,0" SemanticProperties.HeadingLevel="Level2" />
+            <Label Text="To the fullest extent permitted by law, we will not be liable for any indirect, incidental, special, consequential or punitive damages, or for any injury, loss, harm or death arising from or related to your use of, or inability to use, the Service, including any failure, delay or error in delivering notifications. Our total liability for any claim relating to the Service will not exceed the amount you paid us for it in the twelve months before the claim arose, or USD 100 if you paid nothing. Nothing in these Terms excludes liability that cannot lawfully be excluded." />
+
+            <Label Text="11. Indemnification" FontAttributes="Bold" Margin="0,8,0,0" SemanticProperties.HeadingLevel="Level2" />
+            <Label Text="You agree to indemnify and hold us harmless from claims, losses and expenses (including reasonable legal fees) arising from your breach of these Terms, your misuse of the Service, or information you submit about other people without their authority." />
+
+            <Label Text="12. Termination" FontAttributes="Bold" Margin="0,8,0,0" SemanticProperties.HeadingLevel="Level2" />
+            <Label Text="You may stop using the Service and delete your account at any time. We may suspend or terminate your access at any time, with or without notice, if you breach these Terms or if we discontinue the Service. Sections that by their nature should survive termination, including sections 9 to 11 and 14, will survive." />
+
+            <Label Text="13. Changes to These Terms" FontAttributes="Bold" Margin="0,8,0,0" SemanticProperties.HeadingLevel="Level2" />
+            <Label Text="We may update these Terms from time to time. When we make material changes we will notify you in the app and may ask you to accept the revised Terms. Continued use of the Service after changes take effect constitutes acceptance of them." />
+
+            <Label Text="14. Governing Law and Disputes" FontAttributes="Bold" Margin="0,8,0,0" SemanticProperties.HeadingLevel="Level2" />
+            <Label Text="These Terms are governed by the laws of the United States and the State in which we are established, without regard to conflict-of-law rules. The parties will first try to resolve any dispute in good faith, failing which it will be submitted to the competent courts of that jurisdiction. If any provision is held unenforceable, the remainder stays in effect. These Terms are the entire agreement between you and us regarding the Service." />
+
+            <Label Text="15. Contact" FontAttributes="Bold" Margin="0,8,0,0" SemanticProperties.HeadingLevel="Level2" />
+            <Label Text="Questions about these Terms or requests relating to your data can be sent to the AmigoAlert support team through the Help page in the app." />
+
             <HorizontalStackLayout Spacing="8" VerticalOptions="Center">
                 <CheckBox x:Name="AcceptTermsAndConditionsCheckBox"
                       IsChecked="False" />
