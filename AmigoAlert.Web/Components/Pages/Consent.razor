@@ -19,7 +19,23 @@ else
 {
     <p><strong>@Request.UserName</strong> has asked you to be their emergency contact. If you accept, you will receive notifications about @Request.UserName.</p>
 
-<p>lorem ipsum dolor sit amet consectetur adipiscing elit dignissimos id quis aliqua expedita fuga et quod veniam optio quo laborum minus quibusdam et quidem elit elit quibusdam dolores proident dolore fugiat vel voluptas officia placeat harum fugiat illum excepturi eu ut cillum est elit qui dignissimos duis aut aute cillum enim est voluptas repellendus est est cumque minim dolore nihil consequatur deleniti consequatur officia mollitia occaecat omnis excepturi accusamus et quod quos est nam anim vel accusamus aut amet omnis id in fugiat cumque cumque et dolor sed ea aut fugiat laborum eu nobis duis rerum non qui qui consectetur minim incididunt in duis fugiat imperdiet pariatur irure quis est tempore soluta est quod repellendus iusto expedita assumenda placeat nulla sint ullamco proident ea dolor est in optio harum laborum nostrud excepturi est soluta qui duis sunt cupidatat culpa consequatur non est tempore accusamus culpa tempor dolor velit irure id voluptatum officia quis exercitation aute distinctio corrupti deserunt accusamus elit occaecat optio temporibus possimus et consequatur ut exercitation et ut omnis imperdiet reprehenderit voluptate omnis ullamco et id sit duis cumque eiusmod optio quos dolorum pariatur irure dolor voluptatum velit occaecat ut minim pariatur nulla sint aute ex eum commodo</p>
+<h4>Emergency Contact Terms and Conditions</h4>
+<p><em>Last updated: October 23, 2026</em></p>
+
+<p>By accepting, you agree to the following terms with AmigoAlert (the "Service") in relation to @Request.UserName (the "User").</p>
+
+<ol>
+    <li><strong>Your role.</strong> You are being asked to act as an emergency contact for the User. Acting as a contact is entirely voluntary. You may decline now, or ask to be removed at any time.</li>
+    <li><strong>Notifications you will receive.</strong> If the User does not check in within their chosen time, the Service may send you a text message (SMS) or other notification telling you so, and may send related reminders or status updates. Message and data rates from your carrier may apply, and you may be able to reply STOP to opt out of SMS messages.</li>
+    <li><strong>Information we use.</strong> We hold your name (as supplied by the User) and your phone number or other contact details solely to deliver these notifications and to record your consent. We share them only with providers needed to deliver messages (such as our SMS provider), or where required by law. We do not sell them. You may ask us to delete them at any time.</li>
+    <li><strong>Not an emergency service.</strong> AmigoAlert does not contact police, fire or medical services. A notification does not mean the User is in danger, and no notification does not mean they are safe. If you believe someone is in immediate danger, contact your local emergency number.</li>
+    <li><strong>No duty to act.</strong> Accepting does not create any legal duty or obligation for you to respond to, locate or assist the User. You decide what action, if any, to take.</li>
+    <li><strong>No guarantee of delivery.</strong> Notifications depend on third parties such as mobile carriers and internet providers and may be delayed, fail or be missed. The Service is provided "as is" without warranties of any kind.</li>
+    <li><strong>Limitation of liability.</strong> To the fullest extent permitted by law, we are not liable for any loss, injury or damage arising from the sending, delay, failure or content of any notification, or from your decision to act or not act. Nothing here excludes liability that cannot lawfully be excluded.</li>
+    <li><strong>Acceptable use.</strong> You agree not to misuse information received through the Service, and to keep any information about the User confidential and use it only to check on their wellbeing.</li>
+    <li><strong>Changes and withdrawal.</strong> You may withdraw your consent at any time by contacting AmigoAlert support, after which notifications will stop. We may update these terms and will rely on the version you accepted when your response was recorded.</li>
+    <li><strong>Eligibility.</strong> You confirm that you are at least 18 years old, or the age of majority where you live, and that the contact details provided are yours.</li>
+</ol>
 
 <form method="post" @formname="accept" @onsubmit="HandleAccept">
     <AntiforgeryToken />
