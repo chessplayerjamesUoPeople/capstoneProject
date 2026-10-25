@@ -23,6 +23,9 @@ namespace AmigoAlert.Services
 		/// <summary>The longest name placed ahead of an address, so the address keeps enough room to be useful.</summary>
 		private const int MaxNameBeforeAddress = 40;
 
+		/// <summary>A first name longer than this switches the consent request to the full name and a separate link message.</summary>
+		private const int MaxFirstNameForSingleConsent = 5;
+
 		private const string Prefix = "AmigoAlert: ";
 
 		/// <summary>
@@ -34,6 +37,31 @@ namespace AmigoAlert.Services
 		public static string ConsentRequest(string userName, string consentUrl)
 		{
 			return Compose(Prefix, userName, $" added you as their emergency contact: {consentUrl}");
+		}
+
+		/// <summary>
+		/// The consent request as one or two messages. When the user's first name is longer than <see cref="MaxFirstNameForSingleConsent"/>
+		/// characters the full name is used and the link moves to a second message; otherwise one message carries the first name and the link.
+		/// </summary>
+		/// <param name="userName">The user's full name.</param>
+		/// <param name="consentUrl">The full consent page URL, including the token.</param>
+		/// <returns>The message bodies, in the order they must be sent.</returns>
+		public static IReadOnlyList<string> ConsentRequestMessages(string userName, string consentUrl)
+		{
+			string fullName = userName.Trim();
+			int space = fullName.IndexOf(' ');
+			string firstName = space < 0 ? fullName : fullName[..space];
+
+			if (firstName.Length <= MaxFirstNameForSingleConsent)
+			{
+				return new[] { ConsentRequest(firstName, consentUrl) };
+			}
+
+			return new[]
+			{
+				Compose(Prefix, fullName, " added you as their emergency contact. You will also receive a second message with the link to the consent form."),
+				Compose(Prefix + "Consent form: ", string.Empty, consentUrl)
+			};
 		}
 
 		/// <summary>
@@ -80,6 +108,37 @@ namespace AmigoAlert.Services
 
 			string lead = Prefix + Truncate(userName, MaxNameBeforeAddress) + Activated + " Address: ";
 			return Compose(lead, address, string.Empty);
+		}
+
+		/// <summary>
+		/// The emergency alert as one or two messages. With a location it is the single map-link message. Without one it carries the address
+		/// and the landmarks: together when they fit in <see cref="MaxLength"/>, otherwise the landmarks follow in a second message,
+		/// truncated to <see cref="MaxLength"/>.
+		/// </summary>
+		/// <param name="userName">The name of the user who pressed the button.</param>
+		/// <param name="latitude">The latitude at the time of the press, or null.</param>
+		/// <param name="longitude">The longitude at the time of the press, or null.</param>
+		/// <param name="address">The user's registered address.</param>
+		/// <param name="landmarks">The user's landmarks, or null.</param>
+		/// <returns>The message bodies, in the order they must be sent.</returns>
+		public static IReadOnlyList<string> EmergencyActivationMessages(string userName, double? latitude, double? longitude, string address,
+			string? landmarks)
+		{
+			if ((latitude is not null && longitude is not null) || string.IsNullOrWhiteSpace(landmarks))
+			{
+				return new[] { EmergencyActivation(userName, latitude, longitude, address) };
+			}
+
+			const string Activated = " is NOT okay and is having an emergency.";
+			string lead = Prefix + Truncate(userName, MaxNameBeforeAddress) + Activated + " Address: ";
+			string trimmed = landmarks.Trim();
+			string together = lead + address + " Landmarks: " + trimmed;
+			if (together.Length <= MaxLength)
+			{
+				return new[] { together };
+			}
+
+			return new[] { Compose(lead, address, string.Empty), Compose(Prefix + "Landmarks: ", trimmed, string.Empty) };
 		}
 
 		/// <summary>

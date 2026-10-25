@@ -147,7 +147,7 @@ namespace AmigoAlert.Tests.SystemTests
 
 		private Guid TokenFromLatestSms(IReadOnlyList<MockSmsService.SentMessage> before, string contactPhone)
 		{
-			MockSmsService.SentMessage request = Assert.Single(SmsSince(before));
+			MockSmsService.SentMessage request = SmsSince(before).Last();
 			Assert.Equal(contactPhone, request.ToPhone);
 
 			return Guid.ParseExact(ConsentToken.Match(request.Body).Value, "N");

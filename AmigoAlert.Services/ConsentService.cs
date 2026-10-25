@@ -159,13 +159,15 @@ namespace AmigoAlert.Services
 
 			await contactRepository.AddAsync(contact, ct);
 
-			string body = SmsMessageComposer.ConsentRequest(user.Name, options.Value.PageBaseUrl + token.ToString("N"));
-			SmsDispatchResult dispatch = await smsService.SendAsync(contact.Id, contact.Phone, body, SmsMessageTypeEnum.ConsentRequest,
-				null, ct);
-
-			if (!dispatch.Succeeded)
+			foreach (string body in SmsMessageComposer.ConsentRequestMessages(user.Name, options.Value.PageBaseUrl + token.ToString("N")))
 			{
-				return new EmergencyContactChangeResult(EmergencyContactChangeOutcome.SmsFailed, null);
+				SmsDispatchResult dispatch = await smsService.SendAsync(contact.Id, contact.Phone, body, SmsMessageTypeEnum.ConsentRequest,
+					null, ct);
+
+				if (!dispatch.Succeeded)
+				{
+					return new EmergencyContactChangeResult(EmergencyContactChangeOutcome.SmsFailed, null);
+				}
 			}
 
 			await transaction.CommitAsync(ct);

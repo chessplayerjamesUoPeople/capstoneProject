@@ -50,7 +50,7 @@ namespace AmigoAlert.Tests.SystemTests
 
 			// US-03: the contact is texted the link, whole. That the user's name survives is S11, held back by defect D-01.
 			Guid token = await driver.AddContactAsync(user.Id, new SetEmergencyContactDto("System Contact", contactPhone));
-			MockSmsService.SentMessage consentSms = Assert.Single(factory.SentSms);
+			MockSmsService.SentMessage consentSms = factory.SentSms.Last();
 			Assert.EndsWith(token.ToString("N"), consentSms.Body);
 			Assert.Equal(contactPhone, (await driver.GetContactAsync(user.Id)).Phone);
 
@@ -276,7 +276,8 @@ namespace AmigoAlert.Tests.SystemTests
 
 			// A new number has agreed to nothing: back to pending, with a new request naming the renamed user.
 			Guid token = await driver.ReplaceContactAsync(user.Id, new SetEmergencyContactDto("Other Contact", "+593990003333"));
-			Assert.Equal("+593990003333", Assert.Single(driver.SmsSince(before)).ToPhone);
+			Assert.All(driver.SmsSince(before), m => Assert.Equal("+593990003333", m.ToPhone));
+			Assert.Equal(2, driver.SmsSince(before).Count);
 			Assert.Equal(ConsentStatusType.Pending, (await driver.GetContactAsync(user.Id)).ConsentStatus);
 			Assert.Equal(HttpStatusCode.Conflict,
 				(await Client.PostAsJsonAsync($"api/users/{user.Id}/emergency", new ActivateEmergencyDto(null, null))).StatusCode);
@@ -338,13 +339,13 @@ namespace AmigoAlert.Tests.SystemTests
 				await driver.RunWebJobAsync(run);
 			}
 
-			// Consent request, two activations, two stand-downs, one escalation.
-			Assert.Equal(6, factory.SentSms.Count);
+			// Consent request (two), two activations (the address-only one adds a landmarks SMS), two stand-downs, one escalation.
+			Assert.Equal(8, factory.SentSms.Count);
 			Assert.All(factory.SentSms, SystemTestDriver.AssertSingleSegment);
 
 			List<string?> sids = await factory.InNewScopeAsync(db => db.Sms.Where(m => m.EmergencyContact.UserId == user.Id)
 				.Select(m => m.TwilioSid).ToListAsync());
-			Assert.Equal(6, sids.Count);
+			Assert.Equal(8, sids.Count);
 			Assert.All(sids, sid => Assert.StartsWith(MockSmsService.SidPrefix, sid));
 		}
 
@@ -375,7 +376,7 @@ namespace AmigoAlert.Tests.SystemTests
 
 			await driver.AddContactAsync(user.Id, new SetEmergencyContactDto("System Contact", "+593990007777"));
 
-			Assert.Contains(request.Name, Assert.Single(factory.SentSms).Body);
+			Assert.Contains(request.Name, factory.SentSms.First().Body);
 		}
 
 		private async Task CancelAndAssertStandDownAsync(UserDto user, SetEmergencyContactDto contact)
