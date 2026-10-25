@@ -89,7 +89,7 @@ namespace AmigoAlert.Tests.Integration
 				(await client.PostAsJsonAsync($"api/users/{user.Id}/emergency-contact", contactRequest)).StatusCode);
 
 			// The token the contact receives, taken from the link in the SMS rather than the database.
-			MockSmsService.SentMessage request = Assert.Single(factory.SentSms);
+			MockSmsService.SentMessage request = factory.SentSms.Last(); // the second SMS carries the link
 			Guid token = Guid.ParseExact(Regex.Match(request.Body, "[0-9a-f]{32}").Value, "N");
 
 			Assert.Equal(HttpStatusCode.Conflict,
@@ -109,7 +109,9 @@ namespace AmigoAlert.Tests.Integration
 			Assert.Equal(HttpStatusCode.NoContent, emergency.StatusCode);
 			Assert.Equal((byte)StatusType.Emergency, await factory.InNewScopeAsync(db => db.Users.Where(u => u.Id == user.Id)
 				.Select(u => u.StatusId).SingleAsync()));
+			// Two consent SMS (notice and link), then one alert carrying address and landmarks.
 			Assert.Collection(factory.SentSms,
+				m => Assert.Equal(contactRequest.Phone, m.ToPhone),
 				m => Assert.Equal(contactRequest.Phone, m.ToPhone),
 				m => Assert.Equal(contactRequest.Phone, m.ToPhone));
 		}

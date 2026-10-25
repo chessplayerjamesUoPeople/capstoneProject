@@ -64,12 +64,14 @@ namespace AmigoAlert.Tests.Integration
 			Assert.Equal(storedContact.ConsentRequestedAt + ConsentService.TokenLifetime, storedContact.ConsentTokenExpires);
 			Assert.Null(storedContact.ConsentRespondedAt);
 
-			Sms sms = await factory.InNewScopeAsync(db => db.Sms.SingleAsync(m => m.EmergencyContactId == contact.Id));
-			Assert.Equal((byte)SmsMessageTypeEnum.ConsentRequest, sms.MessageTypeId);
+			// The registered name's first name is longer than five characters, so the request is two SMS: the notice, then the link.
+			List<Sms> smsRows = await factory.InNewScopeAsync(db => db.Sms.Where(m => m.EmergencyContactId == contact.Id).ToListAsync());
+			Assert.Equal(2, smsRows.Count);
+			Assert.All(smsRows, sms => Assert.Equal((byte)SmsMessageTypeEnum.ConsentRequest, sms.MessageTypeId));
 
-			MockSmsService.SentMessage sent = Assert.Single(factory.SentSms);
-			Assert.Equal(contactRequest.Phone, sent.ToPhone);
-			Assert.Contains(storedContact.ConsentToken.Value.ToString("N"), sent.Body);
+			Assert.Equal(2, factory.SentSms.Count);
+			Assert.All(factory.SentSms, sent => Assert.Equal(contactRequest.Phone, sent.ToPhone));
+			Assert.Contains(storedContact.ConsentToken.Value.ToString("N"), factory.SentSms.Last().Body);
 		}
 
 		[Fact]

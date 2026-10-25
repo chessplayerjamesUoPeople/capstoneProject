@@ -241,14 +241,16 @@ namespace AmigoAlert.Services
 			StatusLog log = NewStatusLog(userId, StatusType.Emergency, now, "Emergency button pressed.", location);
 			await userRepository.AddStatusLogAsync(log, ct);
 
-			string body = SmsMessageComposer.EmergencyActivation(user.Name, latitude, longitude, user.Address);
-			SmsDispatchResult dispatch = await smsService.SendAsync(contact.Id, contact.Phone, body, SmsMessageTypeEnum.EmergencyActivation,
-				log.Id, ct);
-
-			// Committing Emergency without a delivered alert would be worse than nothing: the rules suppress escalation for that status.
-			if (!dispatch.Succeeded)
+			foreach (string body in SmsMessageComposer.EmergencyActivationMessages(user.Name, latitude, longitude, user.Address, user.Landmarks))
 			{
-				return EmergencyActivationOutcome.AlertFailed;
+				SmsDispatchResult dispatch = await smsService.SendAsync(contact.Id, contact.Phone, body, SmsMessageTypeEnum.EmergencyActivation,
+					log.Id, ct);
+
+				// Committing Emergency without a delivered alert would be worse than nothing: the rules suppress escalation for that status.
+				if (!dispatch.Succeeded)
+				{
+					return EmergencyActivationOutcome.AlertFailed;
+				}
 			}
 
 			await transaction.CommitAsync(ct);
