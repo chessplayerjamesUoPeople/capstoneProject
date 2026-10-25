@@ -95,7 +95,13 @@ namespace AmigoAlert.Tests.SystemTests
 
 			Assert.Contains("Thank you. Your consent has been recorded.", html);
 			Assert.Equal(ConsentStatusType.Granted, (await driver.GetContactAsync(user.Id)).ConsentStatus);
-			Assert.Contains(InvalidLink, await browser.GetStringAsync($"consent/{token}"));
+
+			// The link is permanent: reopening it offers withdrawal, not the original request.
+			string reopened = await browser.GetStringAsync($"consent/{token}");
+			Assert.DoesNotContain(InvalidLink, reopened);
+			Assert.Contains("You are currently receiving notifications", reopened);
+			Assert.Contains(">Withdraw consent</button>", reopened);
+			Assert.DoesNotContain(">Accept</button>", reopened);
 		}
 
 		/// <summary>C-04, US-06: Decline opts the contact out.</summary>
@@ -125,6 +131,64 @@ namespace AmigoAlert.Tests.SystemTests
 			Assert.Contains(InvalidLink, html);
 			Assert.DoesNotContain(">Accept</button>", html);
 			Assert.Equal(ConsentStatusType.Pending, (await driver.GetContactAsync(user.Id)).ConsentStatus);
+		}
+
+		/// <summary>C-06, US-04: a contact who consented returns to the same link and withdraws.</summary>
+		[Fact]
+		public async Task C06_WithdrawFromTheSameLink_OptsOut()
+		{
+			(UserDto user, Guid token) = await GrantedContactAsync();
+			DateTimeOffset grantedAt = (await driver.GetContactAsync(user.Id)).ConsentRespondedAt!.Value;
+
+			string html = await SubmitAsync(token, "withdraw", tickTerms: false);
+
+			Assert.Contains("Your consent has been withdrawn. You will no longer receive notifications.", html);
+			EmergencyContactDto contact = await driver.GetContactAsync(user.Id);
+			Assert.Equal(ConsentStatusType.Revoked, contact.ConsentStatus);
+			Assert.True(contact.ConsentRespondedAt >= grantedAt);
+
+			string reopened = await browser.GetStringAsync($"consent/{token}");
+			Assert.Contains("You have withdrawn your consent", reopened);
+			Assert.DoesNotContain(">Withdraw consent</button>", reopened);
+			Assert.DoesNotContain(">Decline</button>", reopened);
+		}
+
+		/// <summary>C-07, US-04: after withdrawing, the contact can accept again from the same link, with the terms ticked.</summary>
+		[Fact]
+		public async Task C07_AcceptAgainAfterWithdrawing_OptsBackIn()
+		{
+			(UserDto user, Guid token) = await GrantedContactAsync();
+			await SubmitAsync(token, "withdraw", tickTerms: false);
+
+			await SubmitAsync(token, "accept", tickTerms: false);
+			Assert.Equal(ConsentStatusType.Revoked, (await driver.GetContactAsync(user.Id)).ConsentStatus);
+
+			string html = await SubmitAsync(token, "accept", tickTerms: true);
+
+			Assert.Contains("Thank you. Your consent has been recorded.", html);
+			Assert.Equal(ConsentStatusType.Granted, (await driver.GetContactAsync(user.Id)).ConsentStatus);
+		}
+
+		/// <summary>C-08: the link dies with the contact; replacing the contact leaves the old link refused.</summary>
+		[Fact]
+		public async Task C08_LinkOfReplacedContact_IsRefused()
+		{
+			(UserDto user, Guid token) = await GrantedContactAsync();
+
+			await driver.ReplaceContactAsync(user.Id, new SetEmergencyContactDto("Other Contact", "+593990003333"));
+
+			string html = await browser.GetStringAsync($"consent/{token}");
+			Assert.Contains(InvalidLink, html);
+			Assert.DoesNotContain(">Withdraw consent</button>", html);
+		}
+
+		private async Task<(UserDto User, Guid Token)> GrantedContactAsync()
+		{
+			(UserDto user, Guid token) = await PendingContactAsync();
+			await SubmitAsync(token, "accept", tickTerms: true);
+			Assert.Equal(ConsentStatusType.Granted, (await driver.GetContactAsync(user.Id)).ConsentStatus);
+
+			return (user, token);
 		}
 
 		private async Task<(UserDto User, Guid Token)> PendingContactAsync()

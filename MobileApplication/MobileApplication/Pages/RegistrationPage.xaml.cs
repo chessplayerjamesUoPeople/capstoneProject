@@ -104,7 +104,10 @@ namespace MobileApplication.Pages
 				// US-08: explain why the user was sent here.
 				NoticeLabel.Text = reason switch
 				{
-					"consentRejected" => $"{originalContact?.Name ?? "Your emergency contact"} declined to be your emergency contact. Please enter a new contact.",
+					"consentRejected" => $"{originalContact?.Name ?? "Your emergency contact"} " +
+						(originalContact?.ConsentStatus == ConsentStatusType.Revoked
+							? "withdrew their consent to be your emergency contact."
+							: "declined to be your emergency contact.") + " Please enter a new contact.",
 					"noContact" => "Please add an emergency contact to start using AmigoAlert.",
 					_ => ""
 				};
@@ -161,9 +164,11 @@ namespace MobileApplication.Pages
 			else if (!PhoneNumberFormat.TryNormalize(ContactPhoneEntry.Text, out contactPhone))
 				errors.Add("Emergency contact Mobile Phone Number must look like 0991234567 or +593991234567.");
 
-			// US-09: a contact who declined cannot be added again.
+			// US-09: a contact who declined or withdrew consent cannot be added again.
 			if (originalContact is { ConsentStatus: ConsentStatusType.Rejected } && contactPhone == originalContact.Phone)
 				errors.Add($"{originalContact.Name} declined to be your emergency contact. Please enter a different contact.");
+			else if (originalContact is { ConsentStatus: ConsentStatusType.Revoked } && contactPhone == originalContact.Phone)
+				errors.Add($"{originalContact.Name} withdrew their consent to be your emergency contact. Please enter a different contact.");
 
 			if (errors.Count > 0)
 			{

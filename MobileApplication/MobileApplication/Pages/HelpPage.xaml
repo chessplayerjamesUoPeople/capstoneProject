@@ -21,7 +21,7 @@
             <Label Text="Tap the red emergency button to alert your emergency contact. You have a short time to change your mind: tap &quot;Cancel emergency, I am okay&quot;. After an alert is sent, the same button tells your contact you are safe. The button is greyed out until your contact accepts." />
 
             <Label Text="Your emergency contact" FontAttributes="Bold" SemanticProperties.HeadingLevel="Level2" />
-            <Label Text="Your contact gets a text message asking for their consent. You can use AmigoAlert once they accept. If they decline, you will be asked to enter a new contact." />
+            <Label Text="Your contact gets a text message asking for their consent. You can use AmigoAlert once they accept. If they decline, or later withdraw their consent, you will be asked to enter a new contact." />
 
             <Label Text="Updating your information" FontAttributes="Bold" SemanticProperties.HeadingLevel="Level2" />
             <Label Text="Tap the settings gear at the top left of the home page to change your details, check-in times or emergency contact. Settings are unavailable during an emergency." />

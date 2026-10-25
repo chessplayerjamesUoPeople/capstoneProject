@@ -33,9 +33,12 @@ These run against the real `AmigoAlert.Web` host and post the page's own forms w
 |---|---|---|---|
 | C-01 | US-04 | Open `/consent/{token}`. | Shows "**{userName}** has asked you to be their emergency contact", the terms checkbox, and Accept and Decline. |
 | C-02 | US-04 | Submit Accept without ticking the checkbox. | The form is shown again; the contact is still Pending. |
-| C-03 | US-05 | Tick the checkbox, then submit Accept. Reopen the link. | "Thank you. Your consent has been recorded."; Granted; the reopened link shows "invalid or has expired". |
+| C-03 | US-05 | Tick the checkbox, then submit Accept. Reopen the link. | "Thank you. Your consent has been recorded."; Granted; the reopened link stays valid and shows the Withdraw consent button (no Accept). |
 | C-04 | US-06 | Submit Decline. | "Your response has been recorded. You will not receive notifications."; Rejected. |
 | C-05 | US-04 | Open a random token; open a token whose 72 h expiry has passed. | Both show "This consent link is invalid or has expired." with no buttons; the contact is still Pending. |
+| C-06 | US-04 | As a Granted contact, reopen the link and submit Withdraw. Reopen the link. | "Your consent has been withdrawn. You will no longer receive notifications."; Revoked, `ConsentRespondedAt` updated; the link now shows "You have withdrawn your consent" with no Withdraw or Decline button. |
+| C-07 | US-04 | As a Revoked contact, submit Accept without ticking the checkbox, then with it ticked. | The first records nothing (still Revoked); the second shows "Thank you. Your consent has been recorded." and the contact is Granted. |
+| C-08 | US-04 | Replace a Granted contact with a new number, then open the old contact's link. | "This consent link is invalid or has expired." with no buttons: the old link dies with the old contact. |
 
 ## Manual system checks
 

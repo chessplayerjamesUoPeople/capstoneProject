@@ -66,8 +66,14 @@ C opens the consent link by copying it from the console line. The link points at
 - **Then** "Thank you. Your consent has been recorded." is shown.
 - **When** U reopens the app,
 - **Then** the home screen shows the next check-in and an enabled emergency button.
-- **When** C reopens the link,
-- **Then** it shows "invalid or has expired".
+- **When** C reopens the same link,
+- **Then** it shows that C is receiving notifications about U, with a "Withdraw consent" button and no Accept button.
+- **When** C presses Withdraw consent,
+- **Then** "Your consent has been withdrawn. You will no longer receive notifications." is shown.
+- **When** U reopens the app,
+- **Then** U is taken to the registration form with a notice that C withdrew consent; the emergency button is not available.
+- **When** C opens the same link again, ticks the checkbox and presses Accept,
+- **Then** "Thank you. Your consent has been recorded." is shown and U's app is unlocked again.
 
 | Result | Evidence | Notes |
 |---|---|---|
@@ -194,6 +200,7 @@ C opens the consent link by copying it from the console line. The link points at
 | | | |
 
 ### UAT-16: Consent link expiry — supporting (US-04)
+Expiry applies only to a request that has not been answered; once C has answered, the link stays valid so C can withdraw.
 - **Given** a Pending contact whose `ConsentTokenExpires` has been set in the past in the test database.
 - **When** C opens the link,
 - **Then** "This consent link is invalid or has expired." is shown with no buttons.

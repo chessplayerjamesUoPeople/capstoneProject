@@ -11,7 +11,8 @@ namespace AmigoAlert.Tests.Integration
 {
 	/// <summary>
 	/// I-11 to I-13: the emergency button and the consent that gates it. I-12 settles whether the API enforces consent or relies on the
-	/// app disabling the button: it refuses with 409 and sends nothing.
+	/// app disabling the button: it refuses with 409 and sends nothing. I-18 and I-19 cover the permanent link: withdrawing and granting
+	/// again from it, and its death when the contact is replaced.
 	/// </summary>
 	[Collection(IntegrationCollection.Name)]
 	public sealed class EmergencyTests(IntegrationApiFactory factory) : IAsyncLifetime
@@ -101,7 +102,7 @@ namespace AmigoAlert.Tests.Integration
 			EmergencyContact contact = await factory.InNewScopeAsync(db => db.EmergencyContacts.SingleAsync(c => c.UserId == user.Id));
 			Assert.Equal((byte)ConsentStatusType.Granted, contact.ConsentStatusId);
 			Assert.NotNull(contact.ConsentRespondedAt);
-			Assert.Null(contact.ConsentToken);
+			Assert.Equal(token, contact.ConsentToken);
 			Assert.Null(contact.ConsentTokenExpires);
 
 			HttpResponseMessage emergency = await client.PostAsJsonAsync($"api/users/{user.Id}/emergency", new ActivateEmergencyDto(null, null));
@@ -114,6 +115,65 @@ namespace AmigoAlert.Tests.Integration
 				m => Assert.Equal(contactRequest.Phone, m.ToPhone),
 				m => Assert.Equal(contactRequest.Phone, m.ToPhone),
 				m => Assert.Equal(contactRequest.Phone, m.ToPhone));
+		}
+
+		[Fact]
+		public async Task I18_ContactWithdrawsConsent_EmergencyIsRefusedUntilTheyGrantAgain()
+		{
+			UserDto user = await RegistrationTests.RegisterAsync(client, RegistrationTests.NewUser());
+			SetEmergencyContactDto contactRequest = new SetEmergencyContactDto("Withdrawing Contact", "+593990008888");
+			Assert.Equal(HttpStatusCode.Created,
+				(await client.PostAsJsonAsync($"api/users/{user.Id}/emergency-contact", contactRequest)).StatusCode);
+			MockSmsService.SentMessage request = factory.SentSms.Last(); // the last SMS carries the link
+			Guid token = Guid.ParseExact(Regex.Match(request.Body, "[0-9a-f]{32}").Value, "N");
+
+			Assert.Equal(HttpStatusCode.NoContent,
+				(await client.PutAsJsonAsync($"api/consent/{token}", new RespondToConsentDto(true))).StatusCode);
+
+			// The same link, unchanged, still resolves and offers the contact a choice.
+			ConsentRequestDto granted = (await client.GetFromJsonAsync<ConsentRequestDto>($"api/consent/{token}"))!;
+			Assert.Equal((ConsentStatusType.Granted, true), (granted.ConsentStatus, granted.CanRespond));
+
+			Assert.Equal(HttpStatusCode.NoContent,
+				(await client.PutAsJsonAsync($"api/consent/{token}", new RespondToConsentDto(false))).StatusCode);
+
+			EmergencyContact contact = await factory.InNewScopeAsync(db => db.EmergencyContacts.SingleAsync(c => c.UserId == user.Id));
+			Assert.Equal((byte)ConsentStatusType.Revoked, contact.ConsentStatusId);
+			Assert.NotNull(contact.ConsentRespondedAt);
+			Assert.Equal(token, contact.ConsentToken);
+
+			// Withdrawing twice records nothing the second time.
+			Assert.Equal(HttpStatusCode.NotFound,
+				(await client.PutAsJsonAsync($"api/consent/{token}", new RespondToConsentDto(false))).StatusCode);
+
+			int smsBefore = factory.SentSms.Count;
+			Assert.Equal(HttpStatusCode.Conflict,
+				(await client.PostAsJsonAsync($"api/users/{user.Id}/emergency", new ActivateEmergencyDto(null, null))).StatusCode);
+			Assert.Equal(smsBefore, factory.SentSms.Count);
+
+			// Granting again from the same link restores the contact.
+			Assert.Equal(HttpStatusCode.NoContent,
+				(await client.PutAsJsonAsync($"api/consent/{token}", new RespondToConsentDto(true))).StatusCode);
+			Assert.Equal(HttpStatusCode.NoContent,
+				(await client.PostAsJsonAsync($"api/users/{user.Id}/emergency", new ActivateEmergencyDto(null, null))).StatusCode);
+		}
+
+		[Fact]
+		public async Task I19_ReplacedContact_OldLinkStopsWorking()
+		{
+			UserDto user = await RegistrationTests.RegisterAsync(client, RegistrationTests.NewUser());
+			Assert.Equal(HttpStatusCode.Created, (await client.PostAsJsonAsync($"api/users/{user.Id}/emergency-contact",
+				new SetEmergencyContactDto("Old Contact", "+593990008877"))).StatusCode);
+			Guid oldToken = Guid.ParseExact(Regex.Match(factory.SentSms.Last().Body, "[0-9a-f]{32}").Value, "N");
+			Assert.Equal(HttpStatusCode.NoContent,
+				(await client.PutAsJsonAsync($"api/consent/{oldToken}", new RespondToConsentDto(true))).StatusCode);
+
+			Assert.Equal(HttpStatusCode.NoContent, (await client.PutAsJsonAsync($"api/users/{user.Id}/emergency-contact",
+				new SetEmergencyContactDto("New Contact", "+593990008866"))).StatusCode);
+
+			Assert.Equal(HttpStatusCode.NotFound, (await client.GetAsync($"api/consent/{oldToken}")).StatusCode);
+			Assert.Equal(HttpStatusCode.NotFound,
+				(await client.PutAsJsonAsync($"api/consent/{oldToken}", new RespondToConsentDto(false))).StatusCode);
 		}
 	}
 }
