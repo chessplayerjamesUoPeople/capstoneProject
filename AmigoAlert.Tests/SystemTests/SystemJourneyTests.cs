@@ -65,10 +65,10 @@ namespace AmigoAlert.Tests.SystemTests
 			Assert.Equal(HttpStatusCode.Conflict,
 				(await Client.PostAsJsonAsync($"api/users/{user.Id}/emergency", new ActivateEmergencyDto(null, null))).StatusCode);
 
-			// US-05: opting in takes effect at once, and the link cannot be used twice.
+			// US-05: opting in takes effect at once, and granting again is refused. The link itself stays valid for withdrawing.
 			Assert.Equal(HttpStatusCode.NoContent, (await driver.AnswerConsentAsync(token, granted: true)).StatusCode);
 			Assert.Equal(ConsentStatusType.Granted, (await driver.GetContactAsync(user.Id)).ConsentStatus);
-			Assert.Equal(HttpStatusCode.NotFound, (await driver.AnswerConsentAsync(token, granted: false)).StatusCode);
+			Assert.Equal(HttpStatusCode.NotFound, (await driver.AnswerConsentAsync(token, granted: true)).StatusCode);
 
 			// US-15: the next WebJob run sends the check-in.
 			await driver.RunWebJobAsync(driver.Occurrence);

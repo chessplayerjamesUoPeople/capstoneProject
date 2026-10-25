@@ -57,9 +57,10 @@ namespace AmigoAlert.Data.Repositories
 		Task<int> DeactivateAsync(Guid contactId, CancellationToken ct = default);
 
 		/// <summary>
-		/// Records the contact's answer to a consent request and clears the token so the link cannot be reused. Applies only while the
-		/// contact is active, still pending, and the token has not expired at <paramref name="respondedAt"/>, so a repeated or late
-		/// submission records nothing.
+		/// Records the contact's answer to a consent request. The token is kept, since the same link is how the contact later withdraws
+		/// consent, and only the expiry is cleared because it applies to the pending request alone. Applies only while the contact is
+		/// active, still pending, and the token has not expired at <paramref name="respondedAt"/>, so a repeated or late submission
+		/// records nothing.
 		/// </summary>
 		/// <param name="contactId">The GUID ID of the contact who responded.</param>
 		/// <param name="status">The resulting consent status: granted or rejected.</param>
@@ -67,6 +68,20 @@ namespace AmigoAlert.Data.Repositories
 		/// <param name="ct">A cancellation token that can be used to cancel the operation.</param>
 		/// <returns>The number of rows updated: 1, or 0 if the request was no longer open.</returns>
 		Task<int> RecordConsentResponseAsync(Guid contactId, ConsentStatusType status, DateTimeOffset respondedAt,
+			CancellationToken ct = default);
+
+		/// <summary>
+		/// Moves an active contact from one consent status to another after the initial response: withdrawing granted consent, or
+		/// granting it again after a withdrawal. Applies only while the contact is active and currently in <paramref name="from"/>, so a
+		/// repeated or concurrent submission records nothing.
+		/// </summary>
+		/// <param name="contactId">The GUID ID of the contact whose consent changed.</param>
+		/// <param name="from">The status the contact must currently hold.</param>
+		/// <param name="to">The resulting consent status.</param>
+		/// <param name="changedAt">The time the change was received; stored as the latest response time.</param>
+		/// <param name="ct">A cancellation token that can be used to cancel the operation.</param>
+		/// <returns>The number of rows updated: 1, or 0 if the contact was no longer in <paramref name="from"/>.</returns>
+		Task<int> ChangeConsentAsync(Guid contactId, ConsentStatusType from, ConsentStatusType to, DateTimeOffset changedAt,
 			CancellationToken ct = default);
 	}
 }

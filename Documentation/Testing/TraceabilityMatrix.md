@@ -21,7 +21,7 @@ Each row maps one SRS requirement (`Requirements.docx`) to the tests that verify
 | US-01 | High | Register | S-01 | UAT-01 | I-01–I-04 | Pass (system); UAT pending |
 | US-02 | Low | Accept terms | — (client-only) | UAT-01 | I-01 (terms version stored) | UAT pending |
 | US-03 | High | Consent request SMS | S-01, S-11 | UAT-02 | I-01 | **Fail: D-01**; Deviation: D-02 |
-| US-04 | Medium | Opt-in/opt-out link | S-01, C-01, C-02, C-05, M-04 | UAT-04, UAT-16 | — | Pass (system); UAT pending |
+| US-04 | Medium | Opt-in/opt-out link | S-01, C-01, C-02, C-05, C-06, C-07, C-08, M-04 | UAT-04, UAT-16 | I-18, I-19 | Pass (system); UAT pending |
 | US-05 | Medium | Consent given | S-01, C-03 | UAT-04 | I-13 | Pass (system); UAT pending |
 | US-06 | Low | Consent rejected | S-02, C-04 | UAT-05 | — | Pass (system); UAT pending |
 | US-07 | Medium | Locked until consent | S-01, S-03, S-07 | UAT-03 | I-12, I-13 | Pass (system); UAT pending |

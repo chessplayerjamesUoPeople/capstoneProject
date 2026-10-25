@@ -29,7 +29,7 @@ This plan covers the last two test levels for AmigoAlert:
 |---|---|---|---|
 | Unit | Pure rules: SMS composition (NF-13), phone normalisation (DR-02) | xUnit, `[Trait("Level","Unit")]` | `AmigoAlert.Tests/Unit/` |
 | Integration | One API area at a time against SQL Server (I-01 to I-17) | xUnit + `WebApplicationFactory` | `AmigoAlert.Tests/Integration/` (existing) |
-| **System** | End-to-end journeys across the API, WebJob, consent page and DB (S-01 to S-11, C-01 to C-05), plus manual system checks (M-01 to M-04) | xUnit, `[Trait("Level","System")]`; manual for M-xx | `AmigoAlert.Tests/SystemTests/`, [SystemTestCases.md](SystemTestCases.md) |
+| **System** | End-to-end journeys across the API, WebJob, consent page and DB (S-01 to S-11, C-01 to C-08), plus manual system checks (M-01 to M-04) | xUnit, `[Trait("Level","System")]`; manual for M-xx | `AmigoAlert.Tests/SystemTests/`, [SystemTestCases.md](SystemTestCases.md) |
 | **Acceptance** | User stories on the Android app (UAT-01 to UAT-16) | Scripted manual Given/When/Then, with screenshots | [AcceptanceTestScripts.md](AcceptanceTestScripts.md) |
 
 ### System test design

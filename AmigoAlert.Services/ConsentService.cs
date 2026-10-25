@@ -26,8 +26,9 @@ namespace AmigoAlert.Services
 		ISmsService smsService, ITransactionProvider transactionProvider, IOptions<ConsentOptions> options, TimeProvider timeProvider)
 	{
 		/// <summary>
-		/// How long a consent link remains usable. Long enough for an older contact to notice the message over a weekend; after this the
-		/// user must re-submit the contact to send a new link.
+		/// How long a pending consent request remains open. Long enough for an older contact to notice the message over a weekend; after
+		/// this the user must re-submit the contact to send a new link. Once the contact has answered, the link no longer expires: it is how
+		/// they withdraw consent later.
 		/// </summary>
 		public static readonly TimeSpan TokenLifetime = TimeSpan.FromHours(72);
 
@@ -74,34 +75,64 @@ namespace AmigoAlert.Services
 			}
 
 			ConsentStatusType status = (ConsentStatusType)contact.ConsentStatusId;
-			bool canRespond = status == ConsentStatusType.Pending && contact.ConsentTokenExpires > timeProvider.GetUtcNow();
 
-			return new ConsentRequestDto(contact.Name, contact.User.Name, status, canRespond);
+			return new ConsentRequestDto(contact.Name, contact.User.Name, status, CanRespond(contact, timeProvider.GetUtcNow()));
 		}
 
 		/// <summary>
-		/// Records a contact's answer to a consent request. Missing, used, superseded and expired tokens are indistinguishable to the
-		/// caller: the endpoint is unauthenticated, and saying which one applies would tell a guesser more than it needs to know.
+		/// Whether the link still offers the contact a choice: answering a pending request that has not expired, withdrawing granted
+		/// consent, or granting it again after a withdrawal. A rejected or expired request offers none.
+		/// </summary>
+		/// <param name="contact">The contact holding the token.</param>
+		/// <param name="now">The current time.</param>
+		/// <returns>True when the contact can submit a response.</returns>
+		public static bool CanRespond(EmergencyContact contact, DateTimeOffset now)
+		{
+			return (ConsentStatusType)contact.ConsentStatusId switch
+			{
+				ConsentStatusType.Pending => contact.ConsentTokenExpires > now,
+				ConsentStatusType.Granted or ConsentStatusType.Revoked => true,
+				_ => false
+			};
+		}
+
+		/// <summary>
+		/// Records a contact's answer through the consent link: the first answer to a pending request, a later withdrawal of granted
+		/// consent, or granting again after a withdrawal. Missing, superseded, expired and inapplicable answers are indistinguishable to
+		/// the caller: the endpoint is unauthenticated, and saying which one applies would tell a guesser more than it needs to know.
 		/// </summary>
 		/// <param name="token">The consent token from the link.</param>
-		/// <param name="granted">True to grant consent, false to reject it.</param>
+		/// <param name="granted">True to grant consent, false to reject a pending request or withdraw granted consent.</param>
 		/// <param name="ct">A cancellation token that can be used to cancel the operation.</param>
-		/// <returns>True when the answer was recorded; false when the request was not open.</returns>
+		/// <returns>True when the answer was recorded; false when it did not apply to the contact's current state.</returns>
 		public async Task<bool> RespondAsync(Guid token, bool granted, CancellationToken ct = default)
 		{
 			EmergencyContact? contact = await contactRepository.GetByConsentTokenAsync(token, ct);
 			DateTimeOffset now = timeProvider.GetUtcNow();
 
-			if (contact is null || !contact.IsActive || contact.ConsentStatusId != (byte)ConsentStatusType.Pending
-				|| !(contact.ConsentTokenExpires > now))
+			if (contact is null || !contact.IsActive)
 			{
 				return false;
 			}
 
-			ConsentStatusType status = granted ? ConsentStatusType.Granted : ConsentStatusType.Rejected;
+			// Each update repeats the expected status in its predicate, so a concurrent second submission records nothing.
+			switch ((ConsentStatusType)contact.ConsentStatusId)
+			{
+				case ConsentStatusType.Pending when contact.ConsentTokenExpires > now:
+					ConsentStatusType status = granted ? ConsentStatusType.Granted : ConsentStatusType.Rejected;
+					return await contactRepository.RecordConsentResponseAsync(contact.Id, status, now, ct) > 0;
 
-			// The update repeats these conditions in its predicate, so a concurrent second submission records nothing.
-			return await contactRepository.RecordConsentResponseAsync(contact.Id, status, now, ct) > 0;
+				case ConsentStatusType.Granted when !granted:
+					return await contactRepository.ChangeConsentAsync(contact.Id, ConsentStatusType.Granted, ConsentStatusType.Revoked, now,
+						ct) > 0;
+
+				case ConsentStatusType.Revoked when granted:
+					return await contactRepository.ChangeConsentAsync(contact.Id, ConsentStatusType.Revoked, ConsentStatusType.Granted, now,
+						ct) > 0;
+
+				default:
+					return false;
+			}
 		}
 
 		private async Task<EmergencyContactChangeResult> SetContactAsync(Guid userId, string name, string phone, bool replaceExisting,
