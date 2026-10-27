@@ -61,6 +61,12 @@ namespace AmigoAlert.Data.Repositories
 				.ToListAsync(ct);
 		}
 
+		/// <inheritdoc cref="IUserRepository.GetByEmailAsync"/>
+		public Task<User?> GetByEmailAsync(string email, CancellationToken ct = default)
+		{
+			return context.Users.FirstOrDefaultAsync(u => u.Email == email, ct);
+		}
+
 		/// <inheritdoc cref="IUserRepository.GetByIdAsync"/>
 		public Task<User?> GetByIdAsync(Guid userId, CancellationToken ct = default)
 		{

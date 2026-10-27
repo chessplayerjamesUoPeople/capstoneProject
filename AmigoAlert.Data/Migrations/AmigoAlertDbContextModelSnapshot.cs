@@ -141,6 +141,55 @@ namespace AmigoAlert.Data.Migrations
                         });
                 });
 
+            modelBuilder.Entity("AmigoAlert.Data.Entities.EmailVerification", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<byte[]>("CodeHash")
+                        .IsRequired()
+                        .HasMaxLength(32)
+                        .HasColumnType("binary(32)")
+                        .IsFixedLength();
+
+                    b.Property<byte[]>("CodeSalt")
+                        .IsRequired()
+                        .HasMaxLength(16)
+                        .HasColumnType("binary(16)")
+                        .IsFixedLength();
+
+                    b.Property<DateTimeOffset?>("ConsumedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<DateTimeOffset>("ExpiresAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<byte>("FailedAttempts")
+                        .HasColumnType("tinyint");
+
+                    b.Property<byte>("PurposeId")
+                        .HasColumnType("tinyint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PurposeId");
+
+                    b.HasIndex("Email", "PurposeId", "CreatedAt");
+
+                    b.ToTable("EmailVerification", (string)null);
+                });
+
             modelBuilder.Entity("AmigoAlert.Data.Entities.EmergencyContact", b =>
                 {
                     b.Property<Guid>("Id")
@@ -412,6 +461,36 @@ namespace AmigoAlert.Data.Migrations
                     b.ToTable("User", (string)null);
                 });
 
+            modelBuilder.Entity("AmigoAlert.Data.Entities.VerificationPurpose", b =>
+                {
+                    b.Property<byte>("Id")
+                        .HasColumnType("tinyint");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.ToTable("VerificationPurpose", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = (byte)1,
+                            Name = "Registration"
+                        },
+                        new
+                        {
+                            Id = (byte)2,
+                            Name = "Login"
+                        });
+                });
+
             modelBuilder.Entity("AmigoAlert.Data.Entities.CheckIn", b =>
                 {
                     b.HasOne("AmigoAlert.Data.Entities.CheckInResponse", "Response")
@@ -429,6 +508,17 @@ namespace AmigoAlert.Data.Migrations
                     b.Navigation("Response");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("AmigoAlert.Data.Entities.EmailVerification", b =>
+                {
+                    b.HasOne("AmigoAlert.Data.Entities.VerificationPurpose", "Purpose")
+                        .WithMany()
+                        .HasForeignKey("PurposeId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Purpose");
                 });
 
             modelBuilder.Entity("AmigoAlert.Data.Entities.EmergencyContact", b =>
