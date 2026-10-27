@@ -368,7 +368,8 @@ namespace AmigoAlert.Tests.SystemTests
 		/// US-03 with the consent page URL the API is deployed with. Fails today: the URL leaves about five characters for the name, so
 		/// the contact cannot tell who is asking.
 		/// </summary>
-		[Fact(Skip = "D-01: the consent SMS truncates the user's name to fit the production consent URL. See TestReport.md.")]
+		//[Fact(Skip = "D-01: the consent SMS truncates the user's name to fit the production consent URL. See TestReport.md.")]
+		[Fact]
 		public async Task S11_ConsentRequest_NamesTheUser()
 		{
 			CreateUserDto request = driver.NewUser();

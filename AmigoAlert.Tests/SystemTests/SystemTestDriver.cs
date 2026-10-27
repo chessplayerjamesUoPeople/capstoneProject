@@ -49,7 +49,7 @@ namespace AmigoAlert.Tests.SystemTests
 
 		public Task<UserDto> RegisterAsync(CreateUserDto? request = null)
 		{
-			return RegistrationTests.RegisterAsync(Client, request ?? NewUser());
+			return RegistrationTests.RegisterAsync(factory, Client, request ?? NewUser());
 		}
 
 		/// <summary>Adds the contact and returns the consent token read from the link in the SMS it was sent.</summary>
