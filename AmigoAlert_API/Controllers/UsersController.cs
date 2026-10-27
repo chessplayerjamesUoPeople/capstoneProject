@@ -4,6 +4,7 @@ using AmigoAlert.Data.Repositories;
 using AmigoAlert.Services;
 using AmigoAlert.Services.Results;
 using AmigoAlert.Shared.DTOs;
+using AmigoAlert.Shared.Enums;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
@@ -96,8 +97,15 @@ namespace AmigoAlert.API.Controllers
 		[HttpPut("{id:guid}")]
 		[ProducesResponseType(StatusCodes.Status204NoContent)]
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
+		[ProducesResponseType(StatusCodes.Status409Conflict)]
 		public async Task<IActionResult> PutAsync(Guid id, UpdateUserDto request, CancellationToken ct)
 		{
+			User user = await userRepository.GetByIdAsync(id, ct);
+			if (user is not null && (user.StatusId == (byte)StatusType.Emergency || user.StatusId == (byte)StatusType.Escalated))
+			{
+				return Conflict("The user's status is currently emergency or escalated and cannot be updated.");
+			}
+
 			if (await userRepository.UpdateProfileAsync(id, request.Name, request.Phone, request.Address, request.Landmarks, ct) == 0)
 			{
 				return NotFound();
