@@ -18,6 +18,13 @@
 		<MauiXamlInflator>SourceGen</MauiXamlInflator>
 	</PropertyGroup>
 
+	<!-- Debug builds normally use Fast Deployment, which copies the .NET assemblies (tens of MB) into the app's data folder instead of the
+	     APK. Android's "Clear storage" then deletes the app's own code and it can no longer start. Embedding them keeps a Debug install
+	     working after its data is cleared, at the cost of slower deploys; Release builds always embed them. -->
+	<PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+		<EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
+	</PropertyGroup>
+
 	<ItemGroup>
 		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.0" />

@@ -76,9 +76,11 @@
                 Clicked="OnBackClicked" />
 
             <Button x:Name="SaveButton"
-                Text="Save"
+                Text="Continue"
                 Clicked="OnSaveClicked"
                 Margin="0,8,0,0" />
+            <Label Text="We will email you a code to confirm your email address."
+                   Style="{StaticResource HintText}" />
 
         </VerticalStackLayout>
     </ScrollView>

@@ -26,6 +26,9 @@
             <Label Text="Updating your information" FontAttributes="Bold" SemanticProperties.HeadingLevel="Level2" />
             <Label Text="Tap the settings gear at the top left of the home page to change your details, check-in times or emergency contact. Settings are unavailable during an emergency." />
 
+            <Label Text="New phone or reinstalled app" FontAttributes="Bold" SemanticProperties.HeadingLevel="Level2" />
+            <Label Text="If you change phones, reinstall AmigoAlert or clear its data, tap &quot;Log in&quot; and enter the email address you registered with. We will email you a code; enter it to get your account back. Your details and emergency contact are kept." />
+
             <Label Text="Location" FontAttributes="Bold" SemanticProperties.HeadingLevel="Level2" />
             <Label Text="Your location is shared with your emergency contact only when you press the emergency button or miss a check-in. Choose &quot;Allow all the time&quot; so this also works when the app is closed. Without it, your registered address is sent instead." />
 

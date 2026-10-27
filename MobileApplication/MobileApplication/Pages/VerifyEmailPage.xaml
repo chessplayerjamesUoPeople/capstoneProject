@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MobileApplication.Pages.VerifyEmailPage"
+             Title="Check your email">
+    <ScrollView>
+        <VerticalStackLayout Padding="16" Spacing="8" MaximumWidthRequest="600">
+
+            <Label Text="Check your email"
+                   Style="{StaticResource Headline}"
+                   SemanticProperties.HeadingLevel="Level1" />
+
+            <Label x:Name="InstructionsLabel" />
+
+            <Label Text="Code" />
+            <Entry x:Name="CodeEntry"
+                   Keyboard="Numeric"
+                   MaxLength="6"
+                   ReturnType="Done"
+                   Completed="OnVerifyClicked"
+                   FontSize="24"
+                   CharacterSpacing="6"
+                   SemanticProperties.Hint="The 6-digit code from the email" />
+            <Label Text="The code expires 10 minutes after it was sent. If you cannot find the email, check your spam folder."
+                   Style="{StaticResource HintText}" />
+
+            <Label x:Name="ErrorLabel"
+                   Style="{StaticResource ErrorText}"
+                   IsVisible="False" />
+
+            <ActivityIndicator x:Name="BusyIndicator"
+                               IsRunning="False"
+                               IsVisible="False"
+                               SemanticProperties.Description="Checking the code" />
+
+            <Button x:Name="VerifyButton"
+                    Text="Verify"
+                    Clicked="OnVerifyClicked"
+                    Margin="0,8,0,0" />
+
+            <Button x:Name="ResendButton"
+                    Text="Send a new code"
+                    Clicked="OnResendClicked"
+                    Margin="0,8,0,0" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

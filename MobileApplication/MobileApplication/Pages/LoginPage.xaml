@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MobileApplication.Pages.LoginPage"
+             Title="Log in">
+    <ScrollView>
+        <VerticalStackLayout Padding="16" Spacing="8" MaximumWidthRequest="600">
+
+            <Label Text="Log in"
+                   Style="{StaticResource Headline}"
+                   SemanticProperties.HeadingLevel="Level1" />
+
+            <Label Text="Enter the email address you registered with. We will email you a code to log in with." />
+
+            <Label Text="Email Address" />
+            <Entry x:Name="EmailEntry"
+                   Keyboard="Email"
+                   MaxLength="100"
+                   ReturnType="Go"
+                   Completed="OnSendCodeClicked"
+                   SemanticProperties.Hint="The email address you registered with" />
+
+            <Label x:Name="ErrorLabel"
+                   Style="{StaticResource ErrorText}"
+                   IsVisible="False" />
+
+            <ActivityIndicator x:Name="SendingIndicator"
+                               IsRunning="False"
+                               IsVisible="False"
+                               SemanticProperties.Description="Sending the code" />
+
+            <Button x:Name="SendCodeButton"
+                    Text="Send code"
+                    Clicked="OnSendCodeClicked"
+                    Margin="0,8,0,0" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

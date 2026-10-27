@@ -115,7 +115,7 @@ namespace MobileApplication.Droid.Notifications
 			try
 			{
 				// Throws when the build had no google-services.json, so Firebase was never initialised.
-				// Nobody has registered on this device yet; the next launch after registering will get here.
+				// Nobody has registered or logged in on this device yet; doing so calls this again through ApiSettings.UserIdChanged.
 				if (await ApiSettings.GetUserIdAsync() is not { } userId)
 					return;
 

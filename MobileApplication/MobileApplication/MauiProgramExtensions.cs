@@ -27,6 +27,9 @@ namespace MobileApplication
 			builder.Services.AddTransient<RegistrationPage>();
 			builder.Services.AddTransient<TermsAndConditionsPage>();
 			builder.Services.AddTransient<HelpPage>();
+			builder.Services.AddTransient<WelcomePage>();
+			builder.Services.AddTransient<LoginPage>();
+			builder.Services.AddTransient<VerifyEmailPage>();
 
 #if DEBUG
 			builder.Logging.AddDebug();
