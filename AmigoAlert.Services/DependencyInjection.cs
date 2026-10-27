@@ -12,9 +12,10 @@ namespace AmigoAlert.Services
 	public static class DependencyInjection
 	{
 		/// <summary>
-		/// Registers the escalation, consent, registration and SMS services, binding <see cref="TwilioOptions"/> and
-		/// <see cref="ConsentOptions"/> from <paramref name="configuration"/>. <see cref="MockSmsService"/> replaces
-		/// <see cref="SmsService"/> when <c>Twilio:UseMockSms</c> is true.
+		/// Registers the escalation, consent, registration, log in, SMS and email services, binding <see cref="TwilioOptions"/>,
+		/// <see cref="ConsentOptions"/> and <see cref="EmailOptions"/> from <paramref name="configuration"/>. <see cref="MockSmsService"/>
+		/// replaces <see cref="SmsService"/> when <c>Twilio:UseMockSms</c> is true, and <see cref="MockEmailService"/> replaces
+		/// <see cref="EmailService"/> when <c>Email:UseMockEmail</c> is true.
 		/// </summary>
 		/// <param name="services">The service collection to add to.</param>
 		/// <param name="configuration">The host configuration containing the <c>Twilio</c> and <c>Consent</c> sections.</param>
@@ -24,6 +25,7 @@ namespace AmigoAlert.Services
 			services.Configure<TwilioOptions>(configuration.GetSection(TwilioOptions.SectionName));
 			services.Configure<ConsentOptions>(configuration.GetSection(ConsentOptions.SectionName));
 			services.Configure<NotificationHubOptions>(configuration.GetSection(NotificationHubOptions.SectionName));
+			services.Configure<EmailOptions>(configuration.GetSection(EmailOptions.SectionName));
 
 			services.TryAddSingleton(TimeProvider.System);
 
@@ -44,12 +46,24 @@ namespace AmigoAlert.Services
 				services.AddScoped<ISmsService, SmsService>();
 			}
 
+			// With the mock on, nothing in the process can reach Communication Services.
+			if (configuration.GetSection(EmailOptions.SectionName).GetValue<bool>(nameof(EmailOptions.UseMockEmail)))
+			{
+				services.AddSingleton<IEmailService, MockEmailService>();
+			}
+			else
+			{
+				services.AddSingleton<IEmailService, EmailService>();
+			}
+
 			services.AddSingleton<IPushNotificationService, NotificationHubPushService>();
 
 			services.AddScoped<EscalationService>();
 			services.AddScoped<ICleanupService, CleanupService>();
 			services.AddScoped<ConsentService>();
+			services.AddScoped<EmailVerificationService>();
 			services.AddScoped<RegistrationService>();
+			services.AddScoped<LoginService>();
 
 			return services;
 		}

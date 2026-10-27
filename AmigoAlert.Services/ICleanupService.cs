@@ -14,5 +14,12 @@ namespace AmigoAlert.Services
 		/// </summary>
 		/// <returns>The number of location records that were deleted.</returns>
 		public Task<int> CleanupOldLocations();
+
+		/// <summary>
+		/// Deletes email verification codes that expired more than a day before <paramref name="now"/>, used or not.
+		/// </summary>
+		/// <param name="now">The current time.</param>
+		/// <returns>The number of verification codes that were deleted.</returns>
+		public Task<int> CleanupExpiredVerificationCodes(DateTimeOffset now);
 	}
 }
