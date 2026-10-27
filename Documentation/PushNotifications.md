@@ -278,6 +278,11 @@ variables, which keeps it outside the repository and out of shell history. Both 
   * Device tags are set by the server, which is as far as protection goes without authentication.
   * The fix is user authentication, for example Entra External ID with JWT bearer tokens, plus ownership checks on the `api/users/{id}` and
     `api/checkins/{id}` routes.
+  * Email-code log in (see [EmailVerification.md](EmailVerification.md)) proves the user owns their email address, but it only returns
+    the user id. It issues no session, so it does not close this gap. A session token issued at log in would be the natural place to
+    start.
+  * `POST api/verification-codes` answers 404 or 409 depending on whether an address is registered. `POST api/users` already revealed
+    this with its 409.
 * **A late "I'm okay".** `RecordCheckInResponseAsync` sets the status to Okay even after the contact has been alerted, without sending
   the stand-down SMS.
   * The notification removes itself before escalation, which makes this unlikely from a notification.

@@ -59,7 +59,7 @@ namespace MobileApplication.Pages
 			{
 				if (await ApiSettings.GetUserIdAsync() is not { } userId)
 				{
-					ShowErrors("You are not registered yet. Please restart the app to register.");
+					ShowErrors("You are not logged in. Please restart the app to log in or register.");
 					return;
 				}
 
@@ -211,7 +211,7 @@ namespace MobileApplication.Pages
 			{
 				if (await ApiSettings.GetUserIdAsync() is not { } userId)
 				{
-					ShowErrors("You are not registered yet. Please restart the app to register.");
+					ShowErrors("You are not logged in. Please restart the app to log in or register.");
 					return;
 				}
 

@@ -1,230 +1,270 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TestRun id="369e6002-8be2-4be3-9838-881c145e4e7e" name="chess@JAMES-I7-DT 2026-10-16 07:53:17" runUser="JAMES-I7-DT\chess" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
-  <Times creation="2026-10-16T07:53:17.6408396-05:00" queuing="2026-10-16T07:53:17.6408403-05:00" start="2026-10-16T07:53:06.2138381-05:00" finish="2026-10-16T07:53:21.9536189-05:00" />
-  <TestSettings name="default" id="b12db5fe-e8c8-4e16-8fc5-96674400f0ed">
-    <Deployment runDeploymentRoot="chess_JAMES-I7-DT_2026-10-16_07_53_17" />
+<TestRun id="9eb5a7f5-cf64-410b-b80a-48fb5f63e541" name="chess@JAMES-I7-DT 2026-10-27 12:53:43" runUser="JAMES-I7-DT\chess" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-10-27T12:53:43.8965004-05:00" queuing="2026-10-27T12:53:43.8965009-05:00" start="2026-10-27T12:53:35.7932728-05:00" finish="2026-10-27T12:53:49.0337910-05:00" />
+  <TestSettings name="default" id="6a848aea-1fd5-4a65-b669-9ad817f96a6e">
+    <Deployment runDeploymentRoot="chess_JAMES-I7-DT_2026-10-27_12_53_43" />
   </TestSettings>
   <Results>
-    <UnitTestResult executionId="bdb3b499-de0d-40f5-bbda-6dd37c0cf723" testId="4cdb8a76-2584-21bd-a713-790f74a0cac3" testName="AmigoAlert.Tests.SystemTests.SystemJourneyTests.S10_UnsignedDeliveryCallback_IsForbidden" computerName="JAMES-I7-DT" duration="00:00:00.0373851" startTime="2026-10-16T07:53:19.8714944-05:00" endTime="2026-10-16T07:53:19.9365262-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="bdb3b499-de0d-40f5-bbda-6dd37c0cf723" />
-    <UnitTestResult executionId="a0f1caf4-45c2-4ed1-b666-8f20029a182d" testId="7f3e8a3f-eb6f-5900-2ae2-f51f73eae740" testName="AmigoAlert.Tests.SystemTests.SystemJourneyTests.S06_EmergencyButton_AlertsTheContactAndCanBeCancelled" computerName="JAMES-I7-DT" duration="00:00:00.2704856" startTime="2026-10-16T07:53:17.6841859-05:00" endTime="2026-10-16T07:53:17.9951415-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a0f1caf4-45c2-4ed1-b666-8f20029a182d" />
-    <UnitTestResult executionId="71ed9759-a75a-4576-b73c-dd26c6834356" testId="95fc534e-62ac-8a69-f0d2-4d4621bf6f87" testName="AmigoAlert.Tests.SystemTests.ConsentPageTests.C03_AcceptWithTerms_OptsIn" computerName="JAMES-I7-DT" duration="00:00:00.4834763" startTime="2026-10-16T07:53:20.1441892-05:00" endTime="2026-10-16T07:53:20.9109458-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="71ed9759-a75a-4576-b73c-dd26c6834356" />
-    <UnitTestResult executionId="beaaeaad-0541-4650-a464-25a15e1b78b6" testId="15796807-527a-b53b-7a06-88a4b10c4d6d" testName="AmigoAlert.Tests.SystemTests.SystemJourneyTests.S05b_MissedCheckInWithoutLocation_AsksTheContactToCallOrVisit" computerName="JAMES-I7-DT" duration="00:00:00.0845032" startTime="2026-10-16T07:53:19.7569391-05:00" endTime="2026-10-16T07:53:19.8710673-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="beaaeaad-0541-4650-a464-25a15e1b78b6" />
-    <UnitTestResult executionId="a8c56db1-6961-4bf6-bcd0-55b14a4e9810" testId="3221c0af-3bef-210e-9676-1627fcc8f4f9" testName="AmigoAlert.Tests.SystemTests.SystemJourneyTests.S04_CheckInAnswered_ReturnsToOkayDiscardsLocationAndNeverEscalates" computerName="JAMES-I7-DT" duration="00:00:00.1707930" startTime="2026-10-16T07:53:19.9369233-05:00" endTime="2026-10-16T07:53:20.1376480-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a8c56db1-6961-4bf6-bcd0-55b14a4e9810" />
-    <UnitTestResult executionId="93764321-b873-401d-be5e-85d46465585b" testId="825beebe-28b6-d760-a358-8498d014abff" testName="AmigoAlert.Tests.SystemTests.SystemJourneyTests.S08_WebJobRun_PurgesLocationsOlderThan90Days" computerName="JAMES-I7-DT" duration="00:00:00.6742511" startTime="2026-10-16T07:53:19.0522993-05:00" endTime="2026-10-16T07:53:19.7565121-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="93764321-b873-401d-be5e-85d46465585b" />
-    <UnitTestResult executionId="0208f657-ac26-47c6-ae5f-ba1269e1f6a2" testId="384987fa-9751-a104-374d-8545c0b97b8b" testName="AmigoAlert.Tests.SystemTests.ConsentPageTests.C05_UnknownOrExpiredLink_IsRefused" computerName="JAMES-I7-DT" duration="00:00:00.0950245" startTime="2026-10-16T07:53:21.5576929-05:00" endTime="2026-10-16T07:53:21.7639687-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="0208f657-ac26-47c6-ae5f-ba1269e1f6a2" />
-    <UnitTestResult executionId="d32b5aa1-559d-4f0e-8749-d69c1ffbf747" testId="cee561e8-bab0-e4bb-a989-f16df043ec99" testName="AmigoAlert.Tests.SystemTests.SystemJourneyTests.S03_AwaitingConsent_NoCheckInsRemindersOrAlerts" computerName="JAMES-I7-DT" duration="00:00:00.0688964" startTime="2026-10-16T07:53:17.6046544-05:00" endTime="2026-10-16T07:53:17.6756228-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="d32b5aa1-559d-4f0e-8749-d69c1ffbf747" />
-    <UnitTestResult executionId="8a14b0fa-3098-4384-880a-891a8e0f82dd" testId="2d7c3f61-46ed-e4e6-2878-329fa7be0577" testName="AmigoAlert.Tests.SystemTests.SystemJourneyTests.S09_LongestAcceptedNameAndAddress_EverySmsFitsOneSegment" computerName="JAMES-I7-DT" duration="00:00:00.1998741" startTime="2026-10-16T07:53:18.2652588-05:00" endTime="2026-10-16T07:53:18.4958525-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="8a14b0fa-3098-4384-880a-891a8e0f82dd" />
-    <UnitTestResult executionId="3fe609f5-8a61-4896-8742-618025236b09" testId="6aafebbb-ac03-d4c9-9cf0-22b5c8448344" testName="AmigoAlert.Tests.SystemTests.ConsentPageTests.C02_AcceptWithoutTickingTerms_RecordsNothing" computerName="JAMES-I7-DT" duration="00:00:00.0971477" startTime="2026-10-16T07:53:20.9113580-05:00" endTime="2026-10-16T07:53:21.1150824-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="3fe609f5-8a61-4896-8742-618025236b09" />
-    <UnitTestResult executionId="50fca0bc-9c91-4229-b014-dd5397f7c96b" testId="3d1606d7-7a78-c32c-c8dd-46b15b5648fd" testName="AmigoAlert.Tests.SystemTests.SystemJourneyTests.S05_MissedCheckIn_RemindsThenEscalatesWithLocationThenCancels" computerName="JAMES-I7-DT" duration="00:00:00.2613734" startTime="2026-10-16T07:53:18.7454153-05:00" endTime="2026-10-16T07:53:19.0519107-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="50fca0bc-9c91-4229-b014-dd5397f7c96b" />
-    <UnitTestResult executionId="c1aa0ba5-4db3-44ba-a27e-600eb2819070" testId="b1d94964-706b-e179-cf3a-d5f565761d4f" testName="AmigoAlert.Tests.SystemTests.SystemJourneyTests.S07_UpdateInformation_NewContactNumberRevertsToPendingConsent" computerName="JAMES-I7-DT" duration="00:00:00.1814879" startTime="2026-10-16T07:53:18.4962208-05:00" endTime="2026-10-16T07:53:18.7450375-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c1aa0ba5-4db3-44ba-a27e-600eb2819070" />
-    <UnitTestResult executionId="02fa0e57-9d5c-4ad2-9a0c-c43ce01ab1d1" testId="33f50cc2-2847-5d60-9f7b-93a2f7bbcb24" testName="AmigoAlert.Tests.SystemTests.SystemJourneyTests.S11_ConsentRequest_NamesTheUser" computerName="JAMES-I7-DT" duration="00:00:00.0010000" startTime="2026-10-16T07:53:17.6776813-05:00" endTime="2026-10-16T07:53:17.6785440-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="NotExecuted" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="02fa0e57-9d5c-4ad2-9a0c-c43ce01ab1d1">
-      <Output>
-        <ErrorInfo>
-          <Message>D-01: the consent SMS truncates the user's name to fit the production consent URL. See TestReport.md.</Message>
-        </ErrorInfo>
-      </Output>
-    </UnitTestResult>
-    <UnitTestResult executionId="1511388d-6c4b-46ea-9761-4d276ce74c4c" testId="e9d3205d-a68c-3a03-1092-cab35a145e54" testName="AmigoAlert.Tests.SystemTests.ConsentPageTests.C04_Decline_OptsOut" computerName="JAMES-I7-DT" duration="00:00:00.0930646" startTime="2026-10-16T07:53:21.3585940-05:00" endTime="2026-10-16T07:53:21.5572573-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="1511388d-6c4b-46ea-9761-4d276ce74c4c" />
-    <UnitTestResult executionId="cfcdbd41-e294-40aa-8c3b-241f21f88081" testId="fdf80ae9-df51-6f29-3aa2-573b54d2745f" testName="AmigoAlert.Tests.SystemTests.SystemJourneyTests.S02_ContactDeclines_UserStaysLockedUntilANewContactConsents" computerName="JAMES-I7-DT" duration="00:00:00.2341059" startTime="2026-10-16T07:53:17.9955665-05:00" endTime="2026-10-16T07:53:18.2648558-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="cfcdbd41-e294-40aa-8c3b-241f21f88081" />
-    <UnitTestResult executionId="3e3ca756-f769-47e9-8b40-49909abc4ee4" testId="2bc2a06c-c350-4182-a23a-ab96fbe0ee5c" testName="AmigoAlert.Tests.SystemTests.ConsentPageTests.C01_OpenLink_ShowsWhoIsAskingAndBothChoices" computerName="JAMES-I7-DT" duration="00:00:00.1166093" startTime="2026-10-16T07:53:21.1154609-05:00" endTime="2026-10-16T07:53:21.3581770-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="3e3ca756-f769-47e9-8b40-49909abc4ee4" />
-    <UnitTestResult executionId="87d3433f-6db3-4d78-b790-2d414913887d" testId="6221609a-6fe8-5d1b-88ed-9425c658518c" testName="AmigoAlert.Tests.SystemTests.SystemJourneyTests.S01_OnboardingThroughConsent_UnlocksCheckInsAndEmergency" computerName="JAMES-I7-DT" duration="00:00:02.9922489" startTime="2026-10-16T07:53:08.1301726-05:00" endTime="2026-10-16T07:53:17.5652961-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="87d3433f-6db3-4d78-b790-2d414913887d" />
+    <UnitTestResult executionId="58d061f3-d277-462f-be33-9036ab8e573e" testId="95fc534e-62ac-8a69-f0d2-4d4621bf6f87" testName="AmigoAlert.Tests.SystemTests.ConsentPageTests.C03_AcceptWithTerms_OptsIn" computerName="JAMES-I7-DT" duration="00:00:00.1797444" startTime="2026-10-27T12:53:47.1498393-05:00" endTime="2026-10-27T12:53:47.4933763-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="58d061f3-d277-462f-be33-9036ab8e573e" />
+    <UnitTestResult executionId="a96445ec-7a84-4aaa-89fc-a4d05e828d71" testId="b1d94964-706b-e179-cf3a-d5f565761d4f" testName="AmigoAlert.Tests.SystemTests.SystemJourneyTests.S07_UpdateInformation_NewContactNumberRevertsToPendingConsent" computerName="JAMES-I7-DT" duration="00:00:00.1717064" startTime="2026-10-27T12:53:44.7368726-05:00" endTime="2026-10-27T12:53:44.9410192-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a96445ec-7a84-4aaa-89fc-a4d05e828d71" />
+    <UnitTestResult executionId="723be515-b109-4913-8b0d-d148d22db0d5" testId="8d5f5ccb-5223-945c-3797-c35abc2a32c9" testName="AmigoAlert.Tests.SystemTests.ConsentPageTests.C08_LinkOfReplacedContact_IsRefused" computerName="JAMES-I7-DT" duration="00:00:00.1516144" startTime="2026-10-27T12:53:47.4937399-05:00" endTime="2026-10-27T12:53:47.7756916-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="723be515-b109-4913-8b0d-d148d22db0d5" />
+    <UnitTestResult executionId="26f25caf-9f04-4901-880d-0b5c93a79d9c" testId="cee561e8-bab0-e4bb-a989-f16df043ec99" testName="AmigoAlert.Tests.SystemTests.SystemJourneyTests.S03_AwaitingConsent_NoCheckInsRemindersOrAlerts" computerName="JAMES-I7-DT" duration="00:00:00.0744833" startTime="2026-10-27T12:53:43.8564259-05:00" endTime="2026-10-27T12:53:43.9353229-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="26f25caf-9f04-4901-880d-0b5c93a79d9c" />
+    <UnitTestResult executionId="8ff0bd66-c331-4095-aeba-f6431c8b1d65" testId="384987fa-9751-a104-374d-8545c0b97b8b" testName="AmigoAlert.Tests.SystemTests.ConsentPageTests.C05_UnknownOrExpiredLink_IsRefused" computerName="JAMES-I7-DT" duration="00:00:00.0963760" startTime="2026-10-27T12:53:48.6210469-05:00" endTime="2026-10-27T12:53:48.8393409-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="8ff0bd66-c331-4095-aeba-f6431c8b1d65" />
+    <UnitTestResult executionId="eef68d21-c1ff-4669-8c62-987e55b9d78a" testId="fdf80ae9-df51-6f29-3aa2-573b54d2745f" testName="AmigoAlert.Tests.SystemTests.SystemJourneyTests.S02_ContactDeclines_UserStaysLockedUntilANewContactConsents" computerName="JAMES-I7-DT" duration="00:00:00.1584380" startTime="2026-10-27T12:53:44.3157274-05:00" endTime="2026-10-27T12:53:44.5049975-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="eef68d21-c1ff-4669-8c62-987e55b9d78a" />
+    <UnitTestResult executionId="f3b776ce-8c5c-4187-9982-9b06d92e6a87" testId="8d8e27ba-fc1c-971c-088b-f59d7d731803" testName="AmigoAlert.Tests.SystemTests.ConsentPageTests.C07_AcceptAgainAfterWithdrawing_OptsBackIn" computerName="JAMES-I7-DT" duration="00:00:00.1820421" startTime="2026-10-27T12:53:47.9974977-05:00" endTime="2026-10-27T12:53:48.2626520-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="f3b776ce-8c5c-4187-9982-9b06d92e6a87" />
+    <UnitTestResult executionId="167a83ac-b0fd-4cb9-9ea3-fe3c76cb8f37" testId="11f50ca4-64e4-1645-3de4-2402dd0ca311" testName="AmigoAlert.Tests.SystemTests.ConsentPageTests.C06_WithdrawFromTheSameLink_OptsOut" computerName="JAMES-I7-DT" duration="00:00:00.5018129" startTime="2026-10-27T12:53:46.3409356-05:00" endTime="2026-10-27T12:53:47.1494452-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="167a83ac-b0fd-4cb9-9ea3-fe3c76cb8f37" />
+    <UnitTestResult executionId="b5eed39e-c2e1-42f9-8bf7-5d576c7311c4" testId="33f50cc2-2847-5d60-9f7b-93a2f7bbcb24" testName="AmigoAlert.Tests.SystemTests.SystemJourneyTests.S11_ConsentRequest_NamesTheUser" computerName="JAMES-I7-DT" duration="00:00:00.0343305" startTime="2026-10-27T12:53:43.9373620-05:00" endTime="2026-10-27T12:53:44.0004591-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="b5eed39e-c2e1-42f9-8bf7-5d576c7311c4" />
+    <UnitTestResult executionId="4c46607e-4e1f-47fa-8a8c-abb765676258" testId="6aafebbb-ac03-d4c9-9cf0-22b5c8448344" testName="AmigoAlert.Tests.SystemTests.ConsentPageTests.C02_AcceptWithoutTickingTerms_RecordsNothing" computerName="JAMES-I7-DT" duration="00:00:00.1128931" startTime="2026-10-27T12:53:47.7761629-05:00" endTime="2026-10-27T12:53:47.9971241-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="4c46607e-4e1f-47fa-8a8c-abb765676258" />
+    <UnitTestResult executionId="a20d97ab-0cad-4be1-bc54-c2b6bbdc8fd9" testId="4cdb8a76-2584-21bd-a713-790f74a0cac3" testName="AmigoAlert.Tests.SystemTests.SystemJourneyTests.S10_UnsignedDeliveryCallback_IsForbidden" computerName="JAMES-I7-DT" duration="00:00:00.0351244" startTime="2026-10-27T12:53:46.0625088-05:00" endTime="2026-10-27T12:53:46.1261664-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a20d97ab-0cad-4be1-bc54-c2b6bbdc8fd9" />
+    <UnitTestResult executionId="dd6e6052-6b6e-4871-88e8-f989c220da85" testId="15796807-527a-b53b-7a06-88a4b10c4d6d" testName="AmigoAlert.Tests.SystemTests.SystemJourneyTests.S05b_MissedCheckInWithoutLocation_AsksTheContactToCallOrVisit" computerName="JAMES-I7-DT" duration="00:00:00.0892576" startTime="2026-10-27T12:53:45.9410471-05:00" endTime="2026-10-27T12:53:46.0621056-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="dd6e6052-6b6e-4871-88e8-f989c220da85" />
+    <UnitTestResult executionId="95ed3f7d-98e4-45a8-a455-b7f5e39d60b5" testId="825beebe-28b6-d760-a358-8498d014abff" testName="AmigoAlert.Tests.SystemTests.SystemJourneyTests.S08_WebJobRun_PurgesLocationsOlderThan90Days" computerName="JAMES-I7-DT" duration="00:00:00.6547380" startTime="2026-10-27T12:53:45.2499252-05:00" endTime="2026-10-27T12:53:45.9406062-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="95ed3f7d-98e4-45a8-a455-b7f5e39d60b5" />
+    <UnitTestResult executionId="d4e9841e-f59c-47f8-b184-c6a5a021e839" testId="2d7c3f61-46ed-e4e6-2878-329fa7be0577" testName="AmigoAlert.Tests.SystemTests.SystemJourneyTests.S09_LongestAcceptedNameAndAddress_EverySmsFitsOneSegment" computerName="JAMES-I7-DT" duration="00:00:00.1989350" startTime="2026-10-27T12:53:44.5053798-05:00" endTime="2026-10-27T12:53:44.7365030-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="d4e9841e-f59c-47f8-b184-c6a5a021e839" />
+    <UnitTestResult executionId="4d2b51d3-5e5b-4285-aa39-c198e1931941" testId="2bc2a06c-c350-4182-a23a-ab96fbe0ee5c" testName="AmigoAlert.Tests.SystemTests.ConsentPageTests.C01_OpenLink_ShowsWhoIsAskingAndBothChoices" computerName="JAMES-I7-DT" duration="00:00:00.0923774" startTime="2026-10-27T12:53:48.2630458-05:00" endTime="2026-10-27T12:53:48.4438184-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="4d2b51d3-5e5b-4285-aa39-c198e1931941" />
+    <UnitTestResult executionId="23e2806e-1380-4afa-9176-a8bf6e51c41b" testId="6221609a-6fe8-5d1b-88ed-9425c658518c" testName="AmigoAlert.Tests.SystemTests.SystemJourneyTests.S01_OnboardingThroughConsent_UnlocksCheckInsAndEmergency" computerName="JAMES-I7-DT" duration="00:00:02.9867335" startTime="2026-10-27T12:53:37.5620250-05:00" endTime="2026-10-27T12:53:43.8167724-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="23e2806e-1380-4afa-9176-a8bf6e51c41b" />
+    <UnitTestResult executionId="1edbfc9a-0688-4626-aeb4-505857c6092f" testId="3d1606d7-7a78-c32c-c8dd-46b15b5648fd" testName="AmigoAlert.Tests.SystemTests.SystemJourneyTests.S05_MissedCheckIn_RemindsThenEscalatesWithLocationThenCancels" computerName="JAMES-I7-DT" duration="00:00:00.2754734" startTime="2026-10-27T12:53:44.9413845-05:00" endTime="2026-10-27T12:53:45.2495498-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="1edbfc9a-0688-4626-aeb4-505857c6092f" />
+    <UnitTestResult executionId="4112137c-1a4b-484a-9440-eb1df5fb6f78" testId="7f3e8a3f-eb6f-5900-2ae2-f51f73eae740" testName="AmigoAlert.Tests.SystemTests.SystemJourneyTests.S06_EmergencyButton_AlertsTheContactAndCanBeCancelled" computerName="JAMES-I7-DT" duration="00:00:00.2597840" startTime="2026-10-27T12:53:44.0010490-05:00" endTime="2026-10-27T12:53:44.3153308-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="4112137c-1a4b-484a-9440-eb1df5fb6f78" />
+    <UnitTestResult executionId="dc37804c-b926-48fc-91ca-f3573c82c5d3" testId="e9d3205d-a68c-3a03-1092-cab35a145e54" testName="AmigoAlert.Tests.SystemTests.ConsentPageTests.C04_Decline_OptsOut" computerName="JAMES-I7-DT" duration="00:00:00.0943205" startTime="2026-10-27T12:53:48.4442123-05:00" endTime="2026-10-27T12:53:48.6207040-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="dc37804c-b926-48fc-91ca-f3573c82c5d3" />
+    <UnitTestResult executionId="2d6daaf4-c605-4b64-b076-65b07cef53c2" testId="3221c0af-3bef-210e-9676-1627fcc8f4f9" testName="AmigoAlert.Tests.SystemTests.SystemJourneyTests.S04_CheckInAnswered_ReturnsToOkayDiscardsLocationAndNeverEscalates" computerName="JAMES-I7-DT" duration="00:00:00.1767820" startTime="2026-10-27T12:53:46.1265433-05:00" endTime="2026-10-27T12:53:46.3354386-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="2d6daaf4-c605-4b64-b076-65b07cef53c2" />
   </Results>
   <TestDefinitions>
-    <UnitTest name="AmigoAlert.Tests.SystemTests.ConsentPageTests.C05_UnknownOrExpiredLink_IsRefused" storage="d:\source\repos\chessplayerjamesuopeople\capstoneproject\.claude\worktrees\system-acceptance-testing-plan-f5384c\amigoalert.tests\bin\debug\net10.0\amigoalert.tests.dll" id="384987fa-9751-a104-374d-8545c0b97b8b">
-      <Execution id="0208f657-ac26-47c6-ae5f-ba1269e1f6a2" />
-      <TestMethod codeBase="D:\source\repos\chessplayerjamesUoPeople\capstoneProject\.claude\worktrees\system-acceptance-testing-plan-f5384c\AmigoAlert.Tests\bin\Debug\net10.0\AmigoAlert.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="AmigoAlert.Tests.SystemTests.ConsentPageTests" name="C05_UnknownOrExpiredLink_IsRefused" />
+    <UnitTest name="AmigoAlert.Tests.SystemTests.SystemJourneyTests.S02_ContactDeclines_UserStaysLockedUntilANewContactConsents" storage="d:\source\repos\chessplayerjamesuopeople\capstoneproject\amigoalert.tests\bin\debug\net10.0\amigoalert.tests.dll" id="fdf80ae9-df51-6f29-3aa2-573b54d2745f">
+      <Execution id="eef68d21-c1ff-4669-8c62-987e55b9d78a" />
+      <TestMethod codeBase="D:\source\repos\chessplayerjamesUoPeople\capstoneProject\AmigoAlert.Tests\bin\Debug\net10.0\AmigoAlert.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="AmigoAlert.Tests.SystemTests.SystemJourneyTests" name="S02_ContactDeclines_UserStaysLockedUntilANewContactConsents" />
     </UnitTest>
-    <UnitTest name="AmigoAlert.Tests.SystemTests.SystemJourneyTests.S01_OnboardingThroughConsent_UnlocksCheckInsAndEmergency" storage="d:\source\repos\chessplayerjamesuopeople\capstoneproject\.claude\worktrees\system-acceptance-testing-plan-f5384c\amigoalert.tests\bin\debug\net10.0\amigoalert.tests.dll" id="6221609a-6fe8-5d1b-88ed-9425c658518c">
-      <Execution id="87d3433f-6db3-4d78-b790-2d414913887d" />
-      <TestMethod codeBase="D:\source\repos\chessplayerjamesUoPeople\capstoneProject\.claude\worktrees\system-acceptance-testing-plan-f5384c\AmigoAlert.Tests\bin\Debug\net10.0\AmigoAlert.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="AmigoAlert.Tests.SystemTests.SystemJourneyTests" name="S01_OnboardingThroughConsent_UnlocksCheckInsAndEmergency" />
+    <UnitTest name="AmigoAlert.Tests.SystemTests.SystemJourneyTests.S09_LongestAcceptedNameAndAddress_EverySmsFitsOneSegment" storage="d:\source\repos\chessplayerjamesuopeople\capstoneproject\amigoalert.tests\bin\debug\net10.0\amigoalert.tests.dll" id="2d7c3f61-46ed-e4e6-2878-329fa7be0577">
+      <Execution id="d4e9841e-f59c-47f8-b184-c6a5a021e839" />
+      <TestMethod codeBase="D:\source\repos\chessplayerjamesUoPeople\capstoneProject\AmigoAlert.Tests\bin\Debug\net10.0\AmigoAlert.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="AmigoAlert.Tests.SystemTests.SystemJourneyTests" name="S09_LongestAcceptedNameAndAddress_EverySmsFitsOneSegment" />
     </UnitTest>
-    <UnitTest name="AmigoAlert.Tests.SystemTests.SystemJourneyTests.S06_EmergencyButton_AlertsTheContactAndCanBeCancelled" storage="d:\source\repos\chessplayerjamesuopeople\capstoneproject\.claude\worktrees\system-acceptance-testing-plan-f5384c\amigoalert.tests\bin\debug\net10.0\amigoalert.tests.dll" id="7f3e8a3f-eb6f-5900-2ae2-f51f73eae740">
-      <Execution id="a0f1caf4-45c2-4ed1-b666-8f20029a182d" />
-      <TestMethod codeBase="D:\source\repos\chessplayerjamesUoPeople\capstoneProject\.claude\worktrees\system-acceptance-testing-plan-f5384c\AmigoAlert.Tests\bin\Debug\net10.0\AmigoAlert.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="AmigoAlert.Tests.SystemTests.SystemJourneyTests" name="S06_EmergencyButton_AlertsTheContactAndCanBeCancelled" />
+    <UnitTest name="AmigoAlert.Tests.SystemTests.SystemJourneyTests.S01_OnboardingThroughConsent_UnlocksCheckInsAndEmergency" storage="d:\source\repos\chessplayerjamesuopeople\capstoneproject\amigoalert.tests\bin\debug\net10.0\amigoalert.tests.dll" id="6221609a-6fe8-5d1b-88ed-9425c658518c">
+      <Execution id="23e2806e-1380-4afa-9176-a8bf6e51c41b" />
+      <TestMethod codeBase="D:\source\repos\chessplayerjamesUoPeople\capstoneProject\AmigoAlert.Tests\bin\Debug\net10.0\AmigoAlert.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="AmigoAlert.Tests.SystemTests.SystemJourneyTests" name="S01_OnboardingThroughConsent_UnlocksCheckInsAndEmergency" />
     </UnitTest>
-    <UnitTest name="AmigoAlert.Tests.SystemTests.ConsentPageTests.C01_OpenLink_ShowsWhoIsAskingAndBothChoices" storage="d:\source\repos\chessplayerjamesuopeople\capstoneproject\.claude\worktrees\system-acceptance-testing-plan-f5384c\amigoalert.tests\bin\debug\net10.0\amigoalert.tests.dll" id="2bc2a06c-c350-4182-a23a-ab96fbe0ee5c">
-      <Execution id="3e3ca756-f769-47e9-8b40-49909abc4ee4" />
-      <TestMethod codeBase="D:\source\repos\chessplayerjamesUoPeople\capstoneProject\.claude\worktrees\system-acceptance-testing-plan-f5384c\AmigoAlert.Tests\bin\Debug\net10.0\AmigoAlert.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="AmigoAlert.Tests.SystemTests.ConsentPageTests" name="C01_OpenLink_ShowsWhoIsAskingAndBothChoices" />
+    <UnitTest name="AmigoAlert.Tests.SystemTests.ConsentPageTests.C05_UnknownOrExpiredLink_IsRefused" storage="d:\source\repos\chessplayerjamesuopeople\capstoneproject\amigoalert.tests\bin\debug\net10.0\amigoalert.tests.dll" id="384987fa-9751-a104-374d-8545c0b97b8b">
+      <Execution id="8ff0bd66-c331-4095-aeba-f6431c8b1d65" />
+      <TestMethod codeBase="D:\source\repos\chessplayerjamesUoPeople\capstoneProject\AmigoAlert.Tests\bin\Debug\net10.0\AmigoAlert.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="AmigoAlert.Tests.SystemTests.ConsentPageTests" name="C05_UnknownOrExpiredLink_IsRefused" />
     </UnitTest>
-    <UnitTest name="AmigoAlert.Tests.SystemTests.SystemJourneyTests.S05b_MissedCheckInWithoutLocation_AsksTheContactToCallOrVisit" storage="d:\source\repos\chessplayerjamesuopeople\capstoneproject\.claude\worktrees\system-acceptance-testing-plan-f5384c\amigoalert.tests\bin\debug\net10.0\amigoalert.tests.dll" id="15796807-527a-b53b-7a06-88a4b10c4d6d">
-      <Execution id="beaaeaad-0541-4650-a464-25a15e1b78b6" />
-      <TestMethod codeBase="D:\source\repos\chessplayerjamesUoPeople\capstoneProject\.claude\worktrees\system-acceptance-testing-plan-f5384c\AmigoAlert.Tests\bin\Debug\net10.0\AmigoAlert.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="AmigoAlert.Tests.SystemTests.SystemJourneyTests" name="S05b_MissedCheckInWithoutLocation_AsksTheContactToCallOrVisit" />
+    <UnitTest name="AmigoAlert.Tests.SystemTests.ConsentPageTests.C08_LinkOfReplacedContact_IsRefused" storage="d:\source\repos\chessplayerjamesuopeople\capstoneproject\amigoalert.tests\bin\debug\net10.0\amigoalert.tests.dll" id="8d5f5ccb-5223-945c-3797-c35abc2a32c9">
+      <Execution id="723be515-b109-4913-8b0d-d148d22db0d5" />
+      <TestMethod codeBase="D:\source\repos\chessplayerjamesUoPeople\capstoneProject\AmigoAlert.Tests\bin\Debug\net10.0\AmigoAlert.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="AmigoAlert.Tests.SystemTests.ConsentPageTests" name="C08_LinkOfReplacedContact_IsRefused" />
     </UnitTest>
-    <UnitTest name="AmigoAlert.Tests.SystemTests.SystemJourneyTests.S05_MissedCheckIn_RemindsThenEscalatesWithLocationThenCancels" storage="d:\source\repos\chessplayerjamesuopeople\capstoneproject\.claude\worktrees\system-acceptance-testing-plan-f5384c\amigoalert.tests\bin\debug\net10.0\amigoalert.tests.dll" id="3d1606d7-7a78-c32c-c8dd-46b15b5648fd">
-      <Execution id="50fca0bc-9c91-4229-b014-dd5397f7c96b" />
-      <TestMethod codeBase="D:\source\repos\chessplayerjamesUoPeople\capstoneProject\.claude\worktrees\system-acceptance-testing-plan-f5384c\AmigoAlert.Tests\bin\Debug\net10.0\AmigoAlert.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="AmigoAlert.Tests.SystemTests.SystemJourneyTests" name="S05_MissedCheckIn_RemindsThenEscalatesWithLocationThenCancels" />
+    <UnitTest name="AmigoAlert.Tests.SystemTests.ConsentPageTests.C01_OpenLink_ShowsWhoIsAskingAndBothChoices" storage="d:\source\repos\chessplayerjamesuopeople\capstoneproject\amigoalert.tests\bin\debug\net10.0\amigoalert.tests.dll" id="2bc2a06c-c350-4182-a23a-ab96fbe0ee5c">
+      <Execution id="4d2b51d3-5e5b-4285-aa39-c198e1931941" />
+      <TestMethod codeBase="D:\source\repos\chessplayerjamesUoPeople\capstoneProject\AmigoAlert.Tests\bin\Debug\net10.0\AmigoAlert.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="AmigoAlert.Tests.SystemTests.ConsentPageTests" name="C01_OpenLink_ShowsWhoIsAskingAndBothChoices" />
     </UnitTest>
-    <UnitTest name="AmigoAlert.Tests.SystemTests.ConsentPageTests.C02_AcceptWithoutTickingTerms_RecordsNothing" storage="d:\source\repos\chessplayerjamesuopeople\capstoneproject\.claude\worktrees\system-acceptance-testing-plan-f5384c\amigoalert.tests\bin\debug\net10.0\amigoalert.tests.dll" id="6aafebbb-ac03-d4c9-9cf0-22b5c8448344">
-      <Execution id="3fe609f5-8a61-4896-8742-618025236b09" />
-      <TestMethod codeBase="D:\source\repos\chessplayerjamesUoPeople\capstoneProject\.claude\worktrees\system-acceptance-testing-plan-f5384c\AmigoAlert.Tests\bin\Debug\net10.0\AmigoAlert.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="AmigoAlert.Tests.SystemTests.ConsentPageTests" name="C02_AcceptWithoutTickingTerms_RecordsNothing" />
+    <UnitTest name="AmigoAlert.Tests.SystemTests.SystemJourneyTests.S07_UpdateInformation_NewContactNumberRevertsToPendingConsent" storage="d:\source\repos\chessplayerjamesuopeople\capstoneproject\amigoalert.tests\bin\debug\net10.0\amigoalert.tests.dll" id="b1d94964-706b-e179-cf3a-d5f565761d4f">
+      <Execution id="a96445ec-7a84-4aaa-89fc-a4d05e828d71" />
+      <TestMethod codeBase="D:\source\repos\chessplayerjamesUoPeople\capstoneProject\AmigoAlert.Tests\bin\Debug\net10.0\AmigoAlert.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="AmigoAlert.Tests.SystemTests.SystemJourneyTests" name="S07_UpdateInformation_NewContactNumberRevertsToPendingConsent" />
     </UnitTest>
-    <UnitTest name="AmigoAlert.Tests.SystemTests.ConsentPageTests.C03_AcceptWithTerms_OptsIn" storage="d:\source\repos\chessplayerjamesuopeople\capstoneproject\.claude\worktrees\system-acceptance-testing-plan-f5384c\amigoalert.tests\bin\debug\net10.0\amigoalert.tests.dll" id="95fc534e-62ac-8a69-f0d2-4d4621bf6f87">
-      <Execution id="71ed9759-a75a-4576-b73c-dd26c6834356" />
-      <TestMethod codeBase="D:\source\repos\chessplayerjamesUoPeople\capstoneProject\.claude\worktrees\system-acceptance-testing-plan-f5384c\AmigoAlert.Tests\bin\Debug\net10.0\AmigoAlert.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="AmigoAlert.Tests.SystemTests.ConsentPageTests" name="C03_AcceptWithTerms_OptsIn" />
+    <UnitTest name="AmigoAlert.Tests.SystemTests.SystemJourneyTests.S05b_MissedCheckInWithoutLocation_AsksTheContactToCallOrVisit" storage="d:\source\repos\chessplayerjamesuopeople\capstoneproject\amigoalert.tests\bin\debug\net10.0\amigoalert.tests.dll" id="15796807-527a-b53b-7a06-88a4b10c4d6d">
+      <Execution id="dd6e6052-6b6e-4871-88e8-f989c220da85" />
+      <TestMethod codeBase="D:\source\repos\chessplayerjamesUoPeople\capstoneProject\AmigoAlert.Tests\bin\Debug\net10.0\AmigoAlert.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="AmigoAlert.Tests.SystemTests.SystemJourneyTests" name="S05b_MissedCheckInWithoutLocation_AsksTheContactToCallOrVisit" />
     </UnitTest>
-    <UnitTest name="AmigoAlert.Tests.SystemTests.SystemJourneyTests.S11_ConsentRequest_NamesTheUser" storage="d:\source\repos\chessplayerjamesuopeople\capstoneproject\.claude\worktrees\system-acceptance-testing-plan-f5384c\amigoalert.tests\bin\debug\net10.0\amigoalert.tests.dll" id="33f50cc2-2847-5d60-9f7b-93a2f7bbcb24">
-      <Execution id="02fa0e57-9d5c-4ad2-9a0c-c43ce01ab1d1" />
-      <TestMethod codeBase="D:\source\repos\chessplayerjamesUoPeople\capstoneProject\.claude\worktrees\system-acceptance-testing-plan-f5384c\AmigoAlert.Tests\bin\Debug\net10.0\AmigoAlert.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="AmigoAlert.Tests.SystemTests.SystemJourneyTests" name="S11_ConsentRequest_NamesTheUser" />
+    <UnitTest name="AmigoAlert.Tests.SystemTests.SystemJourneyTests.S06_EmergencyButton_AlertsTheContactAndCanBeCancelled" storage="d:\source\repos\chessplayerjamesuopeople\capstoneproject\amigoalert.tests\bin\debug\net10.0\amigoalert.tests.dll" id="7f3e8a3f-eb6f-5900-2ae2-f51f73eae740">
+      <Execution id="4112137c-1a4b-484a-9440-eb1df5fb6f78" />
+      <TestMethod codeBase="D:\source\repos\chessplayerjamesUoPeople\capstoneProject\AmigoAlert.Tests\bin\Debug\net10.0\AmigoAlert.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="AmigoAlert.Tests.SystemTests.SystemJourneyTests" name="S06_EmergencyButton_AlertsTheContactAndCanBeCancelled" />
     </UnitTest>
-    <UnitTest name="AmigoAlert.Tests.SystemTests.SystemJourneyTests.S08_WebJobRun_PurgesLocationsOlderThan90Days" storage="d:\source\repos\chessplayerjamesuopeople\capstoneproject\.claude\worktrees\system-acceptance-testing-plan-f5384c\amigoalert.tests\bin\debug\net10.0\amigoalert.tests.dll" id="825beebe-28b6-d760-a358-8498d014abff">
-      <Execution id="93764321-b873-401d-be5e-85d46465585b" />
-      <TestMethod codeBase="D:\source\repos\chessplayerjamesUoPeople\capstoneProject\.claude\worktrees\system-acceptance-testing-plan-f5384c\AmigoAlert.Tests\bin\Debug\net10.0\AmigoAlert.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="AmigoAlert.Tests.SystemTests.SystemJourneyTests" name="S08_WebJobRun_PurgesLocationsOlderThan90Days" />
+    <UnitTest name="AmigoAlert.Tests.SystemTests.ConsentPageTests.C04_Decline_OptsOut" storage="d:\source\repos\chessplayerjamesuopeople\capstoneproject\amigoalert.tests\bin\debug\net10.0\amigoalert.tests.dll" id="e9d3205d-a68c-3a03-1092-cab35a145e54">
+      <Execution id="dc37804c-b926-48fc-91ca-f3573c82c5d3" />
+      <TestMethod codeBase="D:\source\repos\chessplayerjamesUoPeople\capstoneProject\AmigoAlert.Tests\bin\Debug\net10.0\AmigoAlert.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="AmigoAlert.Tests.SystemTests.ConsentPageTests" name="C04_Decline_OptsOut" />
     </UnitTest>
-    <UnitTest name="AmigoAlert.Tests.SystemTests.SystemJourneyTests.S07_UpdateInformation_NewContactNumberRevertsToPendingConsent" storage="d:\source\repos\chessplayerjamesuopeople\capstoneproject\.claude\worktrees\system-acceptance-testing-plan-f5384c\amigoalert.tests\bin\debug\net10.0\amigoalert.tests.dll" id="b1d94964-706b-e179-cf3a-d5f565761d4f">
-      <Execution id="c1aa0ba5-4db3-44ba-a27e-600eb2819070" />
-      <TestMethod codeBase="D:\source\repos\chessplayerjamesUoPeople\capstoneProject\.claude\worktrees\system-acceptance-testing-plan-f5384c\AmigoAlert.Tests\bin\Debug\net10.0\AmigoAlert.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="AmigoAlert.Tests.SystemTests.SystemJourneyTests" name="S07_UpdateInformation_NewContactNumberRevertsToPendingConsent" />
+    <UnitTest name="AmigoAlert.Tests.SystemTests.SystemJourneyTests.S11_ConsentRequest_NamesTheUser" storage="d:\source\repos\chessplayerjamesuopeople\capstoneproject\amigoalert.tests\bin\debug\net10.0\amigoalert.tests.dll" id="33f50cc2-2847-5d60-9f7b-93a2f7bbcb24">
+      <Execution id="b5eed39e-c2e1-42f9-8bf7-5d576c7311c4" />
+      <TestMethod codeBase="D:\source\repos\chessplayerjamesUoPeople\capstoneProject\AmigoAlert.Tests\bin\Debug\net10.0\AmigoAlert.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="AmigoAlert.Tests.SystemTests.SystemJourneyTests" name="S11_ConsentRequest_NamesTheUser" />
     </UnitTest>
-    <UnitTest name="AmigoAlert.Tests.SystemTests.SystemJourneyTests.S09_LongestAcceptedNameAndAddress_EverySmsFitsOneSegment" storage="d:\source\repos\chessplayerjamesuopeople\capstoneproject\.claude\worktrees\system-acceptance-testing-plan-f5384c\amigoalert.tests\bin\debug\net10.0\amigoalert.tests.dll" id="2d7c3f61-46ed-e4e6-2878-329fa7be0577">
-      <Execution id="8a14b0fa-3098-4384-880a-891a8e0f82dd" />
-      <TestMethod codeBase="D:\source\repos\chessplayerjamesUoPeople\capstoneProject\.claude\worktrees\system-acceptance-testing-plan-f5384c\AmigoAlert.Tests\bin\Debug\net10.0\AmigoAlert.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="AmigoAlert.Tests.SystemTests.SystemJourneyTests" name="S09_LongestAcceptedNameAndAddress_EverySmsFitsOneSegment" />
+    <UnitTest name="AmigoAlert.Tests.SystemTests.ConsentPageTests.C07_AcceptAgainAfterWithdrawing_OptsBackIn" storage="d:\source\repos\chessplayerjamesuopeople\capstoneproject\amigoalert.tests\bin\debug\net10.0\amigoalert.tests.dll" id="8d8e27ba-fc1c-971c-088b-f59d7d731803">
+      <Execution id="f3b776ce-8c5c-4187-9982-9b06d92e6a87" />
+      <TestMethod codeBase="D:\source\repos\chessplayerjamesUoPeople\capstoneProject\AmigoAlert.Tests\bin\Debug\net10.0\AmigoAlert.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="AmigoAlert.Tests.SystemTests.ConsentPageTests" name="C07_AcceptAgainAfterWithdrawing_OptsBackIn" />
     </UnitTest>
-    <UnitTest name="AmigoAlert.Tests.SystemTests.SystemJourneyTests.S02_ContactDeclines_UserStaysLockedUntilANewContactConsents" storage="d:\source\repos\chessplayerjamesuopeople\capstoneproject\.claude\worktrees\system-acceptance-testing-plan-f5384c\amigoalert.tests\bin\debug\net10.0\amigoalert.tests.dll" id="fdf80ae9-df51-6f29-3aa2-573b54d2745f">
-      <Execution id="cfcdbd41-e294-40aa-8c3b-241f21f88081" />
-      <TestMethod codeBase="D:\source\repos\chessplayerjamesUoPeople\capstoneProject\.claude\worktrees\system-acceptance-testing-plan-f5384c\AmigoAlert.Tests\bin\Debug\net10.0\AmigoAlert.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="AmigoAlert.Tests.SystemTests.SystemJourneyTests" name="S02_ContactDeclines_UserStaysLockedUntilANewContactConsents" />
+    <UnitTest name="AmigoAlert.Tests.SystemTests.ConsentPageTests.C06_WithdrawFromTheSameLink_OptsOut" storage="d:\source\repos\chessplayerjamesuopeople\capstoneproject\amigoalert.tests\bin\debug\net10.0\amigoalert.tests.dll" id="11f50ca4-64e4-1645-3de4-2402dd0ca311">
+      <Execution id="167a83ac-b0fd-4cb9-9ea3-fe3c76cb8f37" />
+      <TestMethod codeBase="D:\source\repos\chessplayerjamesUoPeople\capstoneProject\AmigoAlert.Tests\bin\Debug\net10.0\AmigoAlert.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="AmigoAlert.Tests.SystemTests.ConsentPageTests" name="C06_WithdrawFromTheSameLink_OptsOut" />
     </UnitTest>
-    <UnitTest name="AmigoAlert.Tests.SystemTests.ConsentPageTests.C04_Decline_OptsOut" storage="d:\source\repos\chessplayerjamesuopeople\capstoneproject\.claude\worktrees\system-acceptance-testing-plan-f5384c\amigoalert.tests\bin\debug\net10.0\amigoalert.tests.dll" id="e9d3205d-a68c-3a03-1092-cab35a145e54">
-      <Execution id="1511388d-6c4b-46ea-9761-4d276ce74c4c" />
-      <TestMethod codeBase="D:\source\repos\chessplayerjamesUoPeople\capstoneProject\.claude\worktrees\system-acceptance-testing-plan-f5384c\AmigoAlert.Tests\bin\Debug\net10.0\AmigoAlert.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="AmigoAlert.Tests.SystemTests.ConsentPageTests" name="C04_Decline_OptsOut" />
+    <UnitTest name="AmigoAlert.Tests.SystemTests.ConsentPageTests.C02_AcceptWithoutTickingTerms_RecordsNothing" storage="d:\source\repos\chessplayerjamesuopeople\capstoneproject\amigoalert.tests\bin\debug\net10.0\amigoalert.tests.dll" id="6aafebbb-ac03-d4c9-9cf0-22b5c8448344">
+      <Execution id="4c46607e-4e1f-47fa-8a8c-abb765676258" />
+      <TestMethod codeBase="D:\source\repos\chessplayerjamesUoPeople\capstoneProject\AmigoAlert.Tests\bin\Debug\net10.0\AmigoAlert.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="AmigoAlert.Tests.SystemTests.ConsentPageTests" name="C02_AcceptWithoutTickingTerms_RecordsNothing" />
     </UnitTest>
-    <UnitTest name="AmigoAlert.Tests.SystemTests.SystemJourneyTests.S04_CheckInAnswered_ReturnsToOkayDiscardsLocationAndNeverEscalates" storage="d:\source\repos\chessplayerjamesuopeople\capstoneproject\.claude\worktrees\system-acceptance-testing-plan-f5384c\amigoalert.tests\bin\debug\net10.0\amigoalert.tests.dll" id="3221c0af-3bef-210e-9676-1627fcc8f4f9">
-      <Execution id="a8c56db1-6961-4bf6-bcd0-55b14a4e9810" />
-      <TestMethod codeBase="D:\source\repos\chessplayerjamesUoPeople\capstoneProject\.claude\worktrees\system-acceptance-testing-plan-f5384c\AmigoAlert.Tests\bin\Debug\net10.0\AmigoAlert.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="AmigoAlert.Tests.SystemTests.SystemJourneyTests" name="S04_CheckInAnswered_ReturnsToOkayDiscardsLocationAndNeverEscalates" />
+    <UnitTest name="AmigoAlert.Tests.SystemTests.SystemJourneyTests.S10_UnsignedDeliveryCallback_IsForbidden" storage="d:\source\repos\chessplayerjamesuopeople\capstoneproject\amigoalert.tests\bin\debug\net10.0\amigoalert.tests.dll" id="4cdb8a76-2584-21bd-a713-790f74a0cac3">
+      <Execution id="a20d97ab-0cad-4be1-bc54-c2b6bbdc8fd9" />
+      <TestMethod codeBase="D:\source\repos\chessplayerjamesUoPeople\capstoneProject\AmigoAlert.Tests\bin\Debug\net10.0\AmigoAlert.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="AmigoAlert.Tests.SystemTests.SystemJourneyTests" name="S10_UnsignedDeliveryCallback_IsForbidden" />
     </UnitTest>
-    <UnitTest name="AmigoAlert.Tests.SystemTests.SystemJourneyTests.S10_UnsignedDeliveryCallback_IsForbidden" storage="d:\source\repos\chessplayerjamesuopeople\capstoneproject\.claude\worktrees\system-acceptance-testing-plan-f5384c\amigoalert.tests\bin\debug\net10.0\amigoalert.tests.dll" id="4cdb8a76-2584-21bd-a713-790f74a0cac3">
-      <Execution id="bdb3b499-de0d-40f5-bbda-6dd37c0cf723" />
-      <TestMethod codeBase="D:\source\repos\chessplayerjamesUoPeople\capstoneProject\.claude\worktrees\system-acceptance-testing-plan-f5384c\AmigoAlert.Tests\bin\Debug\net10.0\AmigoAlert.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="AmigoAlert.Tests.SystemTests.SystemJourneyTests" name="S10_UnsignedDeliveryCallback_IsForbidden" />
+    <UnitTest name="AmigoAlert.Tests.SystemTests.SystemJourneyTests.S08_WebJobRun_PurgesLocationsOlderThan90Days" storage="d:\source\repos\chessplayerjamesuopeople\capstoneproject\amigoalert.tests\bin\debug\net10.0\amigoalert.tests.dll" id="825beebe-28b6-d760-a358-8498d014abff">
+      <Execution id="95ed3f7d-98e4-45a8-a455-b7f5e39d60b5" />
+      <TestMethod codeBase="D:\source\repos\chessplayerjamesUoPeople\capstoneProject\AmigoAlert.Tests\bin\Debug\net10.0\AmigoAlert.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="AmigoAlert.Tests.SystemTests.SystemJourneyTests" name="S08_WebJobRun_PurgesLocationsOlderThan90Days" />
     </UnitTest>
-    <UnitTest name="AmigoAlert.Tests.SystemTests.SystemJourneyTests.S03_AwaitingConsent_NoCheckInsRemindersOrAlerts" storage="d:\source\repos\chessplayerjamesuopeople\capstoneproject\.claude\worktrees\system-acceptance-testing-plan-f5384c\amigoalert.tests\bin\debug\net10.0\amigoalert.tests.dll" id="cee561e8-bab0-e4bb-a989-f16df043ec99">
-      <Execution id="d32b5aa1-559d-4f0e-8749-d69c1ffbf747" />
-      <TestMethod codeBase="D:\source\repos\chessplayerjamesUoPeople\capstoneProject\.claude\worktrees\system-acceptance-testing-plan-f5384c\AmigoAlert.Tests\bin\Debug\net10.0\AmigoAlert.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="AmigoAlert.Tests.SystemTests.SystemJourneyTests" name="S03_AwaitingConsent_NoCheckInsRemindersOrAlerts" />
+    <UnitTest name="AmigoAlert.Tests.SystemTests.SystemJourneyTests.S05_MissedCheckIn_RemindsThenEscalatesWithLocationThenCancels" storage="d:\source\repos\chessplayerjamesuopeople\capstoneproject\amigoalert.tests\bin\debug\net10.0\amigoalert.tests.dll" id="3d1606d7-7a78-c32c-c8dd-46b15b5648fd">
+      <Execution id="1edbfc9a-0688-4626-aeb4-505857c6092f" />
+      <TestMethod codeBase="D:\source\repos\chessplayerjamesUoPeople\capstoneProject\AmigoAlert.Tests\bin\Debug\net10.0\AmigoAlert.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="AmigoAlert.Tests.SystemTests.SystemJourneyTests" name="S05_MissedCheckIn_RemindsThenEscalatesWithLocationThenCancels" />
+    </UnitTest>
+    <UnitTest name="AmigoAlert.Tests.SystemTests.SystemJourneyTests.S04_CheckInAnswered_ReturnsToOkayDiscardsLocationAndNeverEscalates" storage="d:\source\repos\chessplayerjamesuopeople\capstoneproject\amigoalert.tests\bin\debug\net10.0\amigoalert.tests.dll" id="3221c0af-3bef-210e-9676-1627fcc8f4f9">
+      <Execution id="2d6daaf4-c605-4b64-b076-65b07cef53c2" />
+      <TestMethod codeBase="D:\source\repos\chessplayerjamesUoPeople\capstoneProject\AmigoAlert.Tests\bin\Debug\net10.0\AmigoAlert.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="AmigoAlert.Tests.SystemTests.SystemJourneyTests" name="S04_CheckInAnswered_ReturnsToOkayDiscardsLocationAndNeverEscalates" />
+    </UnitTest>
+    <UnitTest name="AmigoAlert.Tests.SystemTests.SystemJourneyTests.S03_AwaitingConsent_NoCheckInsRemindersOrAlerts" storage="d:\source\repos\chessplayerjamesuopeople\capstoneproject\amigoalert.tests\bin\debug\net10.0\amigoalert.tests.dll" id="cee561e8-bab0-e4bb-a989-f16df043ec99">
+      <Execution id="26f25caf-9f04-4901-880d-0b5c93a79d9c" />
+      <TestMethod codeBase="D:\source\repos\chessplayerjamesUoPeople\capstoneProject\AmigoAlert.Tests\bin\Debug\net10.0\AmigoAlert.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="AmigoAlert.Tests.SystemTests.SystemJourneyTests" name="S03_AwaitingConsent_NoCheckInsRemindersOrAlerts" />
+    </UnitTest>
+    <UnitTest name="AmigoAlert.Tests.SystemTests.ConsentPageTests.C03_AcceptWithTerms_OptsIn" storage="d:\source\repos\chessplayerjamesuopeople\capstoneproject\amigoalert.tests\bin\debug\net10.0\amigoalert.tests.dll" id="95fc534e-62ac-8a69-f0d2-4d4621bf6f87">
+      <Execution id="58d061f3-d277-462f-be33-9036ab8e573e" />
+      <TestMethod codeBase="D:\source\repos\chessplayerjamesUoPeople\capstoneProject\AmigoAlert.Tests\bin\Debug\net10.0\AmigoAlert.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="AmigoAlert.Tests.SystemTests.ConsentPageTests" name="C03_AcceptWithTerms_OptsIn" />
     </UnitTest>
   </TestDefinitions>
   <TestEntries>
-    <TestEntry testId="4cdb8a76-2584-21bd-a713-790f74a0cac3" executionId="bdb3b499-de0d-40f5-bbda-6dd37c0cf723" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="7f3e8a3f-eb6f-5900-2ae2-f51f73eae740" executionId="a0f1caf4-45c2-4ed1-b666-8f20029a182d" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="95fc534e-62ac-8a69-f0d2-4d4621bf6f87" executionId="71ed9759-a75a-4576-b73c-dd26c6834356" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="15796807-527a-b53b-7a06-88a4b10c4d6d" executionId="beaaeaad-0541-4650-a464-25a15e1b78b6" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="3221c0af-3bef-210e-9676-1627fcc8f4f9" executionId="a8c56db1-6961-4bf6-bcd0-55b14a4e9810" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="825beebe-28b6-d760-a358-8498d014abff" executionId="93764321-b873-401d-be5e-85d46465585b" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="384987fa-9751-a104-374d-8545c0b97b8b" executionId="0208f657-ac26-47c6-ae5f-ba1269e1f6a2" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="cee561e8-bab0-e4bb-a989-f16df043ec99" executionId="d32b5aa1-559d-4f0e-8749-d69c1ffbf747" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="2d7c3f61-46ed-e4e6-2878-329fa7be0577" executionId="8a14b0fa-3098-4384-880a-891a8e0f82dd" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="6aafebbb-ac03-d4c9-9cf0-22b5c8448344" executionId="3fe609f5-8a61-4896-8742-618025236b09" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="3d1606d7-7a78-c32c-c8dd-46b15b5648fd" executionId="50fca0bc-9c91-4229-b014-dd5397f7c96b" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="b1d94964-706b-e179-cf3a-d5f565761d4f" executionId="c1aa0ba5-4db3-44ba-a27e-600eb2819070" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="33f50cc2-2847-5d60-9f7b-93a2f7bbcb24" executionId="02fa0e57-9d5c-4ad2-9a0c-c43ce01ab1d1" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="e9d3205d-a68c-3a03-1092-cab35a145e54" executionId="1511388d-6c4b-46ea-9761-4d276ce74c4c" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="fdf80ae9-df51-6f29-3aa2-573b54d2745f" executionId="cfcdbd41-e294-40aa-8c3b-241f21f88081" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="2bc2a06c-c350-4182-a23a-ab96fbe0ee5c" executionId="3e3ca756-f769-47e9-8b40-49909abc4ee4" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="6221609a-6fe8-5d1b-88ed-9425c658518c" executionId="87d3433f-6db3-4d78-b790-2d414913887d" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="95fc534e-62ac-8a69-f0d2-4d4621bf6f87" executionId="58d061f3-d277-462f-be33-9036ab8e573e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="b1d94964-706b-e179-cf3a-d5f565761d4f" executionId="a96445ec-7a84-4aaa-89fc-a4d05e828d71" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="8d5f5ccb-5223-945c-3797-c35abc2a32c9" executionId="723be515-b109-4913-8b0d-d148d22db0d5" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="cee561e8-bab0-e4bb-a989-f16df043ec99" executionId="26f25caf-9f04-4901-880d-0b5c93a79d9c" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="384987fa-9751-a104-374d-8545c0b97b8b" executionId="8ff0bd66-c331-4095-aeba-f6431c8b1d65" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="fdf80ae9-df51-6f29-3aa2-573b54d2745f" executionId="eef68d21-c1ff-4669-8c62-987e55b9d78a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="8d8e27ba-fc1c-971c-088b-f59d7d731803" executionId="f3b776ce-8c5c-4187-9982-9b06d92e6a87" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="11f50ca4-64e4-1645-3de4-2402dd0ca311" executionId="167a83ac-b0fd-4cb9-9ea3-fe3c76cb8f37" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="33f50cc2-2847-5d60-9f7b-93a2f7bbcb24" executionId="b5eed39e-c2e1-42f9-8bf7-5d576c7311c4" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="6aafebbb-ac03-d4c9-9cf0-22b5c8448344" executionId="4c46607e-4e1f-47fa-8a8c-abb765676258" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="4cdb8a76-2584-21bd-a713-790f74a0cac3" executionId="a20d97ab-0cad-4be1-bc54-c2b6bbdc8fd9" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="15796807-527a-b53b-7a06-88a4b10c4d6d" executionId="dd6e6052-6b6e-4871-88e8-f989c220da85" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="825beebe-28b6-d760-a358-8498d014abff" executionId="95ed3f7d-98e4-45a8-a455-b7f5e39d60b5" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="2d7c3f61-46ed-e4e6-2878-329fa7be0577" executionId="d4e9841e-f59c-47f8-b184-c6a5a021e839" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="2bc2a06c-c350-4182-a23a-ab96fbe0ee5c" executionId="4d2b51d3-5e5b-4285-aa39-c198e1931941" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="6221609a-6fe8-5d1b-88ed-9425c658518c" executionId="23e2806e-1380-4afa-9176-a8bf6e51c41b" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="3d1606d7-7a78-c32c-c8dd-46b15b5648fd" executionId="1edbfc9a-0688-4626-aeb4-505857c6092f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="7f3e8a3f-eb6f-5900-2ae2-f51f73eae740" executionId="4112137c-1a4b-484a-9440-eb1df5fb6f78" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="e9d3205d-a68c-3a03-1092-cab35a145e54" executionId="dc37804c-b926-48fc-91ca-f3573c82c5d3" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="3221c0af-3bef-210e-9676-1627fcc8f4f9" executionId="2d6daaf4-c605-4b64-b076-65b07cef53c2" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
   </TestEntries>
   <TestLists>
     <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
     <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
   </TestLists>
   <ResultSummary outcome="Completed">
-    <Counters total="17" executed="16" passed="16" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Counters total="20" executed="20" passed="20" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
     <Output>
-      <StdOut>[xUnit.net 00:00:00.01] xUnit.net VSTest Adapter v3.1.4+50e68bbb8b (64-bit .NET 10.0.13)&#xD;
-[xUnit.net 00:00:00.30]   Discovering: AmigoAlert.Tests&#xD;
-[xUnit.net 00:00:00.44]   Discovered:  AmigoAlert.Tests&#xD;
-[xUnit.net 00:00:00.50]   Starting:    AmigoAlert.Tests&#xD;
+      <StdOut>[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.4+50e68bbb8b (64-bit .NET 10.0.14)&#xD;
+[xUnit.net 00:00:00.25]   Discovering: AmigoAlert.Tests&#xD;
+[xUnit.net 00:00:00.39]   Discovered:  AmigoAlert.Tests&#xD;
+[xUnit.net 00:00:00.45]   Starting:    AmigoAlert.Tests&#xD;
 info: Microsoft.Hosting.Lifetime[0]&#xD;
       Application started. Press Ctrl+C to shut down.&#xD;
 info: Microsoft.Hosting.Lifetime[0]&#xD;
       Hosting environment: Development&#xD;
 info: Microsoft.Hosting.Lifetime[0]&#xD;
-      Content root path: D:\source\repos\chessplayerjamesUoPeople\capstoneProject\.claude\worktrees\system-acceptance-testing-plan-f5384c\AmigoAlert_API&#xD;
+      Content root path: D:\source\repos\chessplayerjamesUoPeople\capstoneProject\AmigoAlert_API&#xD;
 warn: Microsoft.AspNetCore.HttpsPolicy.HttpsRedirectionMiddleware[3]&#xD;
       Failed to determine the https port for redirect.&#xD;
 info: AmigoAlert.Services.MockSmsService[0]&#xD;
-      Mock SMS MKb770422cfcbe41be84ed528ac7a00f6c (ConsentRequest) to +593990007777: AmigoAlert: Integ added you as their emergency contact: https://amigoalert-hqd4hwcrduhvffba.westus-01.azurewebsites.net/consent/3450c289878a40249854972397e7aee5&#xD;
+      Mock SMS MK3e2542b3f8504f0dab8b1407c324926d (ConsentRequest) to +593990007777: AmigoAlert: Integration User added you as their emergency contact. You will also receive a second message with the link to the consent form.&#xD;
+info: AmigoAlert.Services.MockSmsService[0]&#xD;
+      Mock SMS MK3ec60e26f7ee472c971166881d44421c (ConsentRequest) to +593990007777: AmigoAlert: Consent form: https://amigoalert-hqd4hwcrduhvffba.westus-01.azurewebsites.net/consent/8f42afcda1b44fa085b3c80fd35b0f5f&#xD;
 Deleted 0 old location logs.&#xD;
-UserId: 2091ea95-7455-4d7b-83d8-87fff0c3f31a, Outcome: SendFirstNotification, ScheduledFor: 10/16/2026 7:23:00 AM -05:00, EvaluatedAt: 10/16/2026 12:23:00 PM +00:00, CheckInId: &#xD;
+UserId: 693e5eef-087f-4666-a126-83cc3921bbd2, Outcome: SendFirstNotification, ScheduledFor: 10/27/2026 12:23:00 PM -05:00, EvaluatedAt: 10/27/2026 5:23:00 PM +00:00, CheckInId: &#xD;
 Acted on decision: True&#xD;
 Deleted 0 old location logs.&#xD;
 info: AmigoAlert.Services.MockSmsService[0]&#xD;
-      Mock SMS MKdfc30f22461146999dc94d1ad1a07ee1 (ConsentRequest) to +593990004444: AmigoAlert: Integ added you as their emergency contact: https://amigoalert-hqd4hwcrduhvffba.westus-01.azurewebsites.net/consent/9c815bd9b64f4be1a52b984d523a4019&#xD;
+      Mock SMS MKc767f8f1781a41b489f34f0965bd7f46 (ConsentRequest) to +593990004444: AmigoAlert: Integration User added you as their emergency contact. You will also receive a second message with the link to the consent form.&#xD;
+info: AmigoAlert.Services.MockSmsService[0]&#xD;
+      Mock SMS MK721aa13a12f54822ab99de5ed13cc5d8 (ConsentRequest) to +593990004444: AmigoAlert: Consent form: https://amigoalert-hqd4hwcrduhvffba.westus-01.azurewebsites.net/consent/9fa7c70469314cbba8de16f2284f7371&#xD;
 Deleted 0 old location logs.&#xD;
 Deleted 0 old location logs.&#xD;
 Deleted 0 old location logs.&#xD;
-[xUnit.net 00:00:10.11]       D-01: the consent SMS truncates the user's name to fit the production consent URL. See TestReport.md.&#xD;
 info: AmigoAlert.Services.MockSmsService[0]&#xD;
-      Mock SMS MK678d6cb44580435ab4d0924b16438a0f (ConsentRequest) to +593990007777: AmigoAlert: Integ added you as their emergency contact: https://amigoalert-hqd4hwcrduhvffba.westus-01.azurewebsites.net/consent/8ca450310f764b35a53709fbe38dfcb4&#xD;
+      Mock SMS MK35f0a5593c034499b9923220ab5cea66 (ConsentRequest) to +593990007777: AmigoAlert: Integration User added you as their emergency contact. You will also receive a second message with the link to the consent form.&#xD;
 info: AmigoAlert.Services.MockSmsService[0]&#xD;
-      Mock SMS MK9845479e81a84e34950327e93495765b (EmergencyActivation) to +593990007777: AmigoAlert: Integration User is NOT okay and is having an emergency. Location: https://maps.google.com/?q=0.22970,-78.26120&#xD;
+      Mock SMS MKd6ee08c8364e48b0a63c54c9685ae119 (ConsentRequest) to +593990007777: AmigoAlert: Consent form: https://amigoalert-hqd4hwcrduhvffba.westus-01.azurewebsites.net/consent/53dc7d99bd694ae2bfb10c257e2b5939&#xD;
 info: AmigoAlert.Services.MockSmsService[0]&#xD;
-      Mock SMS MK3e158e1adcda49d7af514c0e62c465e6 (EmergencyCancelled) to +593990007777: AmigoAlert: Integration User has indicated that they are no longer in an emergency status.&#xD;
+      Mock SMS MKb664a54388e84e1ab7c382b4f1d8541e (ConsentRequest) to +593990007777: AmigoAlert: Integration User added you as their emergency contact. You will also receive a second message with the link to the consent form.&#xD;
 info: AmigoAlert.Services.MockSmsService[0]&#xD;
-      Mock SMS MKa2cde585c691486c8b1a1322b697cfd9 (EmergencyActivation) to +593990007777: AmigoAlert: Integration User is NOT okay and is having an emergency. Address: 9 Test St., Cotacachi, Ecuador&#xD;
+      Mock SMS MKa7ebf34e21c64edc978fd84031d507bb (ConsentRequest) to +593990007777: AmigoAlert: Consent form: https://amigoalert-hqd4hwcrduhvffba.westus-01.azurewebsites.net/consent/386e0d6b55fc4d3196a5df9dad67ac7f&#xD;
 info: AmigoAlert.Services.MockSmsService[0]&#xD;
-      Mock SMS MK431fd0f92f1f4b5eae19db4b0cbb52a0 (ConsentRequest) to +593990006666: AmigoAlert: Integ added you as their emergency contact: https://amigoalert-hqd4hwcrduhvffba.westus-01.azurewebsites.net/consent/7cdfd0b72e064695a02f2af236fd977c&#xD;
+      Mock SMS MKba230df42e754b9ab814d0bb88b0ddec (EmergencyActivation) to +593990007777: AmigoAlert: Integration User is NOT okay and is having an emergency. Location: https://maps.google.com/?q=0.22970,-78.26120&#xD;
+info: AmigoAlert.Services.MockSmsService[0]&#xD;
+      Mock SMS MK4c0d5d77a4a64291bce5dcd2fbdfe3c0 (EmergencyCancelled) to +593990007777: AmigoAlert: Integration User has indicated that they are no longer in an emergency status.&#xD;
+info: AmigoAlert.Services.MockSmsService[0]&#xD;
+      Mock SMS MKbaa190614d6c41c98c2eee4ee0f2cd9f (EmergencyActivation) to +593990007777: AmigoAlert: Integration User is NOT okay and is having an emergency. Address: 9 Test St., Cotacachi, Ecuador Landmarks: Blue door&#xD;
+info: AmigoAlert.Services.MockSmsService[0]&#xD;
+      Mock SMS MK0e949523447a4a01a9a5032e13309964 (ConsentRequest) to +593990006666: AmigoAlert: Integration User added you as their emergency contact. You will also receive a second message with the link to the consent form.&#xD;
+info: AmigoAlert.Services.MockSmsService[0]&#xD;
+      Mock SMS MK4f2937cca4424a1fb546f09d95fd10fb (ConsentRequest) to +593990006666: AmigoAlert: Consent form: https://amigoalert-hqd4hwcrduhvffba.westus-01.azurewebsites.net/consent/5b860675c5d2423eaff744bb5cee709a&#xD;
 Deleted 0 old location logs.&#xD;
 info: AmigoAlert.Services.MockSmsService[0]&#xD;
-      Mock SMS MKf3fe970fb8e34a9b991a107318e0aedf (ConsentRequest) to +593990005555: AmigoAlert: Integ added you as their emergency contact: https://amigoalert-hqd4hwcrduhvffba.westus-01.azurewebsites.net/consent/3ab8cddd8edb4b29a01db4fc11384c5e&#xD;
-UserId: 615ed270-8232-4e8f-8574-18e86b6f5e42, Outcome: SendFirstNotification, ScheduledFor: 10/16/2026 7:23:00 AM -05:00, EvaluatedAt: 10/16/2026 12:23:00 PM +00:00, CheckInId: &#xD;
+      Mock SMS MK0ddc42e2996143d481cc1609e1377ba5 (ConsentRequest) to +593990005555: AmigoAlert: Integration User added you as their emergency contact. You will also receive a second message with the link to the consent form.&#xD;
+info: AmigoAlert.Services.MockSmsService[0]&#xD;
+      Mock SMS MK80ad00ac46234d758a877433325110b9 (ConsentRequest) to +593990005555: AmigoAlert: Consent form: https://amigoalert-hqd4hwcrduhvffba.westus-01.azurewebsites.net/consent/b4c2d26efe1f4a408462da89a2d9286f&#xD;
+UserId: a03a2638-e012-4b71-affd-b206aed541bc, Outcome: SendFirstNotification, ScheduledFor: 10/27/2026 12:23:00 PM -05:00, EvaluatedAt: 10/27/2026 5:23:00 PM +00:00, CheckInId: &#xD;
 Acted on decision: True&#xD;
 Deleted 0 old location logs.&#xD;
 info: AmigoAlert.Services.MockSmsService[0]&#xD;
-      Mock SMS MK69532c94cdb74531a0c28678c8ae650e (ConsentRequest) to +593990007777: AmigoAlert: NNNNN added you as their emergency contact: https://amigoalert-hqd4hwcrduhvffba.westus-01.azurewebsites.net/consent/c06e11424ced441a836cfdfca5cd3751&#xD;
+      Mock SMS MKea3b0c5221cb4344bf82c23fac65bce3 (ConsentRequest) to +593990007777: AmigoAlert: NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN added you as their emergency contact. You will also receive a second message with the link to the consent form.&#xD;
 info: AmigoAlert.Services.MockSmsService[0]&#xD;
-      Mock SMS MKd9948bf3a65a4fc69bcfe718216397d4 (EmergencyActivation) to +593990007777: AmigoAlert: NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN is NOT okay and is having an emergency. Address: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA&#xD;
+      Mock SMS MKb787616f359e44daa25af4e0c059ce31 (ConsentRequest) to +593990007777: AmigoAlert: Consent form: https://amigoalert-hqd4hwcrduhvffba.westus-01.azurewebsites.net/consent/e3313bce3e0b42959c8e4ea601849da1&#xD;
 info: AmigoAlert.Services.MockSmsService[0]&#xD;
-      Mock SMS MKce6f31380aac4f2cbc2ca3a02487b001 (EmergencyCancelled) to +593990007777: AmigoAlert: NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN has indicated that they are no longer in an emergency status.&#xD;
+      Mock SMS MK2e676f4146024a5198a8418d493f1309 (EmergencyActivation) to +593990007777: AmigoAlert: NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN is NOT okay and is having an emergency. Address: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA&#xD;
 info: AmigoAlert.Services.MockSmsService[0]&#xD;
-      Mock SMS MK1d9f543ae36a4858a48b1b3201480ee3 (EmergencyActivation) to +593990007777: AmigoAlert: NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN is NOT okay and is having an emergency. Location: https://maps.google.com/?q=-0.18065,-78.46784&#xD;
+      Mock SMS MKf0c473d59fb6472a855a5a71b316019a (EmergencyActivation) to +593990007777: AmigoAlert: Landmarks: Blue door&#xD;
 info: AmigoAlert.Services.MockSmsService[0]&#xD;
-      Mock SMS MKbe0d4c92a1804b1e8bc147441b772c74 (EmergencyCancelled) to +593990007777: AmigoAlert: NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN has indicated that they are no longer in an emergency status.&#xD;
-UserId: 1f8cff3e-2191-4730-bf67-887175d71492, Outcome: SendFirstNotification, ScheduledFor: 10/16/2026 7:23:00 AM -05:00, EvaluatedAt: 10/16/2026 12:23:00 PM +00:00, CheckInId: &#xD;
+      Mock SMS MK35e996ba6aad4f97b3f7332e34c1d2dc (EmergencyCancelled) to +593990007777: AmigoAlert: NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN has indicated that they are no longer in an emergency status.&#xD;
+info: AmigoAlert.Services.MockSmsService[0]&#xD;
+      Mock SMS MK3789824474e04a7f867c891c537036d0 (EmergencyActivation) to +593990007777: AmigoAlert: NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN is NOT okay and is having an emergency. Location: https://maps.google.com/?q=-0.18065,-78.46784&#xD;
+info: AmigoAlert.Services.MockSmsService[0]&#xD;
+      Mock SMS MK874ec34316e54b45a026e55a7f6902c9 (EmergencyCancelled) to +593990007777: AmigoAlert: NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN has indicated that they are no longer in an emergency status.&#xD;
+UserId: d9fbf64f-bd05-4d2c-8e11-34c8ca93cd74, Outcome: SendFirstNotification, ScheduledFor: 10/27/2026 12:23:00 PM -05:00, EvaluatedAt: 10/27/2026 5:23:00 PM +00:00, CheckInId: &#xD;
 Acted on decision: True&#xD;
 Deleted 0 old location logs.&#xD;
-UserId: 1f8cff3e-2191-4730-bf67-887175d71492, Outcome: SendReminderNotification, ScheduledFor: 10/16/2026 7:23:00 AM -05:00, EvaluatedAt: 10/16/2026 12:33:00 PM +00:00, CheckInId: 121&#xD;
+UserId: d9fbf64f-bd05-4d2c-8e11-34c8ca93cd74, Outcome: SendReminderNotification, ScheduledFor: 10/27/2026 12:23:00 PM -05:00, EvaluatedAt: 10/27/2026 5:33:00 PM +00:00, CheckInId: 1175&#xD;
 Acted on decision: True&#xD;
 Deleted 0 old location logs.&#xD;
-UserId: 1f8cff3e-2191-4730-bf67-887175d71492, Outcome: EscalateToEmergencyContact, ScheduledFor: 10/16/2026 7:23:00 AM -05:00, EvaluatedAt: 10/16/2026 12:43:00 PM +00:00, CheckInId: 122&#xD;
+UserId: d9fbf64f-bd05-4d2c-8e11-34c8ca93cd74, Outcome: EscalateToEmergencyContact, ScheduledFor: 10/27/2026 12:23:00 PM -05:00, EvaluatedAt: 10/27/2026 5:43:00 PM +00:00, CheckInId: 1176&#xD;
 Acted on decision: True&#xD;
 Deleted 0 old location logs.&#xD;
 info: AmigoAlert.Services.MockSmsService[0]&#xD;
-      Mock SMS MKeb96e1f8cfc845c6ab3c535126a4b836 (ConsentRequest) to +593990007777: AmigoAlert: Integ added you as their emergency contact: https://amigoalert-hqd4hwcrduhvffba.westus-01.azurewebsites.net/consent/046a43a39ca34dfbaa6d0467fea59419&#xD;
+      Mock SMS MKc3160f3c0d29474fad65dd68c89640d4 (ConsentRequest) to +593990007777: AmigoAlert: Integration User added you as their emergency contact. You will also receive a second message with the link to the consent form.&#xD;
 info: AmigoAlert.Services.MockSmsService[0]&#xD;
-      Mock SMS MKa7ec83dc07504ca4810c05495f19bd8e (ConsentRequest) to +593990003333: AmigoAlert: Syste added you as their emergency contact: https://amigoalert-hqd4hwcrduhvffba.westus-01.azurewebsites.net/consent/4f22d777cb564526b6788808837b77d2&#xD;
+      Mock SMS MK4c21c80171a0458e838302c1aa58faa3 (ConsentRequest) to +593990007777: AmigoAlert: Consent form: https://amigoalert-hqd4hwcrduhvffba.westus-01.azurewebsites.net/consent/cb5ecaba410c484fb09cac06cf4a1f84&#xD;
 info: AmigoAlert.Services.MockSmsService[0]&#xD;
-      Mock SMS MK3eb20e79e04f4c4e8ddccb96bb10363b (EmergencyActivation) to +593990003333: AmigoAlert: System User Renamed is NOT okay and is having an emergency. Address: 11 New St., Cotacachi, Ecuador&#xD;
+      Mock SMS MK4c02e39698f54336bee43354b1034f35 (ConsentRequest) to +593990003333: AmigoAlert: System User Renamed added you as their emergency contact. You will also receive a second message with the link to the consent form.&#xD;
 info: AmigoAlert.Services.MockSmsService[0]&#xD;
-      Mock SMS MKa016b9ea7a7c42718a84bddd3b154fe1 (ConsentRequest) to +593990007777: AmigoAlert: Integ added you as their emergency contact: https://amigoalert-hqd4hwcrduhvffba.westus-01.azurewebsites.net/consent/e1e54af2105e4563a807501de1e077c2&#xD;
-UserId: 187cef98-e2df-4f69-8ddd-3569771266d4, Outcome: SendFirstNotification, ScheduledFor: 10/16/2026 7:23:00 AM -05:00, EvaluatedAt: 10/16/2026 12:23:00 PM +00:00, CheckInId: &#xD;
+      Mock SMS MKf7bca72e71714ffeb0570834188c5ce8 (ConsentRequest) to +593990003333: AmigoAlert: Consent form: https://amigoalert-hqd4hwcrduhvffba.westus-01.azurewebsites.net/consent/9c57ad6511614dbd910701fd4a945aa5&#xD;
+info: AmigoAlert.Services.MockSmsService[0]&#xD;
+      Mock SMS MKae79115e819d4d41a0c1a733e40aca1e (EmergencyActivation) to +593990003333: AmigoAlert: System User Renamed is NOT okay and is having an emergency. Address: 11 New St., Cotacachi, Ecuador Landmarks: Green gate&#xD;
+info: AmigoAlert.Services.MockSmsService[0]&#xD;
+      Mock SMS MK2c1ece77c00a4ebca3b35d2329808ddc (ConsentRequest) to +593990007777: AmigoAlert: Integration User added you as their emergency contact. You will also receive a second message with the link to the consent form.&#xD;
+info: AmigoAlert.Services.MockSmsService[0]&#xD;
+      Mock SMS MKfbef4734c452454db40d286bf3c8b6ba (ConsentRequest) to +593990007777: AmigoAlert: Consent form: https://amigoalert-hqd4hwcrduhvffba.westus-01.azurewebsites.net/consent/03ab613b2dc04fed951ec946e8336f3e&#xD;
+UserId: c07b2d78-7665-4edc-bae3-c646b4ff1bf7, Outcome: SendFirstNotification, ScheduledFor: 10/27/2026 12:23:00 PM -05:00, EvaluatedAt: 10/27/2026 5:23:00 PM +00:00, CheckInId: &#xD;
 Acted on decision: True&#xD;
 Deleted 0 old location logs.&#xD;
 Deleted 0 old location logs.&#xD;
-UserId: 187cef98-e2df-4f69-8ddd-3569771266d4, Outcome: SendReminderNotification, ScheduledFor: 10/16/2026 7:23:00 AM -05:00, EvaluatedAt: 10/16/2026 12:33:00 PM +00:00, CheckInId: 123&#xD;
+UserId: c07b2d78-7665-4edc-bae3-c646b4ff1bf7, Outcome: SendReminderNotification, ScheduledFor: 10/27/2026 12:23:00 PM -05:00, EvaluatedAt: 10/27/2026 5:33:00 PM +00:00, CheckInId: 1177&#xD;
 Acted on decision: True&#xD;
 Deleted 0 old location logs.&#xD;
-UserId: 187cef98-e2df-4f69-8ddd-3569771266d4, Outcome: EscalateToEmergencyContact, ScheduledFor: 10/16/2026 7:23:00 AM -05:00, EvaluatedAt: 10/16/2026 12:43:00 PM +00:00, CheckInId: 124&#xD;
+UserId: c07b2d78-7665-4edc-bae3-c646b4ff1bf7, Outcome: EscalateToEmergencyContact, ScheduledFor: 10/27/2026 12:23:00 PM -05:00, EvaluatedAt: 10/27/2026 5:43:00 PM +00:00, CheckInId: 1178&#xD;
 Acted on decision: True&#xD;
 Deleted 0 old location logs.&#xD;
 Deleted 0 old location logs.&#xD;
 info: AmigoAlert.Services.MockSmsService[0]&#xD;
-      Mock SMS MK08467d7eb22c4eeabc2b3f6b1c71d32d (EmergencyCancelled) to +593990007777: AmigoAlert: Integration User has indicated that they are no longer in an emergency status.&#xD;
+      Mock SMS MKfdd92dc3ec5b4a61b41615010286ddc5 (EmergencyCancelled) to +593990007777: AmigoAlert: Integration User has indicated that they are no longer in an emergency status.&#xD;
 info: AmigoAlert.Services.MockSmsService[0]&#xD;
-      Mock SMS MKdefbd50417b6411799b12af7f3cf52bf (ConsentRequest) to +593990007777: AmigoAlert: Integ added you as their emergency contact: https://amigoalert-hqd4hwcrduhvffba.westus-01.azurewebsites.net/consent/448f0d08a5244953ba46b6c9dbaad598&#xD;
-Test 'AmigoAlert.Tests.SystemTests.SystemJourneyTests.S11_ConsentRequest_NamesTheUser' was skipped in the test run.&#xD;
-UserId: 41cb8229-cf18-49c1-9870-db59d32596d2, Outcome: SendFirstNotification, ScheduledFor: 10/16/2026 7:23:00 AM -05:00, EvaluatedAt: 10/16/2026 12:23:00 PM +00:00, CheckInId: &#xD;
+      Mock SMS MKe37c415218db4d32802e33001ddd65fd (ConsentRequest) to +593990007777: AmigoAlert: Integration User added you as their emergency contact. You will also receive a second message with the link to the consent form.&#xD;
+info: AmigoAlert.Services.MockSmsService[0]&#xD;
+      Mock SMS MK38d52992144d4a66801dbc6aad35b4d2 (ConsentRequest) to +593990007777: AmigoAlert: Consent form: https://amigoalert-hqd4hwcrduhvffba.westus-01.azurewebsites.net/consent/ed3e26999c08452b902e50cb019a0b69&#xD;
+UserId: 8952ac08-9543-4794-a2cd-b234779ed1bf, Outcome: SendFirstNotification, ScheduledFor: 10/27/2026 12:23:00 PM -05:00, EvaluatedAt: 10/27/2026 5:23:00 PM +00:00, CheckInId: &#xD;
 Acted on decision: True&#xD;
 Deleted 1 old location logs.&#xD;
 info: AmigoAlert.Services.MockSmsService[0]&#xD;
-      Mock SMS MK586bf66e837b4f2f971b253ea22d856f (ConsentRequest) to +593990007777: AmigoAlert: Integ added you as their emergency contact: https://amigoalert-hqd4hwcrduhvffba.westus-01.azurewebsites.net/consent/5319e993907b46cbbf9ebc1c758cc949&#xD;
-UserId: 3ae75723-a4b7-4aaf-90d0-b1f890fa051b, Outcome: SendFirstNotification, ScheduledFor: 10/16/2026 7:23:00 AM -05:00, EvaluatedAt: 10/16/2026 12:23:00 PM +00:00, CheckInId: &#xD;
+      Mock SMS MKf15dce44a2484669937b0253214a7bfe (ConsentRequest) to +593990007777: AmigoAlert: Integration User added you as their emergency contact. You will also receive a second message with the link to the consent form.&#xD;
+info: AmigoAlert.Services.MockSmsService[0]&#xD;
+      Mock SMS MK224361775f414d70970b9b454d7aad2a (ConsentRequest) to +593990007777: AmigoAlert: Consent form: https://amigoalert-hqd4hwcrduhvffba.westus-01.azurewebsites.net/consent/ff824b9ec9c24da6a0e64a556e43fd59&#xD;
+UserId: 8ee3b175-af3c-4494-b7c8-109268123161, Outcome: SendFirstNotification, ScheduledFor: 10/27/2026 12:23:00 PM -05:00, EvaluatedAt: 10/27/2026 5:23:00 PM +00:00, CheckInId: &#xD;
 Acted on decision: True&#xD;
 Deleted 0 old location logs.&#xD;
-UserId: 3ae75723-a4b7-4aaf-90d0-b1f890fa051b, Outcome: SendReminderNotification, ScheduledFor: 10/16/2026 7:23:00 AM -05:00, EvaluatedAt: 10/16/2026 12:33:00 PM +00:00, CheckInId: 126&#xD;
+UserId: 8ee3b175-af3c-4494-b7c8-109268123161, Outcome: SendReminderNotification, ScheduledFor: 10/27/2026 12:23:00 PM -05:00, EvaluatedAt: 10/27/2026 5:33:00 PM +00:00, CheckInId: 1180&#xD;
 Acted on decision: True&#xD;
 Deleted 0 old location logs.&#xD;
-UserId: 3ae75723-a4b7-4aaf-90d0-b1f890fa051b, Outcome: EscalateToEmergencyContact, ScheduledFor: 10/16/2026 7:23:00 AM -05:00, EvaluatedAt: 10/16/2026 12:43:00 PM +00:00, CheckInId: 127&#xD;
+UserId: 8ee3b175-af3c-4494-b7c8-109268123161, Outcome: EscalateToEmergencyContact, ScheduledFor: 10/27/2026 12:23:00 PM -05:00, EvaluatedAt: 10/27/2026 5:43:00 PM +00:00, CheckInId: 1181&#xD;
 Acted on decision: True&#xD;
 Deleted 0 old location logs.&#xD;
 info: AmigoAlert.Services.MockSmsService[0]&#xD;
-      Mock SMS MKc977050a62ea4f3c8d9ae049927cafa8 (ConsentRequest) to +593990007777: AmigoAlert: Integ added you as their emergency contact: https://amigoalert-hqd4hwcrduhvffba.westus-01.azurewebsites.net/consent/5499f656980541baa6c5975505079a6e&#xD;
-UserId: c902d9bc-04f5-42e9-952f-c3e2172a9f4d, Outcome: SendFirstNotification, ScheduledFor: 10/16/2026 7:23:00 AM -05:00, EvaluatedAt: 10/16/2026 12:23:00 PM +00:00, CheckInId: &#xD;
+      Mock SMS MKa030ae658bf3406ba6e20ba41735eda7 (ConsentRequest) to +593990007777: AmigoAlert: Integration User added you as their emergency contact. You will also receive a second message with the link to the consent form.&#xD;
+info: AmigoAlert.Services.MockSmsService[0]&#xD;
+      Mock SMS MKe5380d4f18a9485bb4dc7efa7be8509a (ConsentRequest) to +593990007777: AmigoAlert: Consent form: https://amigoalert-hqd4hwcrduhvffba.westus-01.azurewebsites.net/consent/3ae28806a49f42f7b316df713d98f9b8&#xD;
+UserId: 6b041306-f697-4d5d-9ff9-1b5a4f05baf2, Outcome: SendFirstNotification, ScheduledFor: 10/27/2026 12:23:00 PM -05:00, EvaluatedAt: 10/27/2026 5:23:00 PM +00:00, CheckInId: &#xD;
 Acted on decision: True&#xD;
 Deleted 0 old location logs.&#xD;
 Deleted 0 old location logs.&#xD;
@@ -234,9 +274,11 @@ info: Microsoft.Hosting.Lifetime[0]&#xD;
 info: Microsoft.Hosting.Lifetime[0]&#xD;
       Hosting environment: Development&#xD;
 info: Microsoft.Hosting.Lifetime[0]&#xD;
-      Content root path: D:\source\repos\chessplayerjamesUoPeople\capstoneProject\.claude\worktrees\system-acceptance-testing-plan-f5384c\AmigoAlert.Web&#xD;
+      Content root path: D:\source\repos\chessplayerjamesUoPeople\capstoneProject\AmigoAlert.Web&#xD;
 info: AmigoAlert.Services.MockSmsService[0]&#xD;
-      Mock SMS MKb1f59ee46b4041f28c75f9eb524b8efb (ConsentRequest) to +593990002222: AmigoAlert: Integ added you as their emergency contact: https://amigoalert-hqd4hwcrduhvffba.westus-01.azurewebsites.net/consent/f9b297ea72424e1cbad30c9acfe3a2d6&#xD;
+      Mock SMS MK01b944c797b8472c8f7fcffb38379a38 (ConsentRequest) to +593990002222: AmigoAlert: Integration User added you as their emergency contact. You will also receive a second message with the link to the consent form.&#xD;
+info: AmigoAlert.Services.MockSmsService[0]&#xD;
+      Mock SMS MKad992e5860254cedb5af4bd0c5cc9bb1 (ConsentRequest) to +593990002222: AmigoAlert: Consent form: https://amigoalert-hqd4hwcrduhvffba.westus-01.azurewebsites.net/consent/f5caa53f6a5748d4941cd0b7e3204e3e&#xD;
 info: Microsoft.Hosting.Lifetime[0]&#xD;
       Application is shutting down...&#xD;
 info: Microsoft.Hosting.Lifetime[0]&#xD;
@@ -244,9 +286,11 @@ info: Microsoft.Hosting.Lifetime[0]&#xD;
 info: Microsoft.Hosting.Lifetime[0]&#xD;
       Hosting environment: Development&#xD;
 info: Microsoft.Hosting.Lifetime[0]&#xD;
-      Content root path: D:\source\repos\chessplayerjamesUoPeople\capstoneProject\.claude\worktrees\system-acceptance-testing-plan-f5384c\AmigoAlert.Web&#xD;
+      Content root path: D:\source\repos\chessplayerjamesUoPeople\capstoneProject\AmigoAlert.Web&#xD;
 info: AmigoAlert.Services.MockSmsService[0]&#xD;
-      Mock SMS MKb0262b2e2cd64ebab29773dcd4bfe6d9 (ConsentRequest) to +593990002222: AmigoAlert: Integ added you as their emergency contact: https://amigoalert-hqd4hwcrduhvffba.westus-01.azurewebsites.net/consent/78c54827a596499ab85109d5c96883bb&#xD;
+      Mock SMS MK6139dc0378ff4574925e671b69fb1d97 (ConsentRequest) to +593990002222: AmigoAlert: Integration User added you as their emergency contact. You will also receive a second message with the link to the consent form.&#xD;
+info: AmigoAlert.Services.MockSmsService[0]&#xD;
+      Mock SMS MKdf7ba28869d44fbd9b67e5cd7018eea6 (ConsentRequest) to +593990002222: AmigoAlert: Consent form: https://amigoalert-hqd4hwcrduhvffba.westus-01.azurewebsites.net/consent/3c84e83523204d4594288f4881d9348e&#xD;
 info: Microsoft.Hosting.Lifetime[0]&#xD;
       Application is shutting down...&#xD;
 info: Microsoft.Hosting.Lifetime[0]&#xD;
@@ -254,9 +298,15 @@ info: Microsoft.Hosting.Lifetime[0]&#xD;
 info: Microsoft.Hosting.Lifetime[0]&#xD;
       Hosting environment: Development&#xD;
 info: Microsoft.Hosting.Lifetime[0]&#xD;
-      Content root path: D:\source\repos\chessplayerjamesUoPeople\capstoneProject\.claude\worktrees\system-acceptance-testing-plan-f5384c\AmigoAlert.Web&#xD;
+      Content root path: D:\source\repos\chessplayerjamesUoPeople\capstoneProject\AmigoAlert.Web&#xD;
 info: AmigoAlert.Services.MockSmsService[0]&#xD;
-      Mock SMS MK80926e41304746b7a64b2e8d28ea656f (ConsentRequest) to +593990002222: AmigoAlert: Integ added you as their emergency contact: https://amigoalert-hqd4hwcrduhvffba.westus-01.azurewebsites.net/consent/329aa23ac43841f9aab6e3382af03ae5&#xD;
+      Mock SMS MK7a5f568f7a7d48d3b79393bc915826b0 (ConsentRequest) to +593990002222: AmigoAlert: Integration User added you as their emergency contact. You will also receive a second message with the link to the consent form.&#xD;
+info: AmigoAlert.Services.MockSmsService[0]&#xD;
+      Mock SMS MKf685faf4717948a58aea4eae4c485288 (ConsentRequest) to +593990002222: AmigoAlert: Consent form: https://amigoalert-hqd4hwcrduhvffba.westus-01.azurewebsites.net/consent/a648e94119764b56b89499a2832cb439&#xD;
+info: AmigoAlert.Services.MockSmsService[0]&#xD;
+      Mock SMS MKd23ba34ca4a64d13930b48bdd3369870 (ConsentRequest) to +593990003333: AmigoAlert: Integration User added you as their emergency contact. You will also receive a second message with the link to the consent form.&#xD;
+info: AmigoAlert.Services.MockSmsService[0]&#xD;
+      Mock SMS MK021d84dd7e7744bfb885fbc23201c747 (ConsentRequest) to +593990003333: AmigoAlert: Consent form: https://amigoalert-hqd4hwcrduhvffba.westus-01.azurewebsites.net/consent/e5aae0973b4043bfa7d0ee533aee91a7&#xD;
 info: Microsoft.Hosting.Lifetime[0]&#xD;
       Application is shutting down...&#xD;
 info: Microsoft.Hosting.Lifetime[0]&#xD;
@@ -264,9 +314,11 @@ info: Microsoft.Hosting.Lifetime[0]&#xD;
 info: Microsoft.Hosting.Lifetime[0]&#xD;
       Hosting environment: Development&#xD;
 info: Microsoft.Hosting.Lifetime[0]&#xD;
-      Content root path: D:\source\repos\chessplayerjamesUoPeople\capstoneProject\.claude\worktrees\system-acceptance-testing-plan-f5384c\AmigoAlert.Web&#xD;
+      Content root path: D:\source\repos\chessplayerjamesUoPeople\capstoneProject\AmigoAlert.Web&#xD;
 info: AmigoAlert.Services.MockSmsService[0]&#xD;
-      Mock SMS MK4e973ea0d94b48258296fd5cbf31c7ad (ConsentRequest) to +593990002222: AmigoAlert: Integ added you as their emergency contact: https://amigoalert-hqd4hwcrduhvffba.westus-01.azurewebsites.net/consent/edee97f02f9447c69c1b279f73fb87dc&#xD;
+      Mock SMS MK59be72089c76401c9a58a380331e40c0 (ConsentRequest) to +593990002222: AmigoAlert: Integration User added you as their emergency contact. You will also receive a second message with the link to the consent form.&#xD;
+info: AmigoAlert.Services.MockSmsService[0]&#xD;
+      Mock SMS MK01e9df39220b43b9b2fa63223101d258 (ConsentRequest) to +593990002222: AmigoAlert: Consent form: https://amigoalert-hqd4hwcrduhvffba.westus-01.azurewebsites.net/consent/698d7770a9d24858b3af2a6158345f0b&#xD;
 info: Microsoft.Hosting.Lifetime[0]&#xD;
       Application is shutting down...&#xD;
 info: Microsoft.Hosting.Lifetime[0]&#xD;
@@ -274,20 +326,53 @@ info: Microsoft.Hosting.Lifetime[0]&#xD;
 info: Microsoft.Hosting.Lifetime[0]&#xD;
       Hosting environment: Development&#xD;
 info: Microsoft.Hosting.Lifetime[0]&#xD;
-      Content root path: D:\source\repos\chessplayerjamesUoPeople\capstoneProject\.claude\worktrees\system-acceptance-testing-plan-f5384c\AmigoAlert.Web&#xD;
+      Content root path: D:\source\repos\chessplayerjamesUoPeople\capstoneProject\AmigoAlert.Web&#xD;
 info: AmigoAlert.Services.MockSmsService[0]&#xD;
-      Mock SMS MK0a49ba37d1484b7e9ae39872c04e5a5b (ConsentRequest) to +593990002222: AmigoAlert: Integ added you as their emergency contact: https://amigoalert-hqd4hwcrduhvffba.westus-01.azurewebsites.net/consent/7ce816d36a4a4d358ed5ec1d85627a0b&#xD;
+      Mock SMS MKabcd139bb89d43c481e48a3a801ac873 (ConsentRequest) to +593990002222: AmigoAlert: Integration User added you as their emergency contact. You will also receive a second message with the link to the consent form.&#xD;
+info: AmigoAlert.Services.MockSmsService[0]&#xD;
+      Mock SMS MK206b995dc6864aff956de0bddd56e92c (ConsentRequest) to +593990002222: AmigoAlert: Consent form: https://amigoalert-hqd4hwcrduhvffba.westus-01.azurewebsites.net/consent/a3c91bb1c03c41d39239b81412cded7a&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Application is shutting down...&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Application started. Press Ctrl+C to shut down.&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Hosting environment: Development&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Content root path: D:\source\repos\chessplayerjamesUoPeople\capstoneProject\AmigoAlert.Web&#xD;
+info: AmigoAlert.Services.MockSmsService[0]&#xD;
+      Mock SMS MKf6e98d94ddb7434382a78e407de8fcef (ConsentRequest) to +593990002222: AmigoAlert: Integration User added you as their emergency contact. You will also receive a second message with the link to the consent form.&#xD;
+info: AmigoAlert.Services.MockSmsService[0]&#xD;
+      Mock SMS MKd02c1d6e33174043a913310f18c8de7e (ConsentRequest) to +593990002222: AmigoAlert: Consent form: https://amigoalert-hqd4hwcrduhvffba.westus-01.azurewebsites.net/consent/2a4c929480fd48039d81cdebde4e26c7&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Application is shutting down...&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Application started. Press Ctrl+C to shut down.&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Hosting environment: Development&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Content root path: D:\source\repos\chessplayerjamesUoPeople\capstoneProject\AmigoAlert.Web&#xD;
+info: AmigoAlert.Services.MockSmsService[0]&#xD;
+      Mock SMS MK8558169eb9244165b7042a377d40379f (ConsentRequest) to +593990002222: AmigoAlert: Integration User added you as their emergency contact. You will also receive a second message with the link to the consent form.&#xD;
+info: AmigoAlert.Services.MockSmsService[0]&#xD;
+      Mock SMS MK6433d249fc44442298406a07c26ec129 (ConsentRequest) to +593990002222: AmigoAlert: Consent form: https://amigoalert-hqd4hwcrduhvffba.westus-01.azurewebsites.net/consent/f61d95fcca2c467aaf5600866dbf550f&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Application is shutting down...&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Application started. Press Ctrl+C to shut down.&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Hosting environment: Development&#xD;
+info: Microsoft.Hosting.Lifetime[0]&#xD;
+      Content root path: D:\source\repos\chessplayerjamesUoPeople\capstoneProject\AmigoAlert.Web&#xD;
+info: AmigoAlert.Services.MockSmsService[0]&#xD;
+      Mock SMS MK08fa575b40064ac48c77d7c1cc103609 (ConsentRequest) to +593990002222: AmigoAlert: Integration User added you as their emergency contact. You will also receive a second message with the link to the consent form.&#xD;
+info: AmigoAlert.Services.MockSmsService[0]&#xD;
+      Mock SMS MK8721a792fc3d4ec7b4f91e5bafc0e3fd (ConsentRequest) to +593990002222: AmigoAlert: Consent form: https://amigoalert-hqd4hwcrduhvffba.westus-01.azurewebsites.net/consent/bdcc376587084eb0aa47c497bb883803&#xD;
 info: Microsoft.Hosting.Lifetime[0]&#xD;
       Application is shutting down...&#xD;
 info: Microsoft.Hosting.Lifetime[0]&#xD;
       Application is shutting down...&#xD;
-[xUnit.net 00:00:14.21]   Finished:    AmigoAlert.Tests&#xD;
+[xUnit.net 00:00:11.80]   Finished:    AmigoAlert.Tests&#xD;
 </StdOut>
     </Output>
-    <RunInfos>
-      <RunInfo computerName="JAMES-I7-DT" outcome="Warning" timestamp="2026-10-16T07:53:17.6814630-05:00">
-        <Text>[xUnit.net 00:00:10.11]     AmigoAlert.Tests.SystemTests.SystemJourneyTests.S11_ConsentRequest_NamesTheUser [SKIP]</Text>
-      </RunInfo>
-    </RunInfos>
   </ResultSummary>
 </TestRun>

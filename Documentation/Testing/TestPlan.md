@@ -28,7 +28,7 @@ This plan covers the last two test levels for AmigoAlert:
 | Level | What is exercised | How | Where |
 |---|---|---|---|
 | Unit | Pure rules: SMS composition (NF-13), phone normalisation (DR-02) | xUnit, `[Trait("Level","Unit")]` | `AmigoAlert.Tests/Unit/` |
-| Integration | One API area at a time against SQL Server (I-01 to I-17) | xUnit + `WebApplicationFactory` | `AmigoAlert.Tests/Integration/` (existing) |
+| Integration | One API area at a time against SQL Server (I-01 to I-29) | xUnit + `WebApplicationFactory` | `AmigoAlert.Tests/Integration/` (existing) |
 | **System** | End-to-end journeys across the API, WebJob, consent page and DB (S-01 to S-11, C-01 to C-08), plus manual system checks (M-01 to M-04) | xUnit, `[Trait("Level","System")]`; manual for M-xx | `AmigoAlert.Tests/SystemTests/`, [SystemTestCases.md](SystemTestCases.md) |
 | **Acceptance** | User stories on the Android app (UAT-01 to UAT-16) | Scripted manual Given/When/Then, with screenshots | [AcceptanceTestScripts.md](AcceptanceTestScripts.md) |
 
@@ -63,7 +63,7 @@ The WebJob is never pointed at the production database from a test. `Notificatio
 
 **Entry (system):**
 - The solution builds.
-- The integration suite (I-01 to I-17) passes on E1.
+- The integration suite (I-01 to I-29) passes on E1.
 
 **Entry (acceptance):**
 - All automated system tests pass, or fail only on a logged defect.

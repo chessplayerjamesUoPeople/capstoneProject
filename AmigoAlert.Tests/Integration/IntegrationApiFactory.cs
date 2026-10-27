@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
 using System.Collections.Concurrent;
 using System.Text.Json;
+using System.Text.RegularExpressions;
 
 namespace AmigoAlert.Tests.Integration
 {
@@ -24,7 +25,8 @@ namespace AmigoAlert.Tests.Integration
 
 	/// <summary>
 	/// The real API, services, EF Core and SQL Server, pointed at the <c>AMIGOALERT_TEST_SQL</c> database with
-	/// <see cref="MockSmsService"/> in place of Twilio. Nothing else is replaced.
+	/// <see cref="MockSmsService"/> in place of Twilio and <see cref="MockEmailService"/> in place of Communication Services. Nothing else
+	/// is replaced.
 	/// </summary>
 	/// <remarks>
 	/// <c>Twilio:UseMockSms</c> is switched on through configuration, exactly as for a local run, so no Twilio client is registered and Key
@@ -42,6 +44,8 @@ namespace AmigoAlert.Tests.Integration
 		/// </summary>
 		public const string RegisteredEmailDomain = "@integration.test";
 
+		private static readonly Regex VerificationCode = new Regex("[0-9]{6}", RegexOptions.Compiled);
+
 		private readonly ConcurrentQueue<MockSmsService> smsServices = new ConcurrentQueue<MockSmsService>();
 
 		private bool migrated;
@@ -53,6 +57,23 @@ namespace AmigoAlert.Tests.Integration
 
 		/// <summary>Every SMS sent since the last <see cref="ResetAsync"/>, oldest first.</summary>
 		public IReadOnlyList<MockSmsService.SentMessage> SentSms => smsServices.SelectMany(s => s.Sent).OrderBy(m => m.SentAt).ToList();
+
+		/// <summary>
+		/// The API host's email sender. <c>Email:UseMockEmail</c> makes it a <see cref="MockEmailService"/> singleton, so one instance sees
+		/// every email the API sent.
+		/// </summary>
+		public MockEmailService Email => (MockEmailService)Services.GetRequiredService<IEmailService>();
+
+		/// <summary>Every email sent since the last <see cref="ResetAsync"/>, oldest first.</summary>
+		public IReadOnlyList<MockEmailService.SentMessage> SentEmail => Email.Sent;
+
+		/// <summary>The verification code in the newest email sent to <paramref name="email"/>, read from its subject as a user would.</summary>
+		public string LatestCode(string email)
+		{
+			MockEmailService.SentMessage message = SentEmail.Last(m => string.Equals(m.ToEmail, email, StringComparison.OrdinalIgnoreCase));
+
+			return VerificationCode.Match(message.Content.Subject).Value;
+		}
 
 		/// <summary>
 		/// Replaces the <see cref="ISmsService"/> registration in <paramref name="services"/> with a scoped <see cref="MockSmsService"/>
@@ -93,13 +114,19 @@ namespace AmigoAlert.Tests.Integration
 			await RemoveRegisteredUsersAsync();
 
 			smsServices.Clear();
+			Email.Clear();
 		}
 
-		/// <summary>Deletes every user registered by an integration test, with every row hanging off them.</summary>
+		/// <summary>
+		/// Deletes every user registered by an integration test, with every row hanging off them, and every verification code sent to the
+		/// test domain.
+		/// </summary>
 		public async Task RemoveRegisteredUsersAsync()
 		{
 			using IServiceScope scope = Services.CreateScope();
 			AmigoAlertDbContext db = scope.ServiceProvider.GetRequiredService<AmigoAlertDbContext>();
+
+			await db.EmailVerifications.Where(v => v.Email.EndsWith(RegisteredEmailDomain)).ExecuteDeleteAsync();
 
 			await db.Sms.Where(m => m.EmergencyContact.User.Email.EndsWith(RegisteredEmailDomain)).ExecuteDeleteAsync();
 			await db.StatusLogs.Where(l => l.User.Email.EndsWith(RegisteredEmailDomain)).ExecuteDeleteAsync();
@@ -134,6 +161,7 @@ namespace AmigoAlert.Tests.Integration
 		{
 			builder.UseSetting("ConnectionStrings:AmigoAlertDb", ConnectionString);
 			builder.UseSetting("Twilio:UseMockSms", "true");
+			builder.UseSetting("Email:UseMockEmail", "true");
 
 			// The API logs every SQL command at Information, which buries the test output.
 			builder.ConfigureLogging(logging => logging.AddFilter("Microsoft.EntityFrameworkCore", LogLevel.Warning));

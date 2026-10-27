@@ -84,7 +84,7 @@ namespace AmigoAlert.Tests.Integration
 		[Fact]
 		public async Task I13_ContactAcceptsConsent_EmergencyBecomesAvailable()
 		{
-			UserDto user = await RegistrationTests.RegisterAsync(client, RegistrationTests.NewUser());
+			UserDto user = await RegistrationTests.RegisterAsync(factory, client, RegistrationTests.NewUser());
 			SetEmergencyContactDto contactRequest = new SetEmergencyContactDto("Integration Contact", "+593990009999");
 			Assert.Equal(HttpStatusCode.Created,
 				(await client.PostAsJsonAsync($"api/users/{user.Id}/emergency-contact", contactRequest)).StatusCode);
@@ -120,7 +120,7 @@ namespace AmigoAlert.Tests.Integration
 		[Fact]
 		public async Task I18_ContactWithdrawsConsent_EmergencyIsRefusedUntilTheyGrantAgain()
 		{
-			UserDto user = await RegistrationTests.RegisterAsync(client, RegistrationTests.NewUser());
+			UserDto user = await RegistrationTests.RegisterAsync(factory, client, RegistrationTests.NewUser());
 			SetEmergencyContactDto contactRequest = new SetEmergencyContactDto("Withdrawing Contact", "+593990008888");
 			Assert.Equal(HttpStatusCode.Created,
 				(await client.PostAsJsonAsync($"api/users/{user.Id}/emergency-contact", contactRequest)).StatusCode);
@@ -161,7 +161,7 @@ namespace AmigoAlert.Tests.Integration
 		[Fact]
 		public async Task I19_ReplacedContact_OldLinkStopsWorking()
 		{
-			UserDto user = await RegistrationTests.RegisterAsync(client, RegistrationTests.NewUser());
+			UserDto user = await RegistrationTests.RegisterAsync(factory, client, RegistrationTests.NewUser());
 			Assert.Equal(HttpStatusCode.Created, (await client.PostAsJsonAsync($"api/users/{user.Id}/emergency-contact",
 				new SetEmergencyContactDto("Old Contact", "+593990008877"))).StatusCode);
 			Guid oldToken = Guid.ParseExact(Regex.Match(factory.SentSms.Last().Body, "[0-9a-f]{32}").Value, "N");

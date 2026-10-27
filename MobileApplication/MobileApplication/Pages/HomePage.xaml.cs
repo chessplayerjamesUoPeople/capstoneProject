@@ -147,10 +147,10 @@ public partial class HomePage : ContentPage
 
 		try
 		{
-			// First run: nobody has registered on this device yet.
+			// First run, or the app's data was cleared: the user registers or logs in again.
 			if (await ApiSettings.GetUserIdAsync() is not { } userId)
 			{
-				await Shell.Current.GoToAsync(nameof(RegistrationPage));
+				await Shell.Current.GoToAsync($"//{nameof(WelcomePage)}");
 				return;
 			}
 

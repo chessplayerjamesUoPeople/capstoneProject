@@ -35,8 +35,9 @@ namespace MobileApplication.Services
 		private static Guid? cachedUserId;
 
 		/// <summary>
-		/// The registered user's ID from secure storage, or null when this device has not registered yet. A value that cannot be read
-		/// (for example after a restore to another device, when the encryption key is gone) is discarded and treated as not registered.
+		/// The user's ID from secure storage, or null when nobody has registered or logged in on this device, or the app's data was
+		/// cleared. A value that cannot be read (for example after a restore to another device, when the encryption key is gone) is
+		/// discarded. Either way the user logs in again to recover their account.
 		/// </summary>
 		public static async Task<Guid?> GetUserIdAsync()
 		{
@@ -56,11 +57,18 @@ namespace MobileApplication.Services
 			return null;
 		}
 
-		/// <summary>Remembers the user returned by registration, in secure storage.</summary>
+		/// <summary>
+		/// Raised after <see cref="SetUserIdAsync"/> stores a user, so the platform can register this device for that user's check-in
+		/// notifications straight away rather than on the next launch.
+		/// </summary>
+		public static event EventHandler? UserIdChanged;
+
+		/// <summary>Remembers the user returned by registration or log in, in secure storage.</summary>
 		public static async Task SetUserIdAsync(Guid userId)
 		{
 			await SecureStorage.Default.SetAsync(UserIdKey, userId.ToString());
 			cachedUserId = userId;
+			UserIdChanged?.Invoke(null, EventArgs.Empty);
 		}
 	}
 }
