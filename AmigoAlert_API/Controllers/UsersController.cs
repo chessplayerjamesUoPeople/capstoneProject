@@ -4,6 +4,7 @@ using AmigoAlert.Data.Repositories;
 using AmigoAlert.Services;
 using AmigoAlert.Services.Results;
 using AmigoAlert.Shared.DTOs;
+using AmigoAlert.Shared.Enums;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
@@ -13,8 +14,10 @@ namespace AmigoAlert.API.Controllers
 	[Route("api/[controller]")]
 	[ApiController]
 	public sealed class UsersController(IUserRepository userRepository, RegistrationService registrationService,
-		EscalationService escalationService) : ControllerBase
+		LoginService loginService, EscalationService escalationService) : ControllerBase
 	{
+		private const string InvalidCodeDetail = "The verification code is incorrect or has expired.";
+
 		/// <summary>
 		/// Returns the user's profile, notification schedule and current status.
 		/// </summary>
@@ -37,24 +40,51 @@ namespace AmigoAlert.API.Controllers
 		}
 
 		/// <summary>
-		/// Registers a new user at an initial status of okay, recording acceptance of the submitted terms version.
+		/// Registers a new user at an initial status of okay, recording acceptance of the submitted terms version. Requires the
+		/// registration code emailed by <c>POST api/verification-codes</c>.
 		/// </summary>
 		/// <param name="request">The registration details.</param>
 		/// <param name="ct">The cancellation token.</param>
 		/// <returns>The registered user, with its location in the Location header.</returns>
 		[HttpPost]
 		[ProducesResponseType<UserDto>(StatusCodes.Status201Created)]
-		[ProducesResponseType(StatusCodes.Status409Conflict)]
+		[ProducesResponseType<ProblemDetails>(StatusCodes.Status400BadRequest)]
+		[ProducesResponseType<ProblemDetails>(StatusCodes.Status409Conflict)]
 		public async Task<ActionResult<UserDto>> PostAsync(CreateUserDto request, CancellationToken ct)
 		{
 			User user = request.ToEntity();
 
-			if (!await registrationService.RegisterAsync(user, ct))
+			return await registrationService.RegisterAsync(user, request.VerificationCode, ct) switch
 			{
-				return Problem(statusCode: StatusCodes.Status409Conflict, detail: "The email address is already registered.");
+				RegistrationOutcome.Registered => CreatedAtAction(nameof(GetAsync), new { id = user.Id }, user.ToDto()),
+				RegistrationOutcome.EmailAlreadyRegistered => Problem(statusCode: StatusCodes.Status409Conflict,
+					detail: "The email address is already registered."),
+				RegistrationOutcome.InvalidVerificationCode => Problem(statusCode: StatusCodes.Status400BadRequest,
+					detail: InvalidCodeDetail),
+				_ => throw new UnreachableException()
+			};
+		}
+
+		/// <summary>
+		/// Logs an existing user in with the log in code emailed by <c>POST api/verification-codes</c>, returning their profile and
+		/// identifier. The app uses it to recover its user on a new device or after its data was cleared.
+		/// </summary>
+		/// <param name="request">The registered address and the code.</param>
+		/// <param name="ct">The cancellation token.</param>
+		/// <returns>The user's profile, notification schedule and current status.</returns>
+		[HttpPost("login")]
+		[ProducesResponseType<UserDto>(StatusCodes.Status200OK)]
+		[ProducesResponseType<ProblemDetails>(StatusCodes.Status400BadRequest)]
+		public async Task<ActionResult<UserDto>> PostLoginAsync(LogInDto request, CancellationToken ct)
+		{
+			User? user = await loginService.LogInAsync(request.Email, request.VerificationCode, ct);
+
+			if (user is null)
+			{
+				return Problem(statusCode: StatusCodes.Status400BadRequest, detail: InvalidCodeDetail);
 			}
 
-			return CreatedAtAction(nameof(GetAsync), new { id = user.Id }, user.ToDto());
+			return Ok(user.ToDto());
 		}
 
 		/// <summary>
@@ -67,8 +97,15 @@ namespace AmigoAlert.API.Controllers
 		[HttpPut("{id:guid}")]
 		[ProducesResponseType(StatusCodes.Status204NoContent)]
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
+		[ProducesResponseType(StatusCodes.Status409Conflict)]
 		public async Task<IActionResult> PutAsync(Guid id, UpdateUserDto request, CancellationToken ct)
 		{
+			User user = await userRepository.GetByIdAsync(id, ct);
+			if (user is not null && (user.StatusId == (byte)StatusType.Emergency || user.StatusId == (byte)StatusType.Escalated))
+			{
+				return Conflict("The user's status is currently emergency or escalated and cannot be updated.");
+			}
+
 			if (await userRepository.UpdateProfileAsync(id, request.Name, request.Phone, request.Address, request.Landmarks, ct) == 0)
 			{
 				return NotFound();

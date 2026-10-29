@@ -48,6 +48,14 @@ namespace AmigoAlert.Data.Repositories
 		Task<bool> EmailExistsAsync(string email, CancellationToken ct = default);
 
 		/// <summary>
+		/// Asynchronously retrieves a user by their email address.
+		/// </summary>
+		/// <param name="email">The email address to look up. Comparison follows the database collation (case-insensitive).</param>
+		/// <param name="ct">A cancellation token that can be used to cancel the operation.</param>
+		/// <returns>The user registered with the email address, or null if no such user exists.</returns>
+		Task<User?> GetByEmailAsync(string email, CancellationToken ct = default);
+
+		/// <summary>
 		/// Retrieves the latest status log entry for a user by their ID.
 		/// </summary>
 		/// <param name="userId">The GUID ID of the user whose latest status log entry is to be retrieved.</param>

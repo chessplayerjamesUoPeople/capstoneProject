@@ -29,7 +29,7 @@ namespace AmigoAlert.WebJob
 
 		/// <summary>
 		/// One scheduled run: evaluates every due user at <paramref name="now"/>, acts on each actionable decision through the shared
-		/// <see cref="EscalationService"/>, then removes old location logs. Separate from <see cref="Main"/> so the integration tests can
+		/// <see cref="EscalationService"/>, then removes old location logs and expired verification codes. Separate from <see cref="Main"/> so the integration tests can
 		/// invoke the WebJob's own entry point against a test database.
 		/// </summary>
 		/// <param name="services">The root provider, with the data layer and services registered.</param>
@@ -52,6 +52,8 @@ namespace AmigoAlert.WebJob
 			}
 			int deletedLogs = await cleanupService.CleanupOldLocations();
 			Console.WriteLine($"Deleted {deletedLogs} old location logs.");
+			int deletedCodes = await cleanupService.CleanupExpiredVerificationCodes(now);
+			Console.WriteLine($"Deleted {deletedCodes} expired verification codes.");
 		}
 	}
 }

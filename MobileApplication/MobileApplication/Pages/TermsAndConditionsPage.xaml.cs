@@ -1,11 +1,13 @@
+using System.Net;
 using AmigoAlert.Shared.DTOs;
+using AmigoAlert.Shared.Enums;
 using MobileApplication.Services;
 
 namespace MobileApplication.Pages;
 
 /// <summary>
-/// The last step of registration. The details from the registration form arrive as query attributes; accepting the terms creates the
-/// user, remembers the new user's ID and adds the emergency contact.
+/// The second step of registration. The details from the registration form arrive as query attributes; accepting the terms emails a
+/// registration code and passes the details on to <see cref="VerifyEmailPage"/>, which creates the user once the code is entered.
 /// </summary>
 public partial class TermsAndConditionsPage : ContentPage, IQueryAttributable
 {
@@ -47,44 +49,32 @@ public partial class TermsAndConditionsPage : ContentPage, IQueryAttributable
 
 		ErrorLabel.IsVisible = false;
 		SaveButton.IsEnabled = false;
-		var registered = false;
 		try
 		{
-			var phone = Detail(PhoneKey);
-			var landmarks = Detail(LandmarksKey);
-			var user = await api.CreateUserAsync(new CreateUserDto(Detail(NameKey), Detail(EmailKey), phone.Length > 0 ? phone : null,
-				Detail(AddressKey), landmarks.Length > 0 ? landmarks : null, ApiSettings.FirstNotificationTime,
-				ApiSettings.SecondNotificationTime, ApiSettings.TermsVersion));
-
-			// Stored straight away: if adding the contact fails, the home page asks for one rather than registering a second account.
-			await ApiSettings.SetUserIdAsync(user.Id);
-			registered = true;
-
-			await api.AddEmergencyContactAsync(user.Id, new SetEmergencyContactDto(Detail(ContactNameKey), Detail(ContactPhoneKey)));
-
-			await DisplayAlertAsync("Consent requested",
-				$"A consent request was sent to {Detail(ContactNameKey)}. You can use AmigoAlert once they accept.", "OK");
+			await api.RequestVerificationCodeAsync(new RequestVerificationCodeDto(Detail(EmailKey), VerificationPurposeType.Registration));
 		}
-		catch (Exception ex) when (ex is ApiException or HttpRequestException or TaskCanceledException)
+		catch (ApiException ex) when (ex.StatusCode == HttpStatusCode.Conflict)
 		{
-			var message = ex is ApiException ? ex.Message : "Could not reach AmigoAlert. Check your internet connection and try again.";
-
-			if (registered)
-			{
-				// The account exists but the contact was not saved; Home asks for one.
-				await DisplayAlertAsync("Emergency contact not saved", message, "OK");
-				await Shell.Current.GoToAsync("//HomePage");
-			}
-			else
-			{
-				ShowError(message);
-				SaveButton.IsEnabled = true;
-			}
+			// Registered before, for example before the app's data was cleared: logging in recovers the account.
+			if (await DisplayAlertAsync("Already registered", ex.Message, "Log in", "Cancel"))
+				await Shell.Current.GoToAsync($"../../{nameof(LoginPage)}",
+					new Dictionary<string, object> { [LoginPage.EmailKey] = Detail(EmailKey) });
 
 			return;
 		}
+		catch (Exception ex) when (ex is ApiException or HttpRequestException or TaskCanceledException)
+		{
+			ShowError(ex is ApiException ? ex.Message : "Could not reach AmigoAlert. Check your internet connection and try again.");
+			return;
+		}
+		finally
+		{
+			SaveButton.IsEnabled = true;
+		}
 
-		await Shell.Current.GoToAsync("//HomePage");
+		// The user is created once the emailed code is entered, with the details passed on unchanged.
+		var verifyDetails = new Dictionary<string, object>(details) { [VerifyEmailPage.ModeKey] = VerifyEmailPage.RegisterMode };
+		await Shell.Current.GoToAsync(nameof(VerifyEmailPage), verifyDetails);
 	}
 
 	private void ShowError(string message)

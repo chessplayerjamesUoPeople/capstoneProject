@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MobileApplication.Pages.WelcomePage"
+             Title="Welcome"
+             Shell.NavBarIsVisible="False">
+    <ScrollView>
+        <VerticalStackLayout Padding="16" Spacing="8" MaximumWidthRequest="600" VerticalOptions="Center">
+
+            <Label Text="Welcome to AmigoAlert"
+                   Style="{StaticResource Headline}"
+                   SemanticProperties.HeadingLevel="Level1" />
+
+            <Label Text="AmigoAlert checks in with you at set times each day. If you need help, or you miss a check-in, your emergency contact is alerted."
+                   HorizontalTextAlignment="Center" />
+
+            <Button Text="Log in"
+                    Clicked="OnLogInClicked"
+                    Margin="0,24,0,0"
+                    SemanticProperties.Hint="Log in with the email address you registered with" />
+            <Label Text="Already registered? Log in with your email address. We will email you a code."
+                   Style="{StaticResource HintText}" />
+
+            <Button Text="Register"
+                    Clicked="OnRegisterClicked"
+                    Margin="0,16,0,0"
+                    SemanticProperties.Hint="Create a new AmigoAlert account" />
+            <Label Text="New to AmigoAlert? Register to get started."
+                   Style="{StaticResource HintText}" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

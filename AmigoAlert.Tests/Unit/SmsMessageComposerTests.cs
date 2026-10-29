@@ -32,8 +32,70 @@ namespace AmigoAlert.Tests.Unit
 				SmsMessageComposer.EmergencyCancelled(name)
 			];
 
-			Assert.All(bodies, body => Assert.InRange(body.Length, 1, SmsMessageComposer.MaxLength));
-			Assert.All(bodies, body => Assert.All(body, c => Assert.InRange(c, ' ', '~')));
+			string[] all = bodies
+				.Concat(SmsMessageComposer.ConsentRequestMessages(name + " Surname", url))
+				.Concat(SmsMessageComposer.EmergencyActivationMessages(name, null, null, address, new string('L', 300)))
+				.Concat(SmsMessageComposer.EmergencyActivationMessages(name, null, null, "Calle 1", "Near the park"))
+				.ToArray();
+
+			Assert.All(all, body => Assert.InRange(body.Length, 1, SmsMessageComposer.MaxLength));
+			Assert.All(all, body => Assert.All(body, c => Assert.InRange(c, ' ', '~')));
+		}
+
+		private const string Url = "https://example.test/consent/abc";
+
+		[Fact]
+		public void ConsentRequestMessages_ShortFirstName_IsOneMessageWithTheLink()
+		{
+			IReadOnlyList<string> messages = SmsMessageComposer.ConsentRequestMessages("Ana Maria Lopez", Url);
+
+			string only = Assert.Single(messages);
+			Assert.Contains("Ana added", only);
+			Assert.DoesNotContain("Lopez", only);
+			Assert.EndsWith(Url, only);
+		}
+
+		[Fact]
+		public void ConsentRequestMessages_LongFirstName_UsesFullNameAndSendsLinkSeparately()
+		{
+			IReadOnlyList<string> messages = SmsMessageComposer.ConsentRequestMessages("Alejandra Lopez", Url);
+
+			Assert.Equal(2, messages.Count);
+			Assert.Contains("Alejandra Lopez", messages[0]);
+			Assert.Contains("second message", messages[0]);
+			Assert.DoesNotContain(Url, messages[0]);
+			Assert.EndsWith(Url, messages[1]);
+		}
+
+		[Fact]
+		public void EmergencyActivationMessages_AddressAndLandmarksThatFit_AreOneMessage()
+		{
+			IReadOnlyList<string> messages = SmsMessageComposer.EmergencyActivationMessages("Ana", null, null, "Calle 1", "Near the park");
+
+			string only = Assert.Single(messages);
+			Assert.Contains("Address: Calle 1", only);
+			Assert.EndsWith("Landmarks: Near the park", only);
+		}
+
+		[Fact]
+		public void EmergencyActivationMessages_TooLong_SendsLandmarksSecondAndTruncatesThem()
+		{
+			IReadOnlyList<string> messages = SmsMessageComposer.EmergencyActivationMessages("Ana", null, null, new string('A', 100), new string('L', 400));
+
+			Assert.Equal(2, messages.Count);
+			Assert.Contains("Address: ", messages[0]);
+			Assert.DoesNotContain("Landmarks", messages[0]);
+			Assert.StartsWith("AmigoAlert: Landmarks: L", messages[1]);
+			Assert.Equal(SmsMessageComposer.MaxLength, messages[1].Length);
+		}
+
+		[Fact]
+		public void EmergencyActivationMessages_NoLandmarksOrWithLocation_IsOneMessageWithoutLandmarks()
+		{
+			Assert.Single(SmsMessageComposer.EmergencyActivationMessages("Ana", null, null, "Calle 1", null));
+
+			string withLocation = Assert.Single(SmsMessageComposer.EmergencyActivationMessages("Ana", -0.18, -78.46, "Calle 1", "Near the park"));
+			Assert.Contains("maps.google.com", withLocation);
 		}
 
 		[Fact]

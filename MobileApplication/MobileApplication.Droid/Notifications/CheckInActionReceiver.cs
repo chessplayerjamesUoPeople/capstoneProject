@@ -50,7 +50,7 @@ namespace MobileApplication.Droid.Notifications
 				{
 					if (await ApiSettings.GetUserIdAsync() is not { } userId)
 					{
-						CheckInNotifications.ShowNotice(context, "Open AmigoAlert to register. If you are in danger, call 911.");
+						CheckInNotifications.ShowNotice(context, "Open AmigoAlert to log in. If you are in danger, call 911.");
 						return;
 					}
 

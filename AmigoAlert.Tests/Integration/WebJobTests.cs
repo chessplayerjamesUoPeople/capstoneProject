@@ -10,7 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 namespace AmigoAlert.Tests.Integration
 {
 	/// <summary>
-	/// I-14 and I-15: one WebJob run through its own entry point, <c>Program.RunAsync</c>, with the container composed as
+	/// I-14, I-15 and I-29: one WebJob run through its own entry point, <c>Program.RunAsync</c>, with the container composed as
 	/// <c>Program.Main</c> composes it. The accuracy suite drives <see cref="EscalationService"/> directly; these prove the WebJob reaches
 	/// that same service rather than carrying logic of its own.
 	/// </summary>
@@ -85,6 +85,43 @@ namespace AmigoAlert.Tests.Integration
 			Assert.False(await factory.InNewScopeAsync(db => db.StatusLogs.AnyAsync(l => SeededUserIds.Contains(l.UserId))));
 			Assert.False(await factory.InNewScopeAsync(db => db.Sms.AnyAsync(m => SeededUserIds.Contains(m.EmergencyContact.UserId))));
 			Assert.Empty(factory.SentSms);
+		}
+
+		[Fact]
+		public async Task I29_Poll_DeletesVerificationCodesLongExpiredAndKeepsTheRest()
+		{
+			DateTimeOffset now = S.AddHours(2);
+			string longExpired = $"long-expired{IntegrationApiFactory.RegisteredEmailDomain}";
+			string recentlyExpired = $"recently-expired{IntegrationApiFactory.RegisteredEmailDomain}";
+			string active = $"active{IntegrationApiFactory.RegisteredEmailDomain}";
+
+			await factory.InNewScopeAsync(db =>
+			{
+				db.EmailVerifications.AddRange(
+					NewVerification(longExpired, now - CleanupService.VerificationRetention - TimeSpan.FromMinutes(1)),
+					NewVerification(recentlyExpired, now - CleanupService.VerificationRetention + TimeSpan.FromMinutes(1)),
+					NewVerification(active, now + TimeSpan.FromMinutes(5)));
+				return db.SaveChangesAsync();
+			});
+
+			await RunWebJobAsync(now);
+
+			List<string> kept = await factory.InNewScopeAsync(db => db.EmailVerifications
+				.Where(v => v.Email.EndsWith(IntegrationApiFactory.RegisteredEmailDomain)).Select(v => v.Email).ToListAsync());
+			Assert.Equal([active, recentlyExpired], kept.Order());
+		}
+
+		private static EmailVerification NewVerification(string email, DateTimeOffset expiresAt)
+		{
+			return new EmailVerification
+			{
+				Email = email,
+				PurposeId = (byte)VerificationPurposeType.Login,
+				CodeHash = new byte[32],
+				CodeSalt = new byte[16],
+				CreatedAt = expiresAt - EmailVerificationService.CodeLifetime,
+				ExpiresAt = expiresAt
+			};
 		}
 
 		/// <summary>

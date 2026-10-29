@@ -1,5 +1,8 @@
 <Solution>
   <Folder Name="/Documentation/" />
+  <Folder Name="/Solution Items/">
+    <File Path=".runsettings" />
+  </Folder>
   <Project Path="AmigoAlert.Data/AmigoAlert.Data.csproj" />
   <Project Path="AmigoAlert.Services/AmigoAlert.Services.csproj" Id="e7aa7075-4a8e-47cd-b940-1e029c15ce57" />
   <Project Path="AmigoAlert.Tests/AmigoAlert.Tests.csproj" />

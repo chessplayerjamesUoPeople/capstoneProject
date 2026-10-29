@@ -52,8 +52,18 @@ namespace AmigoAlert.Data.Repositories
 				.ExecuteUpdateAsync(s => s
 					.SetProperty(c => c.ConsentStatusId, (byte)status)
 					.SetProperty(c => c.ConsentRespondedAt, respondedAt)
-					.SetProperty(c => c.ConsentToken, (Guid?)null)
 					.SetProperty(c => c.ConsentTokenExpires, (DateTimeOffset?)null), ct);
+		}
+
+		/// <inheritdoc cref="IEmergencyContactRepository.ChangeConsentAsync"/>
+		public Task<int> ChangeConsentAsync(Guid contactId, ConsentStatusType from, ConsentStatusType to, DateTimeOffset changedAt,
+			CancellationToken ct = default)
+		{
+			return context.EmergencyContacts
+				.Where(c => c.Id == contactId && c.IsActive && c.ConsentStatusId == (byte)from)
+				.ExecuteUpdateAsync(s => s
+					.SetProperty(c => c.ConsentStatusId, (byte)to)
+					.SetProperty(c => c.ConsentRespondedAt, changedAt), ct);
 		}
 
 		/// <inheritdoc cref="IEmergencyContactRepository.UpdateNameAsync"/>

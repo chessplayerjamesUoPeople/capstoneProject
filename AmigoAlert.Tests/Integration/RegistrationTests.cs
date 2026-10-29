@@ -11,9 +11,10 @@ using System.Text.Json;
 namespace AmigoAlert.Tests.Integration
 {
 	/// <summary>
-	/// I-01 to I-06: registration and profile updates through the API, read back from SQL Server. Registration is two calls: POST
-	/// /api/users creates the user and their initial status log row, and POST /api/users/{id}/emergency-contact adds the contact at pending
-	/// consent and sends the consent request SMS. Consent is a state of the contact row, not a table of its own.
+	/// I-01 to I-06: registration and profile updates through the API, read back from SQL Server. Registration is three calls: POST
+	/// /api/verification-codes emails a registration code, POST /api/users creates the user and their initial status log row given that
+	/// code, and POST /api/users/{id}/emergency-contact adds the contact at pending consent and sends the consent request SMS. Consent is a
+	/// state of the contact row, not a table of its own. The codes themselves are covered by <see cref="EmailVerificationTests"/>.
 	/// </summary>
 	[Collection(IntegrationCollection.Name)]
 	public sealed class RegistrationTests(IntegrationApiFactory factory) : IAsyncLifetime
@@ -33,7 +34,7 @@ namespace AmigoAlert.Tests.Integration
 		[Fact]
 		public async Task I01_RegisterWithEmergencyContact_PersistsUserContactAndConsentRequest()
 		{
-			CreateUserDto request = NewUser();
+			CreateUserDto request = await WithCodeAsync(factory, client, NewUser());
 			HttpResponseMessage registered = await client.PostAsJsonAsync("api/users", request);
 			Assert.Equal(HttpStatusCode.Created, registered.StatusCode);
 			UserDto user = (await registered.Content.ReadFromJsonAsync<UserDto>())!;
@@ -64,18 +65,20 @@ namespace AmigoAlert.Tests.Integration
 			Assert.Equal(storedContact.ConsentRequestedAt + ConsentService.TokenLifetime, storedContact.ConsentTokenExpires);
 			Assert.Null(storedContact.ConsentRespondedAt);
 
-			Sms sms = await factory.InNewScopeAsync(db => db.Sms.SingleAsync(m => m.EmergencyContactId == contact.Id));
-			Assert.Equal((byte)SmsMessageTypeEnum.ConsentRequest, sms.MessageTypeId);
+			// The registered name's first name is longer than five characters, so the request is two SMS: the notice, then the link.
+			List<Sms> smsRows = await factory.InNewScopeAsync(db => db.Sms.Where(m => m.EmergencyContactId == contact.Id).ToListAsync());
+			Assert.Equal(2, smsRows.Count);
+			Assert.All(smsRows, sms => Assert.Equal((byte)SmsMessageTypeEnum.ConsentRequest, sms.MessageTypeId));
 
-			MockSmsService.SentMessage sent = Assert.Single(factory.SentSms);
-			Assert.Equal(contactRequest.Phone, sent.ToPhone);
-			Assert.Contains(storedContact.ConsentToken.Value.ToString("N"), sent.Body);
+			Assert.Equal(2, factory.SentSms.Count);
+			Assert.All(factory.SentSms, sent => Assert.Equal(contactRequest.Phone, sent.ToPhone));
+			Assert.Contains(storedContact.ConsentToken.Value.ToString("N"), factory.SentSms.Last().Body);
 		}
 
 		[Fact]
 		public async Task I02_RegisterThenGet_ReturnsWhatWasPosted()
 		{
-			CreateUserDto request = NewUser();
+			CreateUserDto request = await WithCodeAsync(factory, client, NewUser());
 			HttpResponseMessage registered = await client.PostAsJsonAsync("api/users", request);
 			Assert.Equal(HttpStatusCode.Created, registered.StatusCode);
 			UserDto created = (await registered.Content.ReadFromJsonAsync<UserDto>())!;
@@ -103,7 +106,7 @@ namespace AmigoAlert.Tests.Integration
 		[Fact]
 		public async Task I03_RegisterWithDuplicateEmail_IsRejectedAndWritesNothing()
 		{
-			CreateUserDto first = NewUser();
+			CreateUserDto first = await WithCodeAsync(factory, client, NewUser());
 			Assert.Equal(HttpStatusCode.Created, (await client.PostAsJsonAsync("api/users", first)).StatusCode);
 			int usersBefore = await factory.InNewScopeAsync(db => db.Users.CountAsync());
 			int logsBefore = await factory.InNewScopeAsync(db => db.StatusLogs.CountAsync());
@@ -143,7 +146,7 @@ namespace AmigoAlert.Tests.Integration
 		[Fact]
 		public async Task I05_UpdateUser_PersistsProfileAndLeavesEverythingElse()
 		{
-			UserDto created = await RegisterAsync(client, NewUser());
+			UserDto created = await RegisterAsync(factory, client, NewUser());
 			User before = await factory.InNewScopeAsync(db => db.Users.SingleAsync(u => u.Id == created.Id));
 
 			// Email is not part of UpdateUserDto; sent anyway, to prove it is ignored rather than bound.
@@ -185,22 +188,36 @@ namespace AmigoAlert.Tests.Integration
 			Assert.Equal(usersBefore, await factory.InNewScopeAsync(db => db.Users.CountAsync()));
 		}
 
-		/// <summary>A valid registration request with a unique email in <see cref="IntegrationApiFactory.RegisteredEmailDomain"/>.</summary>
+		/// <summary>
+		/// A registration request with a unique email in <see cref="IntegrationApiFactory.RegisteredEmailDomain"/>. Its verification code is
+		/// a well-formed placeholder: <see cref="WithCodeAsync"/> replaces it with a real one.
+		/// </summary>
 		internal static CreateUserDto NewUser()
 		{
 			return new CreateUserDto("Integration User", NewEmail(), "+593980009999", "9 Test St., Cotacachi, Ecuador", "Blue door",
-				new TimeOnly(9, 0), new TimeOnly(19, 0), "1.0");
+				new TimeOnly(9, 0), new TimeOnly(19, 0), "1.0", "000000");
 		}
 
-		internal static async Task<UserDto> RegisterAsync(HttpClient client, CreateUserDto request)
+		/// <summary>Asks the API to email a registration code, as the app does, and returns the request carrying the code that was sent.</summary>
+		internal static async Task<CreateUserDto> WithCodeAsync(IntegrationApiFactory factory, HttpClient client, CreateUserDto request)
 		{
-			HttpResponseMessage response = await client.PostAsJsonAsync("api/users", request);
+			HttpResponseMessage response = await client.PostAsJsonAsync("api/verification-codes",
+				new RequestVerificationCodeDto(request.Email, VerificationPurposeType.Registration));
+			Assert.Equal(HttpStatusCode.Accepted, response.StatusCode);
+
+			return request with { VerificationCode = factory.LatestCode(request.Email) };
+		}
+
+		/// <summary>Registers through the API as the app does: a registration code is emailed, then sent back with the details.</summary>
+		internal static async Task<UserDto> RegisterAsync(IntegrationApiFactory factory, HttpClient client, CreateUserDto request)
+		{
+			HttpResponseMessage response = await client.PostAsJsonAsync("api/users", await WithCodeAsync(factory, client, request));
 			Assert.Equal(HttpStatusCode.Created, response.StatusCode);
 
 			return (await response.Content.ReadFromJsonAsync<UserDto>())!;
 		}
 
-		private static string NewEmail()
+		internal static string NewEmail()
 		{
 			return $"{Guid.NewGuid():N}{IntegrationApiFactory.RegisteredEmailDomain}";
 		}

@@ -13,4 +13,10 @@
         ContentTemplate="{DataTemplate pages:HomePage}"
         Route="HomePage" />
 
+    <!-- Shown by HomePage when no user is stored on the device: on first run, or after the app's data was cleared. -->
+    <ShellContent
+        Title="Welcome"
+        ContentTemplate="{DataTemplate pages:WelcomePage}"
+        Route="WelcomePage" />
+
 </Shell>

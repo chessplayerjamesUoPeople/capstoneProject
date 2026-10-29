@@ -25,7 +25,7 @@
             <Label Text="You must be at least 18 years old, or the age of majority where you live, and have legal capacity to enter into these Terms. You agree to provide accurate, current and complete information, including a working mobile phone number, to keep it up to date, and to keep your login credentials confidential. You are responsible for all activity under your account." />
 
             <Label Text="4. Emergency Contacts" FontAttributes="Bold" Margin="0,8,0,0" SemanticProperties.HeadingLevel="Level2" />
-            <Label Text="You may only nominate people whose contact details you are entitled to share and who you reasonably believe will agree to act as your emergency contact. We will send each nominated person a request asking for their consent. A contact who declines or does not respond will not receive alert notifications. You are responsible for informing your contacts about how the Service works and for the accuracy of their details." />
+            <Label Text="You may only nominate people whose contact details you are entitled to share and who you reasonably believe will agree to act as your emergency contact. We will send each nominated person a request asking for their consent. A contact who declines or does not respond will not receive alert notifications, and a contact may withdraw their consent at any time, after which they will no longer receive them. You are responsible for informing your contacts about how the Service works and for the accuracy of their details." />
 
             <Label Text="5. Notifications and Messaging" FontAttributes="Bold" Margin="0,8,0,0" SemanticProperties.HeadingLevel="Level2" />
             <Label Text="You consent to the Service sending you reminders and alerts, and to it sending messages to your emergency contacts on your behalf. Message and data rates from your carrier may apply. Delivery of notifications depends on third parties (mobile carriers, internet providers, messaging and push services, device settings and battery or connectivity conditions) and is not guaranteed to be timely, accurate or uninterrupted." />
@@ -76,9 +76,11 @@
                 Clicked="OnBackClicked" />
 
             <Button x:Name="SaveButton"
-                Text="Save"
+                Text="Continue"
                 Clicked="OnSaveClicked"
                 Margin="0,8,0,0" />
+            <Label Text="We will email you a code to confirm your email address."
+                   Style="{StaticResource HintText}" />
 
         </VerticalStackLayout>
     </ScrollView>

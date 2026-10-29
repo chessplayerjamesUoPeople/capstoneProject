@@ -27,6 +27,7 @@ namespace AmigoAlert.Data
 			services.AddScoped<ICheckInRepository, CheckInRepository>();
 			services.AddScoped<ISmsRepository, SmsRepository>();
 			services.AddScoped<IStatusLogRepository, StatusLogRepository>();
+			services.AddScoped<IEmailVerificationRepository, EmailVerificationRepository>();
 
 			return services;
 		}

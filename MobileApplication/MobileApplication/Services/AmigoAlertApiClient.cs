@@ -21,10 +21,32 @@ namespace MobileApplication.Services
 		/// <summary>The oldest last-known fix still worth sending when no fresh one arrives in time.</summary>
 		private static readonly TimeSpan MaxLastKnownAge = TimeSpan.FromMinutes(10);
 
-		/// <summary>Registers a new user. A 409 means the email address is already registered.</summary>
+		/// <summary>
+		/// Emails a registration or log in code. A 409 means a registration code was asked for an already registered address, a 404 that a
+		/// log in code was asked for an unregistered one, and a 429 that codes were requested too often.
+		/// </summary>
+		public async Task RequestVerificationCodeAsync(RequestVerificationCodeDto request, CancellationToken ct = default)
+		{
+			using HttpResponseMessage response = await httpClient.PostAsJsonAsync("api/verification-codes", request, ct);
+			await EnsureSuccessAsync(response, ct);
+		}
+
+		/// <summary>
+		/// Registers a new user with the registration code emailed to them. A 409 means the email address is already registered, and a 400
+		/// that the code is wrong or has expired.
+		/// </summary>
 		public async Task<UserDto> CreateUserAsync(CreateUserDto request, CancellationToken ct = default)
 		{
 			using HttpResponseMessage response = await httpClient.PostAsJsonAsync("api/users", request, ct);
+			await EnsureSuccessAsync(response, ct);
+
+			return (await response.Content.ReadFromJsonAsync<UserDto>(ct))!;
+		}
+
+		/// <summary>Logs an existing user in with the log in code emailed to them. A 400 means the code is wrong or has expired.</summary>
+		public async Task<UserDto> LogInAsync(LogInDto request, CancellationToken ct = default)
+		{
+			using HttpResponseMessage response = await httpClient.PostAsJsonAsync("api/users/login", request, ct);
 			await EnsureSuccessAsync(response, ct);
 
 			return (await response.Content.ReadFromJsonAsync<UserDto>(ct))!;

@@ -50,7 +50,7 @@ namespace AmigoAlert.Tests.SystemTests
 
 			// US-03: the contact is texted the link, whole. That the user's name survives is S11, held back by defect D-01.
 			Guid token = await driver.AddContactAsync(user.Id, new SetEmergencyContactDto("System Contact", contactPhone));
-			MockSmsService.SentMessage consentSms = Assert.Single(factory.SentSms);
+			MockSmsService.SentMessage consentSms = factory.SentSms.Last();
 			Assert.EndsWith(token.ToString("N"), consentSms.Body);
 			Assert.Equal(contactPhone, (await driver.GetContactAsync(user.Id)).Phone);
 
@@ -65,10 +65,10 @@ namespace AmigoAlert.Tests.SystemTests
 			Assert.Equal(HttpStatusCode.Conflict,
 				(await Client.PostAsJsonAsync($"api/users/{user.Id}/emergency", new ActivateEmergencyDto(null, null))).StatusCode);
 
-			// US-05: opting in takes effect at once, and the link cannot be used twice.
+			// US-05: opting in takes effect at once, and granting again is refused. The link itself stays valid for withdrawing.
 			Assert.Equal(HttpStatusCode.NoContent, (await driver.AnswerConsentAsync(token, granted: true)).StatusCode);
 			Assert.Equal(ConsentStatusType.Granted, (await driver.GetContactAsync(user.Id)).ConsentStatus);
-			Assert.Equal(HttpStatusCode.NotFound, (await driver.AnswerConsentAsync(token, granted: false)).StatusCode);
+			Assert.Equal(HttpStatusCode.NotFound, (await driver.AnswerConsentAsync(token, granted: true)).StatusCode);
 
 			// US-15: the next WebJob run sends the check-in.
 			await driver.RunWebJobAsync(driver.Occurrence);
@@ -276,7 +276,8 @@ namespace AmigoAlert.Tests.SystemTests
 
 			// A new number has agreed to nothing: back to pending, with a new request naming the renamed user.
 			Guid token = await driver.ReplaceContactAsync(user.Id, new SetEmergencyContactDto("Other Contact", "+593990003333"));
-			Assert.Equal("+593990003333", Assert.Single(driver.SmsSince(before)).ToPhone);
+			Assert.All(driver.SmsSince(before), m => Assert.Equal("+593990003333", m.ToPhone));
+			Assert.Equal(2, driver.SmsSince(before).Count);
 			Assert.Equal(ConsentStatusType.Pending, (await driver.GetContactAsync(user.Id)).ConsentStatus);
 			Assert.Equal(HttpStatusCode.Conflict,
 				(await Client.PostAsJsonAsync($"api/users/{user.Id}/emergency", new ActivateEmergencyDto(null, null))).StatusCode);
@@ -338,13 +339,13 @@ namespace AmigoAlert.Tests.SystemTests
 				await driver.RunWebJobAsync(run);
 			}
 
-			// Consent request, two activations, two stand-downs, one escalation.
-			Assert.Equal(6, factory.SentSms.Count);
+			// Consent request (two), two activations (the address-only one adds a landmarks SMS), two stand-downs, one escalation.
+			Assert.Equal(8, factory.SentSms.Count);
 			Assert.All(factory.SentSms, SystemTestDriver.AssertSingleSegment);
 
 			List<string?> sids = await factory.InNewScopeAsync(db => db.Sms.Where(m => m.EmergencyContact.UserId == user.Id)
 				.Select(m => m.TwilioSid).ToListAsync());
-			Assert.Equal(6, sids.Count);
+			Assert.Equal(8, sids.Count);
 			Assert.All(sids, sid => Assert.StartsWith(MockSmsService.SidPrefix, sid));
 		}
 
@@ -367,7 +368,8 @@ namespace AmigoAlert.Tests.SystemTests
 		/// US-03 with the consent page URL the API is deployed with. Fails today: the URL leaves about five characters for the name, so
 		/// the contact cannot tell who is asking.
 		/// </summary>
-		[Fact(Skip = "D-01: the consent SMS truncates the user's name to fit the production consent URL. See TestReport.md.")]
+		//[Fact(Skip = "D-01: the consent SMS truncates the user's name to fit the production consent URL. See TestReport.md.")]
+		[Fact]
 		public async Task S11_ConsentRequest_NamesTheUser()
 		{
 			CreateUserDto request = driver.NewUser();
@@ -375,7 +377,7 @@ namespace AmigoAlert.Tests.SystemTests
 
 			await driver.AddContactAsync(user.Id, new SetEmergencyContactDto("System Contact", "+593990007777"));
 
-			Assert.Contains(request.Name, Assert.Single(factory.SentSms).Body);
+			Assert.Contains(request.Name, factory.SentSms.First().Body);
 		}
 
 		private async Task CancelAndAssertStandDownAsync(UserDto user, SetEmergencyContactDto contact)

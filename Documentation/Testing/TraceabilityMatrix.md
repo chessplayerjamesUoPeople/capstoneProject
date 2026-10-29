@@ -18,10 +18,10 @@ Each row maps one SRS requirement (`Requirements.docx`) to the tests that verify
 
 | Req | Priority | Summary | System tests | Acceptance | Other levels | Status |
 |---|---|---|---|---|---|---|
-| US-01 | High | Register | S-01 | UAT-01 | I-01–I-04 | Pass (system); UAT pending |
+| US-01 | High | Register | S-01 | UAT-01 | I-01–I-04, I-20–I-25, I-28 | Pass (system); UAT pending |
 | US-02 | Low | Accept terms | — (client-only) | UAT-01 | I-01 (terms version stored) | UAT pending |
 | US-03 | High | Consent request SMS | S-01, S-11 | UAT-02 | I-01 | **Fail: D-01**; Deviation: D-02 |
-| US-04 | Medium | Opt-in/opt-out link | S-01, C-01, C-02, C-05, M-04 | UAT-04, UAT-16 | — | Pass (system); UAT pending |
+| US-04 | Medium | Opt-in/opt-out link | S-01, C-01, C-02, C-05, C-06, C-07, C-08, M-04 | UAT-04, UAT-16 | I-18, I-19 | Pass (system); UAT pending |
 | US-05 | Medium | Consent given | S-01, C-03 | UAT-04 | I-13 | Pass (system); UAT pending |
 | US-06 | Low | Consent rejected | S-02, C-04 | UAT-05 | — | Pass (system); UAT pending |
 | US-07 | Medium | Locked until consent | S-01, S-03, S-07 | UAT-03 | I-12, I-13 | Pass (system); UAT pending |
@@ -41,6 +41,8 @@ Each row maps one SRS requirement (`Requirements.docx`) to the tests that verify
 | US-21 | Medium | Cancel emergency (user) | S-05, S-06 | UAT-13 | — | Pass (system); UAT pending |
 | US-22 | Low | Stand-down SMS (contact) | S-05, S-06 | UAT-13 | — | Pass (system, SRS text matches) |
 | US-23 | Medium | Update information | S-07 | UAT-14 | I-05, I-06 | Pass (system); **open: D-06** |
+| US-24\* | High | Log in with an emailed code (account recovery after a reinstall or cleared data) | — | — | I-24, I-26–I-29, U-EmailMessageComposerTests | Pass (integration, E1, 2026-10-25); system and UAT tests to be written |
+| US-25\* | High | Confirm the email address with an emailed code at registration | S-01 (via the registration helper) | — | I-20–I-25, U-EmailMessageComposerTests | Pass (integration, E1, 2026-10-25); UAT to be written |
 | NF-01 | High | Missed check-in accuracy ≥95% | — | — | AccuracyTests | Prev. |
 | NF-02 | High | Successful check-in accuracy ≥95% | — | — | AccuracyTests | Prev. |
 | NF-03 | High | Escalation SMS ≤60 s | — | — | LatencyTests (L-xx) | Prev. |
@@ -56,5 +58,7 @@ Each row maps one SRS requirement (`Requirements.docx`) to the tests that verify
 | NF-13 | Medium | SMS ≤160 chars | S-01, S-09 | — | U-SmsMessageComposerTests | Pass |
 | DR-01 | — | Activity diagram | — | — | Design review | Not a test item |
 | DR-02 | — | Phone as 09… or +5939…, stored in E.164 | S-01 | UAT-01 | U-PhoneNumberFormatTests | Pass (system); UAT pending |
+
+\* US-24 and US-25 are proposed additions and are not yet in `Requirements.docx`. Confirm the IDs when the SRS is updated.
 
 **Coverage check:** every US, the in-scope NFRs (NF-10 to NF-13) and DR-02 have at least one system or acceptance test. NF-01 to NF-09 point to their earlier results.

@@ -40,12 +40,14 @@ namespace AmigoAlert.Data.Entities
 
 		/// <summary>
 		/// The unique token generated for the consent request.
-		/// This is used to create a URL the emergency contact can click to provide their consent.
+		/// This is used to create a URL the emergency contact can click to provide their consent. It stays valid for as long as the
+		/// contact is active, so the same link lets the contact withdraw consent later; it is cleared only when the contact is deactivated.
 		/// </summary>
 		public Guid? ConsentToken { get; set; }
 
 		/// <summary>
-		/// The date and time when the consent token expires.
+		/// The date and time when the pending consent request expires. Applies only while the status is pending and is cleared once the
+		/// contact responds.
 		/// </summary>
 		public DateTimeOffset? ConsentTokenExpires { get; set; }
 
@@ -55,7 +57,7 @@ namespace AmigoAlert.Data.Entities
 		public DateTimeOffset ConsentRequestedAt { get; set; }
 
 		/// <summary>
-		/// The date and time when the consent was responded to by the emergency contact.
+		/// The date and time of the emergency contact's latest consent response: granting, rejecting, withdrawing or granting again.
 		/// </summary>
 		public DateTimeOffset? ConsentRespondedAt { get; set; }
 

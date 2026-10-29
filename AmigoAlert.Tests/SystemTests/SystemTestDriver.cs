@@ -49,7 +49,7 @@ namespace AmigoAlert.Tests.SystemTests
 
 		public Task<UserDto> RegisterAsync(CreateUserDto? request = null)
 		{
-			return RegistrationTests.RegisterAsync(Client, request ?? NewUser());
+			return RegistrationTests.RegisterAsync(factory, Client, request ?? NewUser());
 		}
 
 		/// <summary>Adds the contact and returns the consent token read from the link in the SMS it was sent.</summary>
@@ -147,7 +147,7 @@ namespace AmigoAlert.Tests.SystemTests
 
 		private Guid TokenFromLatestSms(IReadOnlyList<MockSmsService.SentMessage> before, string contactPhone)
 		{
-			MockSmsService.SentMessage request = Assert.Single(SmsSince(before));
+			MockSmsService.SentMessage request = SmsSince(before).Last();
 			Assert.Equal(contactPhone, request.ToPhone);
 
 			return Guid.ParseExact(ConsentToken.Match(request.Body).Value, "N");

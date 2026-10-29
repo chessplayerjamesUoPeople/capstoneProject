@@ -32,11 +32,13 @@ namespace AmigoAlert.API.Controllers
 		}
 
 		/// <summary>
-		/// Records the contact's answer to the consent request and invalidates the token. Unauthenticated, like the GET: missing, used and
-		/// expired tokens all return 404 so the response reveals nothing about which applies.
+		/// Records the contact's answer to the consent request: granting or rejecting a pending request, withdrawing granted consent
+		/// (<c>Granted = false</c>), or granting again after a withdrawal. The token stays valid so the contact can change their answer
+		/// later. Unauthenticated, like the GET: missing, expired and inapplicable answers all return 404 so the response reveals nothing
+		/// about which applies.
 		/// </summary>
 		/// <param name="token">The consent token from the link.</param>
-		/// <param name="request">Whether the contact grants or rejects consent.</param>
+		/// <param name="request">Whether the contact grants consent, or rejects or withdraws it.</param>
 		/// <param name="ct">The cancellation token.</param>
 		/// <returns>No content once recorded.</returns>
 		[HttpPut("{token:guid}")]

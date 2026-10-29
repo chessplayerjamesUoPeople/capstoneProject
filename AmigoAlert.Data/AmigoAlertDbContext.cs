@@ -19,12 +19,14 @@ namespace AmigoAlert.Data
 		public DbSet<CheckIn> CheckIns => Set<CheckIn>();
 		public DbSet<CheckInResponse> CheckInResponses => Set<CheckInResponse>();
 		public DbSet<ConsentStatus> ConsentStatuses => Set<ConsentStatus>();
+		public DbSet<EmailVerification> EmailVerifications => Set<EmailVerification>();
 		public DbSet<EmergencyContact> EmergencyContacts => Set<EmergencyContact>();
 		public DbSet<Sms> Sms => Set<Sms>();
 		public DbSet<SmsMessageType> SmsMessageTypes => Set<SmsMessageType>();
 		public DbSet<Status> Statuses => Set<Status>();
 		public DbSet<StatusLog> StatusLogs => Set<StatusLog>();
 		public DbSet<User> Users => Set<User>();
+		public DbSet<VerificationPurpose> VerificationPurposes => Set<VerificationPurpose>();
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
